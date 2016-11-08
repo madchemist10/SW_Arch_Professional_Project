@@ -1,6 +1,7 @@
 package app.utilities.apiHandlers;
 
 /**
+ * This MailBoxAPIHandler is used to interact with the MailBox API
  */
 class MailBoxLayerAPIHandler extends AAPIHandler{
 
