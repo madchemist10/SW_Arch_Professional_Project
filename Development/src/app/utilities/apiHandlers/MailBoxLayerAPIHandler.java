@@ -17,4 +17,12 @@ class MailBoxLayerAPIHandler extends AAPIHandler{
         }
         return instance;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String buildAPIRequest(String[] inputs) {
+        return null;
+    }
 }

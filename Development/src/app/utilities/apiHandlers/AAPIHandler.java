@@ -11,4 +11,14 @@ abstract class AAPIHandler implements IAPIHandler {
     /**Local static reference to the AAPIHandler that
      * handles the request from the application.*/
     static AAPIHandler instance = null;
+
+    /**
+     * Allows for a default execution of any request
+     * and receiving of a return value.
+     * {@inheritDoc}
+     */
+    @Override
+    public String executeAPIRequest(String request) {
+        return null;
+    }
 }
