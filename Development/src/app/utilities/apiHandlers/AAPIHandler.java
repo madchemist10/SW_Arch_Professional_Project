@@ -18,7 +18,7 @@ abstract class AAPIHandler implements IAPIHandler {
      * {@inheritDoc}
      */
     @Override
-    public String executeAPIRequest(String request) {
+    public Object executeAPIRequest(String request) {
         return null;
     }
 }

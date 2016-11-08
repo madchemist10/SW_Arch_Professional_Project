@@ -19,7 +19,7 @@ public interface IAPIHandler {
      * Allows each subclass to execute a specific APIRequest with
      * a given set of inputs.
      * @param request that is to be sent to the external API.
-     * @return that is received after the request has been made.
+     * @return Object that is received after the request has been made.
      */
-    String executeAPIRequest(String request);
+    Object executeAPIRequest(String request);
 }
