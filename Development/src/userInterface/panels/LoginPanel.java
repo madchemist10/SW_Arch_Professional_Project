@@ -45,7 +45,9 @@ class LoginPanel extends BasePanel{
         String userEmail = emailField.getText();
         String userPassword = passwordField.getText();
         if(validateLogin(userEmail, userPassword)){
-            notifyListeners(new CustomChangeEvent(this, GUIConstants.USER_LOGIN_SUCCESS_PROPERTY_EVENT));
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.LOGIN_SUCCESS));
+        } else{
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.LOGIN_FAIL));
         }
     }
 
@@ -63,14 +65,16 @@ class LoginPanel extends BasePanel{
      * Add the email text field to this panel.
      */
     private void addEmailTextField(){
-        this.add(emailField);
+        addComponent(emailField);
+        constraints.gridy++;
     }
 
     /**
      * Add the password text field to this panel.
      */
     private void addPasswordTextField(){
-        this.add(passwordField);
+        addComponent(passwordField);
+        constraints.gridy++;
     }
 
     /**
@@ -83,6 +87,7 @@ class LoginPanel extends BasePanel{
                 loginCallBack();
             }
         });
-        this.add(loginButton);
+        addComponent(loginButton);
+        constraints.gridy++;
     }
 }

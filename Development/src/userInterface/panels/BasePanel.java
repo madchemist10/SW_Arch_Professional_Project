@@ -3,6 +3,7 @@ package userInterface.panels;
 import app.Application;
 
 import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,14 +22,22 @@ abstract class BasePanel extends JPanel{
     /**Unique panel identifier for this Panel.
      * Used for tab names in the {@link PanelManager}*/
     private final String panelIdentifier;
+    /**Each panel needs set of constraints so each component can
+     * be placed into the panel.*/
+    final GridBagConstraints constraints;
 
     /**
      * Constructor to create a new panel and ensure
      * the application exists on program startup.
+     * Each base panel will use a grid bag layout for component placement.
      * @param panelIdentifier unique name identifier for this panel.
      */
     BasePanel(String panelIdentifier){
         super();
+        setLayout(new GridBagLayout());
+        constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 0;
         this.panelIdentifier = panelIdentifier;
         getApp();
     }
@@ -71,6 +80,16 @@ abstract class BasePanel extends JPanel{
         for(PropertyChangeListener listener: listeners){
             listener.propertyChange(event);
         }
+    }
+
+    /**
+     * Custom override for adding a component to the base panel
+     * parent structure. This allows the base panel parent class
+     * to handle the underlying structure of how to organize the panel.
+     * @param component that is to be added to the panel.
+     */
+    void addComponent(Component component){
+        add(component, constraints);
     }
 
     /**
