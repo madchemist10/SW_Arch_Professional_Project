@@ -1,6 +1,8 @@
 package app.utilities.apiHandlers;
 
+import app.constants.Constants;
 import twitter4j.*;
+import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * This TwitterAPIHandler is used to construct and execute queries
@@ -40,17 +42,28 @@ class TwitterAPIHandler extends AAPIHandler{
      */
     private static Twitter getTwitter(){
         if(twitter == null){
-            twitter = TwitterFactory.getSingleton();
+            ConfigurationBuilder config = new ConfigurationBuilder();
+            config.setDebugEnabled(true)
+                    .setOAuthConsumerKey(Constants.TWITTER_API_CONSUMER_KEY)
+                    .setOAuthConsumerSecret(Constants.TWITTER_API_CONSUMER_SECRET)
+                    .setOAuthAccessToken(Constants.TWITTER_API_ACCESS_TOKEN)
+                    .setOAuthAccessTokenSecret(Constants.TWITTER_API_ACCESS_TOKEN_SECRET);
+            TwitterFactory factory = new TwitterFactory(config.build());
+            twitter = factory.getInstance();
         }
         return twitter;
     }
 
     /**
+     * For the twitter API Request, we only need the first value
+     * in the input as we are pulling this directly from the
+     * user's input in the
+     * {@link userInterface.panels.TwitterPanel#queryField}.
      * {@inheritDoc}
      */
     @Override
     public String buildAPIRequest(String[] inputs) {
-        return null;
+        return inputs[0];
     }
 
     /**
@@ -69,7 +82,7 @@ class TwitterAPIHandler extends AAPIHandler{
             Query query = new Query(request);
             result = twitter.search(query);
         }catch(Exception e){
-            //do nothing
+            e.printStackTrace();
         }
         return result;
     }
