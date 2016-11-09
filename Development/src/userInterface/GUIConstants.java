@@ -16,6 +16,8 @@ public class GUIConstants {
     /*Text for buttons*/
     /**Text to be given to the {@link userInterface.panels.LoginPanel#loginButton}.*/
     public static final String LOGIN_BUTTON_TEXT = "Login";
+    /**Text to be given to the {@link userInterface.panels.TwitterPanel#queryButton}.*/
+    public static final String QUERY_BUTTON_TEXT = "Query";
 
     /*Panel Identifiers*/
     /**Name of the {@link userInterface.panels.LoginPanel}.*/
