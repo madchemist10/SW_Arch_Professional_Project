@@ -1,5 +1,6 @@
 package app.utilities.apiHandlers;
 
+import app.constants.Constants;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -43,10 +44,10 @@ class TwitterAPIHandler extends AAPIHandler{
         if(twitter == null){
             ConfigurationBuilder config = new ConfigurationBuilder();
             config.setDebugEnabled(true)
-                    .setOAuthConsumerKey("qZs4bQKHov2dHVsNwtATsKbyr")
-                    .setOAuthConsumerSecret("mGj0bWBazA5dabYz8vz3AxT8d7vUD8jziXNeKKJsw3YJMCQPmb")
-                    .setOAuthAccessToken("796483597335044096-dwzJYOeoP3WxVhlELEhW7CNiiEYNUPJ")
-                    .setOAuthAccessTokenSecret("EgIOB5kWi8On63c1K9h61fr7gO6DTubZxV2Cwgjjd0KvX");
+                    .setOAuthConsumerKey(Constants.TWITTER_API_CONSUMER_KEY)
+                    .setOAuthConsumerSecret(Constants.TWITTER_API_CONSUMER_SECRET)
+                    .setOAuthAccessToken(Constants.TWITTER_API_ACCESS_TOKEN)
+                    .setOAuthAccessTokenSecret(Constants.TWITTER_API_ACCESS_TOKEN_SECRET);
             TwitterFactory factory = new TwitterFactory(config.build());
             twitter = factory.getInstance();
         }
