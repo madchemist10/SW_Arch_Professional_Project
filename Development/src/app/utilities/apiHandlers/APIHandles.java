@@ -15,5 +15,8 @@ public enum APIHandles {
     TRADIER,
 
     /**Gives access to the Twitter API.*/
-    TWITTER
+    TWITTER,
+
+    /**Gives access to the News API.*/
+    NEWS
 }

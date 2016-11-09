@@ -40,7 +40,7 @@ public class APIHandler {
      * @param apiHandle of which type of request to make.
      * @return a handler to the API that made a request.
      */
-    public static IAPIHandler getAPIHandler(APIHandles apiHandle){
+    public IAPIHandler getAPIHandler(APIHandles apiHandle){
         IAPIHandler iapiHandler = null;
         switch (apiHandle){
             case MAILBOX_LAYER:
@@ -52,7 +52,10 @@ public class APIHandler {
             case TWITTER:
                 iapiHandler = TwitterAPIHandler.getInstance();
                 break;
+            case NEWS:
+                break;
         }
+        /*Should never return null.*/
         return iapiHandler;
     }
 }
