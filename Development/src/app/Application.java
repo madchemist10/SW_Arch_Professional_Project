@@ -1,5 +1,9 @@
 package app;
 
+import app.utilities.apiHandlers.APIHandler;
+import app.utilities.apiHandlers.APIHandles;
+import app.utilities.apiHandlers.IAPIHandler;
+
 /**
  * Represents the portal for the user interface module to
  * have access to the application's functionality.
@@ -38,5 +42,14 @@ public class Application {
      */
     public boolean validateLogin(String email, String password){
         return true;
+    }
+
+    /**
+     * Retrieve the desired API Handler from the given {@link APIHandles}.
+     * @param handle for the Handler to retrieve.
+     * @return {@link IAPIHandler} for the given {@link APIHandler}.
+     */
+    public IAPIHandler getAPIHandler(APIHandles handle){
+        return APIHandler.getInstance().getAPIHandler(handle);
     }
 }
