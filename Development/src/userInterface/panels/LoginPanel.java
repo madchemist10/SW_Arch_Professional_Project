@@ -19,9 +19,9 @@ class LoginPanel extends BasePanel{
     private final JTextField passwordField = new JTextField(20);
     /**Button to attempt to log the user in to the application.*/
     private final JButton loginButton = new JButton(GUIConstants.LOGIN_BUTTON_TEXT);
-
+    /**Inner panel for handling the controls for login.*/
     private final JPanel loginSubPanel = new JPanel();
-
+    /**Constraints for the inner {@link #loginSubPanel}.*/
     private final GridBagConstraints subPanelConstraints = new GridBagConstraints();
 
     /**
@@ -45,6 +45,7 @@ class LoginPanel extends BasePanel{
 
     /**
      * Callback for when the login button is pressed.
+     * This should be run on a new thread.
      */
     private void loginCallBack(){
         String userEmail = emailField.getText();
@@ -93,7 +94,9 @@ class LoginPanel extends BasePanel{
         loginButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                loginCallBack();
+                /*Spawn background thread to keep from locking up the GUI.*/
+                Thread loginCallback = new Thread(()-> loginCallBack());
+                loginCallback.start();
             }
         });
         loginSubPanel.add(loginButton, subPanelConstraints);

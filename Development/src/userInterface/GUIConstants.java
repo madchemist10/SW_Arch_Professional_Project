@@ -12,6 +12,9 @@ public class GUIConstants {
     public static final int DEFAULT_GUI_WIDTH = 600;
     /**Default height of the GUI.*/
     public static final int DEFAULT_GUI_HEIGHT = 300;
+    /**Title of the Twitter results panel that is generated when the user
+     * has executed a query from the {@link userInterface.panels.TwitterPanel}*/
+    public static final String TWITTER_RESULTS_PANEL_TITLE = "Twitter Results";
 
     /*Text for buttons*/
     /**Text to be given to the {@link userInterface.panels.LoginPanel#loginButton}.*/

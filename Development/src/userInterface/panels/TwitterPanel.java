@@ -3,7 +3,6 @@ package userInterface.panels;
 import app.utilities.apiHandlers.APIHandles;
 import app.utilities.apiHandlers.IAPIHandler;
 import twitter4j.QueryResult;
-import twitter4j.Status;
 import userInterface.GUIConstants;
 
 import javax.swing.*;
@@ -21,12 +20,10 @@ public class TwitterPanel extends BasePanel{
     /**Button to attempt to execute the query based on the value
      * stored in the {@link #queryField}.*/
     private final JButton queryButton = new JButton(GUIConstants.QUERY_BUTTON_TEXT);
-
+    /**Panel that contains all of the controls for issuing a request.*/
     private final JPanel controlsPanel = new JPanel();
-
+    /**Grid constraints on where elements should be placed in the controls panel.*/
     private final GridBagConstraints controlsPanelConstraints = new GridBagConstraints();
-
-    private final JPanel resultsPanel = new JPanel();
 
     /**
      * Create a new {@link TwitterPanel}.
@@ -39,6 +36,7 @@ public class TwitterPanel extends BasePanel{
 
     /**
      * Callback for when the query button is pressed.
+     * This should be run on a new thread.
      */
     private void queryCallBack(){
         String query = queryField.getText();
@@ -47,10 +45,13 @@ public class TwitterPanel extends BasePanel{
         Object returnVal = twitterAPI.executeAPIRequest(request);
         if(returnVal instanceof QueryResult){
             QueryResult queryResult = (QueryResult) returnVal;
-            for(Status status : queryResult.getTweets()){
-                System.out.println(status.getText());
-                //add to panel somehow
-            }
+            /*Construct a new results panel that is to popup and display
+            * the results from the search query.*/
+            TwitterResultsPanel resultsPanel = new TwitterResultsPanel(query);
+            /*Populate the results panel with the given return values.*/
+            queryResult.getTweets().forEach(resultsPanel::addEntryToResults);
+            /*Show the results panel on the UI Thread.*/
+            SwingUtilities.invokeLater(() -> resultsPanel.setVisible(true));
         }
     }
 
@@ -61,14 +62,12 @@ public class TwitterPanel extends BasePanel{
     void buildPanel() {
         controlsPanelConstraints.gridx = 0;
         controlsPanelConstraints.gridy = 0;
-        addQueryField();
+        addQueryField();    //place at (0,0)
         controlsPanelConstraints.gridy++;
-        addQueryButton();
+        addQueryButton();   //place at (0,1)
         constraints.gridx = 0;
         constraints.gridy = 0;
-        addComponent(controlsPanel);
-        constraints.gridy++;
-        addTwitterResultsPanel();
+        addComponent(controlsPanel);    //place at (0,0) [parent]
     }
 
     /**
@@ -85,23 +84,11 @@ public class TwitterPanel extends BasePanel{
         queryButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                queryCallBack();
+                /*Spawn background thread to keep from locking up the GUI.*/
+                Thread queryCallback = new Thread(() -> queryCallBack());
+                queryCallback.start();
             }
         });
         controlsPanel.add(queryButton,controlsPanelConstraints);
-    }
-
-    private void addTwitterResultsPanel(){
-        resultsPanel.setLayout(new GridBagLayout());
-        addComponent(buildScrollPane(resultsPanel));
-    }
-
-    private static JScrollPane buildScrollPane(JComponent component){
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.add(new BasicPanel(component));
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setPreferredSize(new Dimension(GUIConstants.DEFAULT_GUI_WIDTH/2, GUIConstants.DEFAULT_GUI_HEIGHT));
-        return scrollPane;
     }
 }
