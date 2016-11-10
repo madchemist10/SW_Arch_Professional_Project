@@ -16,6 +16,12 @@ public class GUIConstants {
      * has executed a query from the {@link userInterface.panels.TwitterPanel}*/
     public static final String TWITTER_RESULTS_PANEL_TITLE = "Twitter Results";
 
+    /*Text for Labels*/
+    /**Label for Email labels to tell the user what belongs in a given text field.*/
+    public static final String EMAIL_LABEL = "Email:";
+    /**Label for Password labels to tell the user what belongs in a given text field.*/
+    public static final String PASSWORD_LABEL = "Password:";
+
     /*Text for buttons*/
     /**Text to be given to the {@link userInterface.panels.LoginPanel#loginButton}.*/
     public static final String LOGIN_BUTTON_TEXT = "Login";

@@ -6,10 +6,10 @@ import java.awt.*;
 /**
  *
  */
-public class BasicPanel extends JPanel {
+class BasicPanel extends JPanel {
 
     /**Default is Left Justified*/
-    public BasicPanel(JComponent myComponent){
+    BasicPanel(JComponent myComponent){
         this(myComponent, FlowLayout.LEFT);
     }
 

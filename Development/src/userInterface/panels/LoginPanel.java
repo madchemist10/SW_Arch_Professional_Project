@@ -1,11 +1,13 @@
 package userInterface.panels;
 
 
+import app.constants.Constants;
 import userInterface.GUIConstants;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.security.MessageDigest;
 
 /**
  * This panel is required to be displayed first so that
@@ -16,7 +18,7 @@ class LoginPanel extends BasePanel{
     /**Text field for user email input.*/
     private final JTextField emailField = new JTextField(20);
     /**Text field for user password input.*/
-    private final JTextField passwordField = new JTextField(20);
+    private final JPasswordField passwordField = new JPasswordField(20);
     /**Button to attempt to log the user in to the application.*/
     private final JButton loginButton = new JButton(GUIConstants.LOGIN_BUTTON_TEXT);
     /**Inner panel for handling the controls for login.*/
@@ -49,12 +51,31 @@ class LoginPanel extends BasePanel{
      */
     private void loginCallBack(){
         String userEmail = emailField.getText();
-        String userPassword = passwordField.getText();
+        String userPassword = getMD5Hash(new String(passwordField.getPassword()));
         if(validateLogin(userEmail, userPassword)){
+            /*Throw event for Login Success so the Panel Manager knows how to proceed.*/
             notifyListeners(new CustomChangeEvent(this, AppChangeEvents.LOGIN_SUCCESS));
         } else{
+            /*Throw event for Login Fail so the Panel Manager knows how to proceed.*/
             notifyListeners(new CustomChangeEvent(this, AppChangeEvents.LOGIN_FAIL));
         }
+    }
+
+    /**
+     * Generate an MD5 hash for a given word.
+     * Used for {@link #passwordField}.
+     * @param word that is to have md5 hash generated.
+     * @return md5 hash of the given word.
+     */
+    private static String getMD5Hash(String word){
+        String md5Hash = "";
+        try {
+            MessageDigest digest = MessageDigest.getInstance(Constants.MD5_ALGORITHM);
+            md5Hash = new String(digest.digest(word.getBytes("UTF-8")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return md5Hash;
     }
 
     /**
@@ -62,35 +83,66 @@ class LoginPanel extends BasePanel{
      */
     @Override
     void buildPanel(){
+        /*Set defaults for Login Panel.*/
         loginSubPanel.setLayout(new GridBagLayout());
         subPanelConstraints.gridx = 0;
         subPanelConstraints.gridy = 0;
+        subPanelConstraints.ipadx = 5;
+
+        /*Add email Text field.
+        * Update values for next element to be added.*/
         addEmailTextField();
+        subPanelConstraints.gridx = 0;
         subPanelConstraints.gridy++;
+
+        /*Add password Text field.
+        * Update values for next element to be added.*/
         addPasswordTextField();
+        subPanelConstraints.gridx = 0;
         subPanelConstraints.gridy++;
+
+        /*Add login Button.*/
         addLoginButton();
+
+        /*Add the sub panel that has the controls, to this
+        * Login Panel.*/
         addComponent(loginSubPanel);
     }
 
     /**
      * Add the email text field to this panel.
+     * The Email Label is left aligned.
      */
     private void addEmailTextField(){
+        subPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
+        JLabel emailLabel = new JLabel(GUIConstants.EMAIL_LABEL);
+        emailLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        loginSubPanel.add(emailLabel, subPanelConstraints);
+        subPanelConstraints.gridx++;
         loginSubPanel.add(emailField, subPanelConstraints);
+        subPanelConstraints.fill = GridBagConstraints.NONE;
     }
 
     /**
      * Add the password text field to this panel.
+     * The Password Label is left aligned.
      */
     private void addPasswordTextField(){
+        subPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
+        JLabel passwordPanel = new JLabel(GUIConstants.PASSWORD_LABEL);
+        passwordPanel.setHorizontalAlignment(SwingConstants.LEFT);
+        loginSubPanel.add(passwordPanel, subPanelConstraints);
+        subPanelConstraints.gridx++;
         loginSubPanel.add(passwordField, subPanelConstraints);
+        subPanelConstraints.fill = GridBagConstraints.NONE;
     }
 
     /**
      * Add the login button and callback to this panel.
+     * The Login Button spans two grid columns.
      */
     private void addLoginButton(){
+        subPanelConstraints.gridwidth = 2;  //have button span two columns
         loginButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -100,5 +152,6 @@ class LoginPanel extends BasePanel{
             }
         });
         loginSubPanel.add(loginButton, subPanelConstraints);
+        subPanelConstraints.gridwidth = 1;
     }
 }
