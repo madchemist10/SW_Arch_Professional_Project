@@ -71,7 +71,7 @@ public class TwitterPanel extends BasePanel{
     }
 
     /**
-     * Add the query text field to this panel.
+     * Add the query text field to this {@link #controlsPanel}.
      */
     private void addQueryField(){
         controlsPanel.add(queryField, controlsPanelConstraints);

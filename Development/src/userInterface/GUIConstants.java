@@ -21,10 +21,14 @@ public class GUIConstants {
     public static final String LOGIN_BUTTON_TEXT = "Login";
     /**Text to be given to the {@link userInterface.panels.TwitterPanel#queryButton}.*/
     public static final String QUERY_BUTTON_TEXT = "Query";
+    /**Text to be given to the {@link userInterface.panels.MailBoxLayerPanel#validateEmailButton}*/
+    public static final String VALIDATE_BUTTON_TEXT = "Validate";
 
     /*Panel Identifiers*/
     /**Name of the {@link userInterface.panels.LoginPanel}.*/
     public static final String LOGIN_PANEL_IDENTIFIER = "Login";
     /**Name of the {@link userInterface.panels.TwitterPanel}.*/
     public static final String TWITTER_PANEL_IDENTIFIER = "Twitter";
+    /**Name of the {@link userInterface.panels.MailBoxLayerPanel}*/
+    public static final String MAILBOX_PANEL_IDENTIFIER = "Mailbox";
 }
