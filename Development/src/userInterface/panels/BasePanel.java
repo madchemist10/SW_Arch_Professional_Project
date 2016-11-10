@@ -34,7 +34,7 @@ abstract class BasePanel extends JPanel{
      */
     BasePanel(String panelIdentifier){
         super();
-        setLayout(new GridBagLayout());
+        setLayout(new GridLayout(1,2));
         constraints = new GridBagConstraints();
         constraints.gridx = 0;
         constraints.gridy = 0;

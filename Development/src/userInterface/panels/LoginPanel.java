@@ -4,6 +4,7 @@ package userInterface.panels;
 import userInterface.GUIConstants;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -18,6 +19,10 @@ class LoginPanel extends BasePanel{
     private final JTextField passwordField = new JTextField(20);
     /**Button to attempt to log the user in to the application.*/
     private final JButton loginButton = new JButton(GUIConstants.LOGIN_BUTTON_TEXT);
+
+    private final JPanel loginSubPanel = new JPanel();
+
+    private final GridBagConstraints subPanelConstraints = new GridBagConstraints();
 
     /**
      * Create a new {@link LoginPanel}.
@@ -56,25 +61,29 @@ class LoginPanel extends BasePanel{
      */
     @Override
     void buildPanel(){
+        loginSubPanel.setLayout(new GridBagLayout());
+        subPanelConstraints.gridx = 0;
+        subPanelConstraints.gridy = 0;
         addEmailTextField();
+        subPanelConstraints.gridy++;
         addPasswordTextField();
+        subPanelConstraints.gridy++;
         addLoginButton();
+        addComponent(loginSubPanel);
     }
 
     /**
      * Add the email text field to this panel.
      */
     private void addEmailTextField(){
-        addComponent(emailField);
-        constraints.gridy++;
+        loginSubPanel.add(emailField, subPanelConstraints);
     }
 
     /**
      * Add the password text field to this panel.
      */
     private void addPasswordTextField(){
-        addComponent(passwordField);
-        constraints.gridy++;
+        loginSubPanel.add(passwordField, subPanelConstraints);
     }
 
     /**
@@ -87,7 +96,6 @@ class LoginPanel extends BasePanel{
                 loginCallBack();
             }
         });
-        addComponent(loginButton);
-        constraints.gridy++;
+        loginSubPanel.add(loginButton, subPanelConstraints);
     }
 }

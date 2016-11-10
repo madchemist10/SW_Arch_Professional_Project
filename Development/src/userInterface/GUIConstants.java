@@ -9,7 +9,7 @@ public class GUIConstants {
     /**Title of the application.*/
     public static final String TITLE = "SW Arch Professional Project";
     /**Default width of the GUI.*/
-    public static final int DEFAULT_GUI_WIDTH = 300;
+    public static final int DEFAULT_GUI_WIDTH = 600;
     /**Default height of the GUI.*/
     public static final int DEFAULT_GUI_HEIGHT = 300;
 

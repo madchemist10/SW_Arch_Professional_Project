@@ -7,6 +7,7 @@ import twitter4j.Status;
 import userInterface.GUIConstants;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -20,6 +21,12 @@ public class TwitterPanel extends BasePanel{
     /**Button to attempt to execute the query based on the value
      * stored in the {@link #queryField}.*/
     private final JButton queryButton = new JButton(GUIConstants.QUERY_BUTTON_TEXT);
+
+    private final JPanel controlsPanel = new JPanel();
+
+    private final GridBagConstraints controlsPanelConstraints = new GridBagConstraints();
+
+    private final JPanel resultsPanel = new JPanel();
 
     /**
      * Create a new {@link TwitterPanel}.
@@ -42,6 +49,7 @@ public class TwitterPanel extends BasePanel{
             QueryResult queryResult = (QueryResult) returnVal;
             for(Status status : queryResult.getTweets()){
                 System.out.println(status.getText());
+                //add to panel somehow
             }
         }
     }
@@ -51,16 +59,23 @@ public class TwitterPanel extends BasePanel{
      */
     @Override
     void buildPanel() {
+        controlsPanelConstraints.gridx = 0;
+        controlsPanelConstraints.gridy = 0;
         addQueryField();
+        controlsPanelConstraints.gridy++;
         addQueryButton();
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        addComponent(controlsPanel);
+        constraints.gridy++;
+        addTwitterResultsPanel();
     }
 
     /**
      * Add the query text field to this panel.
      */
     private void addQueryField(){
-        addComponent(queryField);
-        constraints.gridy++;
+        controlsPanel.add(queryField, controlsPanelConstraints);
     }
 
     /**
@@ -73,7 +88,20 @@ public class TwitterPanel extends BasePanel{
                 queryCallBack();
             }
         });
-        addComponent(queryButton);
-        constraints.gridy++;
+        controlsPanel.add(queryButton,controlsPanelConstraints);
+    }
+
+    private void addTwitterResultsPanel(){
+        resultsPanel.setLayout(new GridBagLayout());
+        addComponent(buildScrollPane(resultsPanel));
+    }
+
+    private static JScrollPane buildScrollPane(JComponent component){
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.add(new BasicPanel(component));
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setPreferredSize(new Dimension(GUIConstants.DEFAULT_GUI_WIDTH/2, GUIConstants.DEFAULT_GUI_HEIGHT));
+        return scrollPane;
     }
 }
