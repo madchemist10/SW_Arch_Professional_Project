@@ -93,8 +93,21 @@ abstract class BasePanel extends JPanel{
     }
 
     /**
+     * Validate user input for a given input.
+     * Default is to not allow empty strings.
+     * The values to be validated are assumed to be not null
+     * and pulled straight from text field.
+     * @param userInput to be validated.
+     * @return true if valid, false otherwise.
+     */
+    boolean validateUserInput(String userInput){
+        return !"".equals(userInput);
+    }
+
+    /**
      * Generate the panel from the panel's local
      * elements.
      */
     abstract void buildPanel();
+
 }

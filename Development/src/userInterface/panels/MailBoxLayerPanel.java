@@ -29,6 +29,7 @@ public class MailBoxLayerPanel extends BasePanel {
      */
     MailBoxLayerPanel() {
         super(GUIConstants.MAILBOX_PANEL_IDENTIFIER);
+        /*Construct the panel.*/
         buildPanel();
     }
 
@@ -38,6 +39,9 @@ public class MailBoxLayerPanel extends BasePanel {
      */
     private void validateCallBack(){
         String query = emailField.getText();
+        if(!validateUserInput(query)){
+            return;
+        }
         IAPIHandler mailboxAPI = app.getAPIHandler(APIHandles.MAILBOX_LAYER);
         String request = mailboxAPI.buildAPIRequest(new String[]{query});
         Object returnVal = mailboxAPI.executeAPIRequest(request);
@@ -49,11 +53,22 @@ public class MailBoxLayerPanel extends BasePanel {
      */
     @Override
     void buildPanel() {
+        /*Set defaults for Controls Panel.*/
+        controlsPanel.setLayout(new GridBagLayout());
         controlsPanelConstraints.gridx = 0;
         controlsPanelConstraints.gridy = 0;
-        addEmailField();
-        controlsPanelConstraints.gridy++;
+        controlsPanelConstraints.ipadx = 5;
+
+        /*Add email Text field.
+        * Update values for next element to be added.*/
+        addEmailTextField();
+
+        /*Add validate email Button.
+        * Update values for next element to be added.*/
         addValidateEmailButton();
+
+        /*Add the sub panel that has the controls, to this
+        * Login Panel.*/
         constraints.gridx = 0;
         constraints.gridy = 0;
         addComponent(controlsPanel);
@@ -62,14 +77,25 @@ public class MailBoxLayerPanel extends BasePanel {
     /**
      * Add the email text field to this {@link #controlsPanel}.
      */
-    private void addEmailField(){
+    private void addEmailTextField(){
+        controlsPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
+        JLabel emailLabel = new JLabel(GUIConstants.EMAIL_LABEL);
+        emailLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        controlsPanel.add(emailLabel, controlsPanelConstraints);
+        controlsPanelConstraints.gridx++;
         controlsPanel.add(emailField, controlsPanelConstraints);
+
+        /*Setup the next items defaults.*/
+        controlsPanelConstraints.fill = GridBagConstraints.NONE;
+        controlsPanelConstraints.gridx = 0;
+        controlsPanelConstraints.gridy++;
     }
 
     /**
      * Add the validate email button and callback to this {@link #controlsPanel}.
      */
     private void addValidateEmailButton(){
+        controlsPanelConstraints.gridwidth = 2;  //have button span two columns
         validateEmailButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -78,6 +104,11 @@ public class MailBoxLayerPanel extends BasePanel {
             }
         });
         controlsPanel.add(validateEmailButton, controlsPanelConstraints);
+
+        /*Setup the next items defaults.*/
+        controlsPanelConstraints.gridwidth = 1;
+        controlsPanelConstraints.gridx = 0;
+        controlsPanelConstraints.gridy++;
     }
 
 }

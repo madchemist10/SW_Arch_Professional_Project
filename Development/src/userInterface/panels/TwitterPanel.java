@@ -40,6 +40,9 @@ public class TwitterPanel extends BasePanel{
      */
     private void queryCallBack(){
         String query = queryField.getText();
+        if(!validateUserInput(query)){
+            return;
+        }
         IAPIHandler twitterAPI = app.getAPIHandler(APIHandles.TWITTER);
         String request = twitterAPI.buildAPIRequest(new String[]{query});
         Object returnVal = twitterAPI.executeAPIRequest(request);
@@ -60,11 +63,22 @@ public class TwitterPanel extends BasePanel{
      */
     @Override
     void buildPanel() {
+        /*Set defaults for Controls Panel.*/
+        controlsPanel.setLayout(new GridBagLayout());
         controlsPanelConstraints.gridx = 0;
         controlsPanelConstraints.gridy = 0;
-        addQueryField();    //place at (0,0)
-        controlsPanelConstraints.gridy++;
-        addQueryButton();   //place at (0,1)
+        controlsPanelConstraints.ipadx = 5;
+
+        /*Add query Text field.
+        * Update values for next element to be added.*/
+        addQueryField();
+
+        /*Add query Button.
+        * Update values for next element to be added.*/
+        addQueryButton();
+
+        /*Add the controls panel that has the controls, to this
+        * Twitter Panel.*/
         constraints.gridx = 0;
         constraints.gridy = 0;
         addComponent(controlsPanel);    //place at (0,0) [parent]
@@ -72,15 +86,27 @@ public class TwitterPanel extends BasePanel{
 
     /**
      * Add the query text field to this {@link #controlsPanel}.
+     * The Query Label is left aligned.
      */
     private void addQueryField(){
+        controlsPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
+        JLabel queryLabel = new JLabel(GUIConstants.QUERY_LABEL);
+        queryLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        controlsPanel.add(queryLabel, controlsPanelConstraints);
+        controlsPanelConstraints.gridx++;
         controlsPanel.add(queryField, controlsPanelConstraints);
+
+        /*Setup the next items defaults.*/
+        controlsPanelConstraints.fill = GridBagConstraints.NONE;
+        controlsPanelConstraints.gridx = 0;
+        controlsPanelConstraints.gridy++;
     }
 
     /**
      * Add the query button and callback to this panel.
      */
     private void addQueryButton(){
+        controlsPanelConstraints.gridwidth = 2;
         queryButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -90,5 +116,10 @@ public class TwitterPanel extends BasePanel{
             }
         });
         controlsPanel.add(queryButton,controlsPanelConstraints);
+
+        /*Setup the next items defaults.*/
+        controlsPanelConstraints.gridwidth = 1;
+        controlsPanelConstraints.gridx = 0;
+        controlsPanelConstraints.gridy++;
     }
 }

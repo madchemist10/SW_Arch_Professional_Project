@@ -51,8 +51,15 @@ class LoginPanel extends BasePanel{
      */
     private void loginCallBack(){
         String userEmail = emailField.getText();
-        String userPassword = getMD5Hash(new String(passwordField.getPassword()));
-        if(validateLogin(userEmail, userPassword)){
+        if(!validateUserInput(userEmail)){
+            return;
+        }
+        String userPassword = new String(passwordField.getPassword());
+        if(!validateUserInput(userPassword)){
+            return;
+        }
+        String hashedPassword = getMD5Hash(new String(passwordField.getPassword()));
+        if(validateLogin(userEmail, hashedPassword)){
             /*Throw event for Login Success so the Panel Manager knows how to proceed.*/
             notifyListeners(new CustomChangeEvent(this, AppChangeEvents.LOGIN_SUCCESS));
         } else{
@@ -92,20 +99,19 @@ class LoginPanel extends BasePanel{
         /*Add email Text field.
         * Update values for next element to be added.*/
         addEmailTextField();
-        subPanelConstraints.gridx = 0;
-        subPanelConstraints.gridy++;
 
         /*Add password Text field.
         * Update values for next element to be added.*/
         addPasswordTextField();
-        subPanelConstraints.gridx = 0;
-        subPanelConstraints.gridy++;
 
-        /*Add login Button.*/
+        /*Add login Button.
+        * Update values for next element to be added.*/
         addLoginButton();
 
         /*Add the sub panel that has the controls, to this
         * Login Panel.*/
+        constraints.gridx = 0;
+        constraints.gridy = 0;
         addComponent(loginSubPanel);
     }
 
@@ -120,7 +126,11 @@ class LoginPanel extends BasePanel{
         loginSubPanel.add(emailLabel, subPanelConstraints);
         subPanelConstraints.gridx++;
         loginSubPanel.add(emailField, subPanelConstraints);
+
+        /*Setup the next items defaults.*/
         subPanelConstraints.fill = GridBagConstraints.NONE;
+        subPanelConstraints.gridx = 0;
+        subPanelConstraints.gridy++;
     }
 
     /**
@@ -129,12 +139,16 @@ class LoginPanel extends BasePanel{
      */
     private void addPasswordTextField(){
         subPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
-        JLabel passwordPanel = new JLabel(GUIConstants.PASSWORD_LABEL);
-        passwordPanel.setHorizontalAlignment(SwingConstants.LEFT);
-        loginSubPanel.add(passwordPanel, subPanelConstraints);
+        JLabel passwordLabel = new JLabel(GUIConstants.PASSWORD_LABEL);
+        passwordLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        loginSubPanel.add(passwordLabel, subPanelConstraints);
         subPanelConstraints.gridx++;
         loginSubPanel.add(passwordField, subPanelConstraints);
+
+        /*Setup the next items defaults.*/
         subPanelConstraints.fill = GridBagConstraints.NONE;
+        subPanelConstraints.gridx = 0;
+        subPanelConstraints.gridy++;
     }
 
     /**
@@ -152,6 +166,10 @@ class LoginPanel extends BasePanel{
             }
         });
         loginSubPanel.add(loginButton, subPanelConstraints);
+
+        /*Setup the next items defaults.*/
         subPanelConstraints.gridwidth = 1;
+        subPanelConstraints.gridx = 0;
+        subPanelConstraints.gridy++;
     }
 }

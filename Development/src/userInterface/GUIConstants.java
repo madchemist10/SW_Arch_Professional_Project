@@ -21,6 +21,10 @@ public class GUIConstants {
     public static final String EMAIL_LABEL = "Email:";
     /**Label for Password labels to tell the user what belongs in a given text field.*/
     public static final String PASSWORD_LABEL = "Password:";
+    /**Label for Ticker Symbol labels to tell the user what belongs in a given text field.*/
+    public static final String TICKER_LABEL = "Ticker Symbol:";
+    /**Label for Query labels to tell the user what belongs in a given text field.*/
+    public static final String QUERY_LABEL = "Query: ";
 
     /*Text for buttons*/
     /**Text to be given to the {@link userInterface.panels.LoginPanel#loginButton}.*/
