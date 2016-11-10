@@ -31,4 +31,6 @@ public class GUIConstants {
     public static final String TWITTER_PANEL_IDENTIFIER = "Twitter";
     /**Name of the {@link userInterface.panels.MailBoxLayerPanel}*/
     public static final String MAILBOX_PANEL_IDENTIFIER = "Mailbox";
+    /**Name of the {@link userInterface.panels.NewsPanel}*/
+    public static final String NEWS_PANEL_IDENTIFIER = "News";
 }
