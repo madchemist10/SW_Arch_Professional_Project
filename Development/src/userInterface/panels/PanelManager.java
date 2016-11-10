@@ -91,6 +91,10 @@ public class PanelManager extends JFrame implements PropertyChangeListener{
         MailBoxLayerPanel mailBoxLayerPanel = new MailBoxLayerPanel();
         mailBoxLayerPanel.addPropertyListener(this);
         tabbedPane.add(mailBoxLayerPanel, mailBoxLayerPanel.getPanelIdentifier());
+        /*Add the news panel.*/
+        NewsPanel newsPanel = new NewsPanel();
+        newsPanel.addPropertyListener(this);
+        tabbedPane.add(newsPanel, newsPanel.getPanelIdentifier());
     }
 
     /**
