@@ -25,7 +25,7 @@ public class GUIConstants {
     public static final String VALIDATE_BUTTON_TEXT = "Validate";
 
     /*Panel Identifiers*/
-    /**Name of the {@link userInterface.panels.LoginPanel}.*/
+    /**Name of the {@link userInterface.panels.LoginPanel}*/
     public static final String LOGIN_PANEL_IDENTIFIER = "Login";
     /**Name of the {@link userInterface.panels.TwitterPanel}.*/
     public static final String TWITTER_PANEL_IDENTIFIER = "Twitter";
@@ -33,4 +33,6 @@ public class GUIConstants {
     public static final String MAILBOX_PANEL_IDENTIFIER = "Mailbox";
     /**Name of the {@link userInterface.panels.NewsPanel}*/
     public static final String NEWS_PANEL_IDENTIFIER = "News";
+    /**Name of the {@link userInterface.panels.TradierPanel}*/
+    public static final String TRADIER_PANEL_IDENTIFIER = "Tradier";
 }
