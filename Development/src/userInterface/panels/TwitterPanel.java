@@ -94,6 +94,16 @@ public class TwitterPanel extends BasePanel{
         queryLabel.setHorizontalAlignment(SwingConstants.LEFT);
         controlsPanel.add(queryLabel, controlsPanelConstraints);
         controlsPanelConstraints.gridx++;
+
+        /*Allow detection of the 'Enter' key being pressed.*/
+        queryField.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                /*Spawn background thread to keep from locking up the GUI.*/
+                Thread queryCallback = new Thread(() -> queryCallBack());
+                queryCallback.start();
+            }
+        });
         controlsPanel.add(queryField, controlsPanelConstraints);
 
         /*Setup the next items defaults.*/

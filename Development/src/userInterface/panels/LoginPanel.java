@@ -125,6 +125,16 @@ class LoginPanel extends BasePanel{
         emailLabel.setHorizontalAlignment(SwingConstants.LEFT);
         loginSubPanel.add(emailLabel, subPanelConstraints);
         subPanelConstraints.gridx++;
+
+        /*Allow detection of the 'Enter' key being pressed.*/
+        emailField.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                /*Spawn background thread to keep from locking up the GUI.*/
+                Thread loginCallback = new Thread(()-> loginCallBack());
+                loginCallback.start();
+            }
+        });
         loginSubPanel.add(emailField, subPanelConstraints);
 
         /*Setup the next items defaults.*/
@@ -143,6 +153,16 @@ class LoginPanel extends BasePanel{
         passwordLabel.setHorizontalAlignment(SwingConstants.LEFT);
         loginSubPanel.add(passwordLabel, subPanelConstraints);
         subPanelConstraints.gridx++;
+
+        /*Allow detection of the 'Enter' key being pressed.*/
+        passwordField.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                /*Spawn background thread to keep from locking up the GUI.*/
+                Thread loginCallback = new Thread(()-> loginCallBack());
+                loginCallback.start();
+            }
+        });
         loginSubPanel.add(passwordField, subPanelConstraints);
 
         /*Setup the next items defaults.*/

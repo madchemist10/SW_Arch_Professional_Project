@@ -83,6 +83,16 @@ public class MailBoxLayerPanel extends BasePanel {
         emailLabel.setHorizontalAlignment(SwingConstants.LEFT);
         controlsPanel.add(emailLabel, controlsPanelConstraints);
         controlsPanelConstraints.gridx++;
+
+        /*Allow detection of the 'Enter' key being pressed.*/
+        emailField.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                /*Spawn background thread to keep from locking up the GUI.*/
+                Thread validateCallback = new Thread(() -> validateCallBack());
+                validateCallback.start();
+            }
+        });
         controlsPanel.add(emailField, controlsPanelConstraints);
 
         /*Setup the next items defaults.*/
@@ -99,6 +109,7 @@ public class MailBoxLayerPanel extends BasePanel {
         validateEmailButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                /*Spawn background thread to keep from locking up the GUI.*/
                 Thread validateCallback = new Thread(() -> validateCallBack());
                 validateCallback.start();
             }
