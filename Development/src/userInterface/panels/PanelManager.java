@@ -77,21 +77,46 @@ public class PanelManager extends JFrame implements PropertyChangeListener{
             return;
         }
         AppChangeEvents eventName = event.getEventName();
+        String message;
         switch(eventName){
+            
+            /*Email invalid event is thrown.*/
+            case EMAIL_INVALID:
+                message = "Email entered is invalid.";
+                createPopup(message, GUIConstants.INVALID_EMAIL_TITLE);
+                break;
+
+            /*Password invalid event is thrown.*/
+            case PASSWORD_INVALID:
+                message = "Password entered is invalid.";
+                createPopup(message, GUIConstants.INVALID_PASSWORD_TITLE);
+                break;
+
+            /*User has successfully logged in.*/
             case LOGIN_SUCCESS:
-                System.out.println("Login Success");
                 executeOnSwing(new AddPanelRunnable(this));
                 break;
+
+            /*User has failed to login.*/
             case LOGIN_FAIL:
-                System.out.println("Login Fail");
+                message = "Username or password incorrect.";
+                createPopup(message, GUIConstants.LOGIN_FAILED_TITLE);
                 break;
+
+            /*User has requested to create a new account.*/
             case CREATE_ACCOUNT:
-                System.out.println("Need to Create New Account");
                 executeOnSwing(new AddCreateAccountPanelRunnable(this));
                 break;
+
+            /*User has successfully created a new account.*/
             case ACCOUNT_CREATED:
-                System.out.println("New Account Created");
                 executeOnSwing(new AddLoginPanelRunnable(this));
+                break;
+
+            /*User has failed to create a new account.*/
+            case ACCOUNT_CREATION_FAILED:
+                message = "Username and password combination are already used.";
+                createPopup(message, GUIConstants.ACCOUNT_CREATED_FAILED_TITLE);
                 break;
         }
     }
@@ -180,5 +205,14 @@ public class PanelManager extends JFrame implements PropertyChangeListener{
         public void run() {
             manager.addCreateAccountPanel();
         }
+    }
+
+    /**
+     * Create a popup that displays a message with a given title.
+     * @param message that is to be displayed to the user.
+     * @param title of the popup panel.
+     */
+    private void createPopup(String message, String title){
+        JOptionPane.showMessageDialog(this, message, title, JOptionPane.WARNING_MESSAGE);
     }
 }

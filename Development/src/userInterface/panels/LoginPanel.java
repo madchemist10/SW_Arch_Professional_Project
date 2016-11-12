@@ -54,10 +54,12 @@ class LoginPanel extends BasePanel{
     private void loginCallBack(){
         String userEmail = emailField.getText();
         if(!validateUserInput(userEmail)){
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.EMAIL_INVALID));
             return;
         }
         String userPassword = new String(passwordField.getPassword());
         if(!validateUserInput(userPassword)){
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.PASSWORD_INVALID));
             return;
         }
         String hashedPassword = getMD5Hash(new String(passwordField.getPassword()));

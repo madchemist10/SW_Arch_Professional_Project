@@ -1,5 +1,6 @@
 package userInterface.panels;
 
+import app.utilities.Utilities;
 import userInterface.GUIConstants;
 
 import javax.swing.*;
@@ -33,11 +34,39 @@ public class CreateNewAccountPanel extends BasePanel{
     }
 
     /**
+     * Allow the user interface to create a new account.
+     * Callback for creating a new user from email and password.
+     * @param email for the new user's unique identifier.
+     * @param password of the new user's account.
+     * @return true if create account was success, false otherwise.
+     */
+    private static boolean createAccount(String email, String password){
+        return app.createAccount(email, password);
+    }
+
+    /**
      * Callback for when the create account button is pressed.
      * This should be run on a new thread.
      */
     private void createAccountCallBack(){
-        notifyListeners(new CustomChangeEvent(this, AppChangeEvents.ACCOUNT_CREATED));
+        String userEmail = emailField.getText();
+        if(!validateUserInput(userEmail)){
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.EMAIL_INVALID));
+            return;
+        }
+        String userPassword = new String(passwordField.getPassword());
+        if(!validateUserInput(userPassword)){
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.PASSWORD_INVALID));
+            return;
+        }
+        String hashedPassword = Utilities.getMD5Hash(new String(passwordField.getPassword()));
+        if(createAccount(userEmail, hashedPassword)){
+            /*Throw event for Account Created so the Panel Manager knows how to proceed.*/
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.ACCOUNT_CREATED));
+        } else{
+            /*Throw event for Account Creation Failed so the Panel Manager knows how to proceed.*/
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.ACCOUNT_CREATION_FAILED));
+        }
     }
 
     /**
