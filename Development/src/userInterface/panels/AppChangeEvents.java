@@ -26,6 +26,9 @@ enum AppChangeEvents {
     PASSWORD_INVALID,
 
     /**Thrown when the user's email input is invalid.*/
-    EMAIL_INVALID
+    EMAIL_INVALID,
+
+    /**Thrown when the user's access credentials for Twitter API are invalid.*/
+    INVALID_TWITTER_API_CREDENTIALS
 
 }

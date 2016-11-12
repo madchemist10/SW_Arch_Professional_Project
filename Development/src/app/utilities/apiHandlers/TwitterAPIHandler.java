@@ -19,6 +19,7 @@ class TwitterAPIHandler extends AAPIHandler{
      * from the Twitter API Library.
      */
     private TwitterAPIHandler(){
+        super();
         getTwitter();
     }
 
@@ -42,12 +43,20 @@ class TwitterAPIHandler extends AAPIHandler{
      */
     private static Twitter getTwitter(){
         if(twitter == null){
+            /*Verify the keys and secrets are available from the settings.*/
+            String consumerKey = app.getValueFromSettings(Constants.TWITTER_API_CONSUMER_KEY);
+            String consumerSecret = app.getValueFromSettings(Constants.TWITTER_API_CONSUMER_SECRET);
+            String accessToken = app.getValueFromSettings(Constants.TWITTER_API_ACCESS_TOKEN);
+            String accessTokenSecret = app.getValueFromSettings(Constants.TWITTER_API_ACCESS_TOKEN_SECRET);
+            if(consumerKey == null || consumerSecret == null || accessToken == null || accessTokenSecret == null){
+                return null;
+            }
             ConfigurationBuilder config = new ConfigurationBuilder();
             config.setDebugEnabled(true)
-                    .setOAuthConsumerKey(Constants.TWITTER_API_CONSUMER_KEY)
-                    .setOAuthConsumerSecret(Constants.TWITTER_API_CONSUMER_SECRET)
-                    .setOAuthAccessToken(Constants.TWITTER_API_ACCESS_TOKEN)
-                    .setOAuthAccessTokenSecret(Constants.TWITTER_API_ACCESS_TOKEN_SECRET);
+                    .setOAuthConsumerKey(consumerKey)
+                    .setOAuthConsumerSecret(consumerSecret)
+                    .setOAuthAccessToken(accessToken)
+                    .setOAuthAccessTokenSecret(accessTokenSecret);
             TwitterFactory factory = new TwitterFactory(config.build());
             twitter = factory.getInstance();
         }
@@ -77,6 +86,9 @@ class TwitterAPIHandler extends AAPIHandler{
      */
     @Override
     public Object executeAPIRequest(String request){
+        if(twitter == null){
+            return null;
+        }
         QueryResult result = null;
         try {
             Query query = new Query(request);

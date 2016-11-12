@@ -46,6 +46,9 @@ public class TwitterPanel extends BasePanel{
         IAPIHandler twitterAPI = app.getAPIHandler(APIHandles.TWITTER);
         String request = twitterAPI.buildAPIRequest(new String[]{query});
         Object returnVal = twitterAPI.executeAPIRequest(request);
+        if(returnVal == null){
+            notifyListeners(new CustomChangeEvent(this,AppChangeEvents.INVALID_TWITTER_API_CREDENTIALS));
+        }
         if(returnVal instanceof QueryResult){
             QueryResult queryResult = (QueryResult) returnVal;
             /*Construct a new results panel that is to popup and display
