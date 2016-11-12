@@ -18,5 +18,8 @@ public enum APIHandles {
     TWITTER,
 
     /**Gives access to the News API.*/
-    NEWS
+    NEWS,
+
+    /**Gives access to the Captcha API.*/
+    CAPTCHA
 }
