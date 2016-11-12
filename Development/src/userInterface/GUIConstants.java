@@ -15,6 +15,9 @@ public class GUIConstants {
     /**Title of the Twitter results panel that is generated when the user
      * has executed a query from the {@link userInterface.panels.TwitterPanel}*/
     public static final String TWITTER_RESULTS_PANEL_TITLE = "Twitter Results";
+    /**Title of the Tradier results panel that is generated when the user
+     * has executed a query from the {@link userInterface.panels.TradierPanel}*/
+    public static final String TRADIER_RESULTS_PANEL_TITLE = "Tradier Results";
 
     /*Text for Labels*/
     /**Label for Email labels to tell the user what belongs in a given text field.*/
@@ -25,6 +28,12 @@ public class GUIConstants {
     public static final String TICKER_LABEL = "Ticker Symbol:";
     /**Label for Query labels to tell the user what belongs in a given text field.*/
     public static final String QUERY_LABEL = "Query: ";
+
+    /*Tradier Labels*/
+    public static final String TICKER_SYMBOL_LABEL = "Ticker Symbol: ";
+    public static final String LAST_PRICE_LABEL = "Last Price: ";
+    public static final String DAILY_NET_CHANGE_LABEL = "Daily Net Change: ";
+    public static final String VOLUME_LABEL = "Volume: ";
 
     /*Text for buttons*/
     /**Text to be given to the {@link userInterface.panels.LoginPanel#loginButton}.*/
@@ -61,4 +70,10 @@ public class GUIConstants {
     public static final String LOGIN_FAILED_TITLE = "Failed Login";
     /**Title of the Warning Popup for {@link userInterface.panels.AppChangeEvents#ACCOUNT_CREATION_FAILED}*/
     public static final String ACCOUNT_CREATED_FAILED_TITLE = "Account Creation Failed";
+    /**Title of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_TWITTER_API_CREDENTIALS}*/
+    public static final String INVALID_CREDENTIALS_TWITTER_API_TITLE = "Twitter API Credential Mismatch";
+
+    /*Warning Dialog Messages*/
+    /**Message of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_TWITTER_API_CREDENTIALS}*/
+    public static final String INVALID_CREDENTIALS_TWITTER_API = "Invalid Credentials for Twitter API found.";
 }

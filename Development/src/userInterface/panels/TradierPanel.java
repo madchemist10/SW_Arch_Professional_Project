@@ -2,11 +2,13 @@ package userInterface.panels;
 
 import app.utilities.apiHandlers.APIHandles;
 import app.utilities.apiHandlers.IAPIHandler;
+import com.fasterxml.jackson.databind.JsonNode;
 import userInterface.GUIConstants;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.HashMap;
 
 /**
  * This panel is required for interaction with
@@ -23,6 +25,8 @@ public class TradierPanel extends BasePanel{
     private final JPanel controlsPanel = new JPanel();
     /**Grid constraints on where elements should be placed in the controls panel.*/
     private final GridBagConstraints controlsPanelConstraints = new GridBagConstraints();
+    /**Map of Tradier Results frames to the Ticker Symbol.*/
+    private final HashMap<String, TradierResultsPanel> tradierResultsMap = new HashMap<>();
 
     /**
      * Create a new {@link TradierPanel}.
@@ -45,7 +49,13 @@ public class TradierPanel extends BasePanel{
         IAPIHandler tradierAPI = app.getAPIHandler(APIHandles.TRADIER);
         String request = tradierAPI.buildAPIRequest(new String[]{query});
         Object returnVal = tradierAPI.executeAPIRequest(request);
-        //todo need to do something with return value.
+        if(returnVal instanceof JsonNode) {
+            JsonNode returnNode = (JsonNode) returnVal;
+            TradierResultsPanel resultsPanel = new TradierResultsPanel(query);
+            tradierResultsMap.put(query, resultsPanel);
+            resultsPanel.updateResultsEntry(returnNode);
+            SwingUtilities.invokeLater(() -> resultsPanel.setVisible(true));
+        }
     }
 
     /**

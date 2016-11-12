@@ -118,6 +118,12 @@ public class PanelManager extends JFrame implements PropertyChangeListener{
                 message = "Username and password combination are already used.";
                 createPopup(message, GUIConstants.ACCOUNT_CREATED_FAILED_TITLE);
                 break;
+
+            /*User's credentials for Twitter API are invalid.*/
+            case INVALID_TWITTER_API_CREDENTIALS:
+                message = GUIConstants.INVALID_CREDENTIALS_TWITTER_API;
+                createPopup(message, GUIConstants.INVALID_CREDENTIALS_TWITTER_API_TITLE);
+                break;
         }
     }
 
