@@ -35,12 +35,23 @@ public class Application {
 
     /**
      * Allow the user interface to validate a user login.
-     * Callback for validating user login form email and password.
+     * Callback for validating user login from email and password.
      * @param email for the user's unique identifier.
      * @param password of the user's account.
      * @return true if login is valid, false otherwise.
      */
     public boolean validateLogin(String email, String password){
+        return true;
+    }
+
+    /**
+     * Allow the user interface to create a new account.
+     * Callback for creating a new user from email and password.
+     * @param email for the new user's unique identifier.
+     * @param password of the new user's account.
+     * @return true if create account was success, false otherwise.
+     */
+    public boolean createAccount(String email, String password){
         return true;
     }
 
