@@ -45,7 +45,10 @@ public class TradierPanel extends BasePanel{
         IAPIHandler tradierAPI = app.getAPIHandler(APIHandles.TRADIER);
         String request = tradierAPI.buildAPIRequest(new String[]{query});
         Object returnVal = tradierAPI.executeAPIRequest(request);
-        //todo need to do something with return value.
+        //todo need to case return to correct data type and perform check.
+        TradierResultsPanel resultsPanel = new TradierResultsPanel(query);
+        resultsPanel.addEntryToResults();
+        SwingUtilities.invokeLater(() -> resultsPanel.setVisible(true));
     }
 
     /**
