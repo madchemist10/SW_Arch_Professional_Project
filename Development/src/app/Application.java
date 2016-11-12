@@ -1,6 +1,7 @@
 package app;
 
 import app.constants.Constants;
+import app.database.DatabaseManager;
 import app.utilities.Utilities;
 import app.utilities.apiHandlers.APIHandler;
 import app.utilities.apiHandlers.APIHandles;
@@ -17,6 +18,9 @@ public class Application {
     /**Singleton instance of the application.*/
     private static Application instance = null;
 
+    /**Singleton instance of the database manager.*/
+    private static DatabaseManager dbManager = null;
+
     /**Map of settings read in from the user's settings file.*/
     private final static HashMap<String, String> settings = new HashMap<>();
 
@@ -25,6 +29,7 @@ public class Application {
      * instance to be instantiated.
      */
     private Application(){
+        dbManager = DatabaseManager.getInstance();
         loadSettings();
     }
 
@@ -71,7 +76,7 @@ public class Application {
      * @return true if login is valid, false otherwise.
      */
     public boolean validateLogin(String email, String password){
-        return true;
+        return dbManager.validateLogin(email, password);
     }
 
     /**
