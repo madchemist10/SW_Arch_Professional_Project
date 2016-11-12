@@ -24,7 +24,7 @@ public class Constants {
 
     /**Access token for Tradier API Calls.*/
     public static final String TRADIER_API_ACCESS_TOKEN =
-            "Bearer pZrLUNMy2Vf5dNmvJm75Dgodjh2Z";
+            "TRADIER_API_ACCESS_TOKEN";
 
     /**Identifier for MD5 algorithm.*/
     public static final String MD5_ALGORITHM = "MD5";
