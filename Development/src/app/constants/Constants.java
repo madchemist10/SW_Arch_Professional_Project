@@ -21,4 +21,7 @@ public class Constants {
     /**Access token secret for the Twitter API Calls.*/
     public static final String TWITTER_API_ACCESS_TOKEN_SECRET =
             "EgIOB5kWi8On63c1K9h61fr7gO6DTubZxV2Cwgjjd0KvX";
+
+    /**Identifier for MD5 algorithm.*/
+    public static final String MD5_ALGORITHM = "MD5";
 }
