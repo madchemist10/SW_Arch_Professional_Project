@@ -29,6 +29,12 @@ public class GUIConstants {
     /**Label for Query labels to tell the user what belongs in a given text field.*/
     public static final String QUERY_LABEL = "Query: ";
 
+    /*Tradier Labels*/
+    public static final String TICKER_SYMBOL_LABEL = "Ticker Symbol: ";
+    public static final String LAST_PRICE_LABEL = "Last Price: ";
+    public static final String DAILY_NET_CHANGE_LABEL = "Daily Net Change: ";
+    public static final String VOLUME_LABEL = "Volume: ";
+
     /*Text for buttons*/
     /**Text to be given to the {@link userInterface.panels.LoginPanel#loginButton}.*/
     public static final String LOGIN_BUTTON_TEXT = "Login";
