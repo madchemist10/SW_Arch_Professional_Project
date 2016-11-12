@@ -33,8 +33,14 @@ public class GUIConstants {
     public static final String QUERY_BUTTON_TEXT = "Query";
     /**Text to be given to the {@link userInterface.panels.MailBoxLayerPanel#validateEmailButton}*/
     public static final String VALIDATE_BUTTON_TEXT = "Validate";
+    /**Text to be given to the {@link userInterface.panels.CreateNewAccountPanel#createButton}*/
+    public static final String CREATE_BUTTON_TEXT = "Create";
+    /**Text to be given to the {@link userInterface.panels.LoginPanel#createAccountButton}*/
+    public static final String CREATE_ACCOUNT_BUTTON_TEXT = "Create Account";
 
     /*Panel Identifiers*/
+    /**NAme of the {@link userInterface.panels.CreateNewAccountPanel}*/
+    public static final String CREATE_ACCOUNT_PANEL_IDENTIFIER = "Create Account";
     /**Name of the {@link userInterface.panels.LoginPanel}*/
     public static final String LOGIN_PANEL_IDENTIFIER = "Login";
     /**Name of the {@link userInterface.panels.TwitterPanel}.*/

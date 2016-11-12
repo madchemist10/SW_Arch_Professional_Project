@@ -7,7 +7,16 @@ package userInterface.panels;
  */
 enum AppChangeEvents {
 
+    /**Thrown when the user successfully logs in.*/
     LOGIN_SUCCESS,
-    LOGIN_FAIL
+
+    /**Thrown when the user has failed to log in.*/
+    LOGIN_FAIL,
+
+    /**Thrown when the user decides to create a new account.*/
+    CREATE_ACCOUNT,
+
+    /**Thrown when the user has create a new account.*/
+    ACCOUNT_CREATED
 
 }

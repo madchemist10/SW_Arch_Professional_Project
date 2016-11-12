@@ -21,6 +21,8 @@ class LoginPanel extends BasePanel{
     private final JPasswordField passwordField = new JPasswordField(20);
     /**Button to attempt to log the user in to the application.*/
     private final JButton loginButton = new JButton(GUIConstants.LOGIN_BUTTON_TEXT);
+    /**Button to attempt to log the user in to the application.*/
+    private final JButton createAccountButton = new JButton(GUIConstants.CREATE_ACCOUNT_BUTTON_TEXT);
     /**Inner panel for handling the controls for login.*/
     private final JPanel loginSubPanel = new JPanel();
     /**Constraints for the inner {@link #loginSubPanel}.*/
@@ -69,6 +71,14 @@ class LoginPanel extends BasePanel{
     }
 
     /**
+     * Callback for when the create account button is pressed.
+     * This should be run on a new thread.
+     */
+    private void createAccountCallBack(){
+        notifyListeners(new CustomChangeEvent(this, AppChangeEvents.CREATE_ACCOUNT));
+    }
+
+    /**
      * Generate an MD5 hash for a given word.
      * Used for {@link #passwordField}.
      * @param word that is to have md5 hash generated.
@@ -107,6 +117,10 @@ class LoginPanel extends BasePanel{
         /*Add login Button.
         * Update values for next element to be added.*/
         addLoginButton();
+
+        /*Add create account button.
+        * Update values for next element to be added.*/
+        addCreateAccountButton();
 
         /*Add the sub panel that has the controls, to this
         * Login Panel.*/
@@ -186,6 +200,28 @@ class LoginPanel extends BasePanel{
             }
         });
         loginSubPanel.add(loginButton, subPanelConstraints);
+
+        /*Setup the next items defaults.*/
+        subPanelConstraints.gridwidth = 1;
+        subPanelConstraints.gridx = 0;
+        subPanelConstraints.gridy++;
+    }
+
+    /**
+     * Add the create account button and callback to this panel.
+     * The Create Account Button spans two grid columns.
+     */
+    private void addCreateAccountButton(){
+        subPanelConstraints.gridwidth = 2;  //have button span two columns
+        createAccountButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                /*Spawn background thread to keep from locking up the GUI.*/
+                Thread loginCallback = new Thread(()-> createAccountCallBack());
+                loginCallback.start();
+            }
+        });
+        loginSubPanel.add(createAccountButton, subPanelConstraints);
 
         /*Setup the next items defaults.*/
         subPanelConstraints.gridwidth = 1;

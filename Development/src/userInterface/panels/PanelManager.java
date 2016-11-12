@@ -17,6 +17,8 @@ public class PanelManager extends JFrame implements PropertyChangeListener{
     private final JTabbedPane tabbedPane = new JTabbedPane();
     /**Reference to the login panel.*/
     private final LoginPanel loginPanel = new LoginPanel();
+    /**Reference to the create account panel.*/
+    private final CreateNewAccountPanel createNewAccountPanel = new CreateNewAccountPanel();
 
     /**
      * Allow the creation of new Panel Manager.
@@ -36,8 +38,27 @@ public class PanelManager extends JFrame implements PropertyChangeListener{
     private void buildFrame(){
         /*Add the Login Panel.*/
         loginPanel.addPropertyListener(this);
-        tabbedPane.add(loginPanel, loginPanel.getPanelIdentifier());
         this.add(tabbedPane);
+        addLoginPanel();
+    }
+
+    /**
+     * Add the Login Panel to the tabbed pane and
+     * remove the create account panel.
+     */
+    private void addLoginPanel(){
+        tabbedPane.remove(createNewAccountPanel);
+        tabbedPane.add(loginPanel, loginPanel.getPanelIdentifier());
+    }
+
+    /**
+     * Removes the login panel and
+     * add the create account panel.
+     */
+    private void addCreateAccountPanel(){
+        tabbedPane.remove(loginPanel);
+        createNewAccountPanel.addPropertyListener(this);
+        tabbedPane.add(createNewAccountPanel, createNewAccountPanel.getPanelIdentifier());
     }
 
     /**
@@ -63,6 +84,14 @@ public class PanelManager extends JFrame implements PropertyChangeListener{
                 break;
             case LOGIN_FAIL:
                 System.out.println("Login Fail");
+                break;
+            case CREATE_ACCOUNT:
+                System.out.println("Need to Create New Account");
+                executeOnSwing(new AddCreateAccountPanelRunnable(this));
+                break;
+            case ACCOUNT_CREATED:
+                System.out.println("New Account Created");
+                executeOnSwing(new AddLoginPanelRunnable(this));
                 break;
         }
     }
@@ -118,6 +147,38 @@ public class PanelManager extends JFrame implements PropertyChangeListener{
         @Override
         public void run() {
             manager.addAppPanels();
+        }
+    }
+
+    /**
+     * Custom runnable to add login panel.
+     */
+    private static class AddLoginPanelRunnable implements Runnable{
+        private final PanelManager manager;
+
+        AddLoginPanelRunnable(PanelManager manager){
+            this.manager = manager;
+        }
+
+        @Override
+        public void run() {
+            manager.addLoginPanel();
+        }
+    }
+
+    /**
+     * Custom runnable to add create account panel.
+     */
+    private static class AddCreateAccountPanelRunnable implements Runnable{
+        private final PanelManager manager;
+
+        AddCreateAccountPanelRunnable(PanelManager manager){
+            this.manager = manager;
+        }
+
+        @Override
+        public void run() {
+            manager.addCreateAccountPanel();
         }
     }
 }
