@@ -22,6 +22,10 @@ public class Constants {
     public static final String TWITTER_API_ACCESS_TOKEN_SECRET =
             "TWITTER_API_ACCESS_TOKEN_SECRET";
 
+    /**Access token for Tradier API Calls.*/
+    public static final String TRADIER_API_ACCESS_TOKEN =
+            "Bearer pZrLUNMy2Vf5dNmvJm75Dgodjh2Z";
+
     /**Identifier for MD5 algorithm.*/
     public static final String MD5_ALGORITHM = "MD5";
 
