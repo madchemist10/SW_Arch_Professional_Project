@@ -63,7 +63,7 @@ class TradierAPIHandler extends AAPIHandler{
 
             //Set headers
             tradierReq.addHeader("Accept", "application/json");
-            tradierReq.addHeader("Authorization", Constants.TRADIER_API_ACCESS_TOKEN);
+            tradierReq.addHeader("Authorization", "Bearer " + Constants.TRADIER_API_ACCESS_TOKEN);
 
             //Invoke the service
             HttpResponse tradierResponse = tradierClient.execute(tradierReq);
