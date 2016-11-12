@@ -1,8 +1,12 @@
 package app;
 
+import app.constants.Constants;
+import app.utilities.Utilities;
 import app.utilities.apiHandlers.APIHandler;
 import app.utilities.apiHandlers.APIHandles;
 import app.utilities.apiHandlers.IAPIHandler;
+
+import java.util.HashMap;
 
 /**
  * Represents the portal for the user interface module to
@@ -13,12 +17,38 @@ public class Application {
     /**Singleton instance of the application.*/
     private static Application instance = null;
 
+    /**Map of settings read in from the user's settings file.*/
+    private final static HashMap<String, String> settings = new HashMap<>();
+
     /**
      * Default constructor to only allow a new
      * instance to be instantiated.
      */
     private Application(){
-        //do nothing
+        loadSettings();
+    }
+
+    /**
+     * Load the settings from the user file.
+     * If file does not exist, it is possible we get null.
+     * Only assign value for settings map if the return is not null.
+     */
+    private void loadSettings(){
+        HashMap<String, String> tempSettings = Utilities.loadSettingsFile(Constants.SETTINGS_FILE);
+        if(tempSettings == null){
+            return;
+        }
+        /*Add all settings pulled from user file.*/
+        settings.putAll(tempSettings);
+    }
+
+    /**
+     * Retrieve a value for the settings stored in this file.
+     * @param key of which entry to pull from the map.
+     * @return value from the settings map.
+     */
+    public String getValueFromSettings(String key){
+        return settings.get(key);
     }
 
     /**
