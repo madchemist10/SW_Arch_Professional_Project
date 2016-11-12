@@ -15,6 +15,7 @@ public class GUIConstants {
     /**Title of the Twitter results panel that is generated when the user
      * has executed a query from the {@link userInterface.panels.TwitterPanel}*/
     public static final String TWITTER_RESULTS_PANEL_TITLE = "Twitter Results";
+    public static final String TRADIER_RESULTS_PANEL_TITLE = "Tradier Results";
 
     /*Text for Labels*/
     /**Label for Email labels to tell the user what belongs in a given text field.*/

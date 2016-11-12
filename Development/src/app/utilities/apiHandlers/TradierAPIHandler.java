@@ -1,6 +1,14 @@
 package app.utilities.apiHandlers;
 
+//package org.apache.commons.io.IOUtils;
+import java.util.*;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+
 /**
+ * This TradierAPIHandler is used to construct and execute queries
+ * against the external Tradier API.
  */
 class TradierAPIHandler extends AAPIHandler{
 
