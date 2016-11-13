@@ -49,6 +49,10 @@ public class TradierPanel extends BasePanel{
         IAPIHandler tradierAPI = app.getAPIHandler(APIHandles.TRADIER);
         String request = tradierAPI.buildAPIRequest(new String[]{query});
         Object returnVal = tradierAPI.executeAPIRequest(request);
+        if(returnVal == null){
+            notifyListeners(new CustomChangeEvent(this,AppChangeEvents.INVALID_TRADIER_API_CREDENTIALS));
+            return;
+        }
         if(returnVal instanceof JsonNode) {
             JsonNode returnNode = (JsonNode) returnVal;
             TradierResultsPanel resultsPanel = new TradierResultsPanel(query);

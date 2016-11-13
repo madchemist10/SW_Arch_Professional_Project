@@ -72,8 +72,12 @@ public class GUIConstants {
     public static final String ACCOUNT_CREATED_FAILED_TITLE = "Account Creation Failed";
     /**Title of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_TWITTER_API_CREDENTIALS}*/
     public static final String INVALID_CREDENTIALS_TWITTER_API_TITLE = "Twitter API Credential Mismatch";
+    /**Title of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_TRADIER_API_CREDENTIALS}*/
+    public static final String INVALID_CREDENTIALS_TRADIER_API_TITLE = "Tradier API Credential Mismatch";
 
     /*Warning Dialog Messages*/
     /**Message of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_TWITTER_API_CREDENTIALS}*/
     public static final String INVALID_CREDENTIALS_TWITTER_API = "Invalid Credentials for Twitter API found.";
+    /**Message of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_TRADIER_API_CREDENTIALS}*/
+    public static final String INVALID_CREDENTIALS_TRADIER_API = "Invalid Credentials for Tradier API found.";
 }

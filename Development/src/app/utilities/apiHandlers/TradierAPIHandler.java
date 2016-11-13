@@ -40,7 +40,7 @@ class TradierAPIHandler extends AAPIHandler{
      */
     @Override
     public String buildAPIRequest(String[] inputs) {
-        return null;
+        return "https://sandbox.tradier.com/v1/markets/quotes?symbols=" + inputs[0];
     }
 
     /**
@@ -52,6 +52,10 @@ class TradierAPIHandler extends AAPIHandler{
      */
     @Override
     public Object executeAPIRequest(String request){
+        String tradierAPIToken = app.getValueFromSettings(Constants.TRADIER_API_ACCESS_TOKEN);
+        if(tradierAPIToken == null){
+            return null;
+        }
         BufferedReader responseBody = null;
         JsonNode jsonObj = null;
         //build client
@@ -59,11 +63,11 @@ class TradierAPIHandler extends AAPIHandler{
 
         try {
             //Form request
-            HttpGet tradierReq = new HttpGet("https://api.tradier.com/v1/user/profile");
+            HttpGet tradierReq = new HttpGet(request);
 
             //Set headers
             tradierReq.addHeader("Accept", "application/json");
-            tradierReq.addHeader("Authorization", "Bearer " + Constants.TRADIER_API_ACCESS_TOKEN);
+            tradierReq.addHeader("Authorization", "Bearer " + tradierAPIToken);
 
             //Invoke the service
             HttpResponse tradierResponse = tradierClient.execute(tradierReq);

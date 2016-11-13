@@ -124,6 +124,12 @@ public class PanelManager extends JFrame implements PropertyChangeListener{
                 message = GUIConstants.INVALID_CREDENTIALS_TWITTER_API;
                 createPopup(message, GUIConstants.INVALID_CREDENTIALS_TWITTER_API_TITLE);
                 break;
+
+            /*User's credentials for Tradier API are invalid.*/
+            case INVALID_TRADIER_API_CREDENTIALS:
+                message = GUIConstants.INVALID_CREDENTIALS_TRADIER_API;
+                createPopup(message, GUIConstants.INVALID_CREDENTIALS_TRADIER_API_TITLE);
+                break;
         }
     }
 
