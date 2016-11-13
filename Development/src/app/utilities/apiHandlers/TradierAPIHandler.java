@@ -1,8 +1,10 @@
 package app.utilities.apiHandlers;
-import app.constants.Constants;
+//package com.tradier.webservice.client;
 
+import app.constants.Constants;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -40,7 +42,7 @@ class TradierAPIHandler extends AAPIHandler{
      */
     @Override
     public String buildAPIRequest(String[] inputs) {
-        return "https://sandbox.tradier.com/v1/markets/quotes?symbols=" + inputs[0];
+        return "https://sandbox.tradier.com/v1/markets/lookup?q=" + inputs[0];              //works
     }
 
     /**
