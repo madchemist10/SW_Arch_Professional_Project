@@ -35,4 +35,8 @@ public class Constants {
 
     /**Local path for the settings file.*/
     public static final String SETTINGS_FILE = "settings.txt";
+
+    /*Mailbox JsonNode Constants*/
+    /**Json Node key for valid format.*/
+    public static final String FORMAT_VALID = "format_valid";
 }

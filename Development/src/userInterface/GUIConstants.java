@@ -34,6 +34,8 @@ public class GUIConstants {
     public static final String LAST_PRICE_LABEL = "Last Price: ";
     public static final String DAILY_NET_CHANGE_LABEL = "Daily Net Change: ";
     public static final String VOLUME_LABEL = "Volume: ";
+    public static final String EMAIL_VALID = "Email Valid Format";
+    public static final String EMAIL_INVALID = "Email Invalid Format";
 
     /*Text for buttons*/
     /**Text to be given to the {@link userInterface.panels.LoginPanel#loginButton}.*/
@@ -74,10 +76,14 @@ public class GUIConstants {
     public static final String INVALID_CREDENTIALS_TWITTER_API_TITLE = "Twitter API Credential Mismatch";
     /**Title of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_TRADIER_API_CREDENTIALS}*/
     public static final String INVALID_CREDENTIALS_TRADIER_API_TITLE = "Tradier API Credential Mismatch";
+    /**Title of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_MAILBOX_API_CREDENTIALS}*/
+    public static final String INVALID_CREDENTIALS_MAILBOX_API_TITLE = "Mailbox API Credential Mismatch";
 
     /*Warning Dialog Messages*/
     /**Message of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_TWITTER_API_CREDENTIALS}*/
     public static final String INVALID_CREDENTIALS_TWITTER_API = "Invalid Credentials for Twitter API found.";
     /**Message of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_TRADIER_API_CREDENTIALS}*/
     public static final String INVALID_CREDENTIALS_TRADIER_API = "Invalid Credentials for Tradier API found.";
+    /**Message of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_MAILBOX_API_CREDENTIALS}*/
+    public static final String INVALID_CREDENTIALS_MAILBOX_API = "Invalid Credentials for Mailbox API found.";
 }

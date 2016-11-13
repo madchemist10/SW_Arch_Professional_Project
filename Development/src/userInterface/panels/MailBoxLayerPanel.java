@@ -1,7 +1,9 @@
 package userInterface.panels;
 
+import app.constants.Constants;
 import app.utilities.apiHandlers.APIHandles;
 import app.utilities.apiHandlers.IAPIHandler;
+import com.fasterxml.jackson.databind.JsonNode;
 import userInterface.GUIConstants;
 
 import javax.swing.*;
@@ -23,6 +25,8 @@ public class MailBoxLayerPanel extends BasePanel {
     private final JPanel controlsPanel = new JPanel();
     /**Grid constraints on where elements should be placed in the controls panel.*/
     private final GridBagConstraints controlsPanelConstraints = new GridBagConstraints();
+    /**Label to give user feedback on validation of their email.*/
+    private final JLabel validationLabel = new JLabel();
 
     /**
      * Create a new {@link MailBoxLayerPanel}.
@@ -44,8 +48,23 @@ public class MailBoxLayerPanel extends BasePanel {
         }
         IAPIHandler mailboxAPI = app.getAPIHandler(APIHandles.MAILBOX_LAYER);
         String request = mailboxAPI.buildAPIRequest(new String[]{query});
+        if(request == null){
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.INVALID_MAILBOX_API_CREDENTIALS));
+        }
         Object returnVal = mailboxAPI.executeAPIRequest(request);
-        //todo need to do something with return value.
+        if(returnVal == null){
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.INVALID_MAILBOX_API_CREDENTIALS));
+            return;
+        }
+        if(returnVal instanceof JsonNode) {
+            JsonNode returnNode = (JsonNode) returnVal;
+            JsonNode formatNode = returnNode.get(Constants.FORMAT_VALID);
+            if(formatNode.booleanValue()){
+                validationLabel.setText(GUIConstants.EMAIL_VALID+": ("+query+")");
+                return;
+            }
+            validationLabel.setText(GUIConstants.EMAIL_INVALID+": ("+query+")");
+        }
     }
 
     /**
@@ -71,7 +90,8 @@ public class MailBoxLayerPanel extends BasePanel {
         * Login Panel.*/
         constraints.gridx = 0;
         constraints.gridy = 0;
-        addComponent(controlsPanel);
+        addEmailValidationLabel();
+        addControlsPanel();
     }
 
     /**
@@ -120,6 +140,22 @@ public class MailBoxLayerPanel extends BasePanel {
         controlsPanelConstraints.gridwidth = 1;
         controlsPanelConstraints.gridx = 0;
         controlsPanelConstraints.gridy++;
+    }
+
+    /**
+     * Add email validation label to this panel.
+     */
+    private void addEmailValidationLabel(){
+        constraints.gridy++;
+        addComponent(validationLabel);
+    }
+
+    /**
+     * Add controls panel to this panel.
+     */
+    private void addControlsPanel(){
+        constraints.gridy++;
+        addComponent(controlsPanel);
     }
 
 }

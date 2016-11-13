@@ -130,6 +130,12 @@ public class PanelManager extends JFrame implements PropertyChangeListener{
                 message = GUIConstants.INVALID_CREDENTIALS_TRADIER_API;
                 createPopup(message, GUIConstants.INVALID_CREDENTIALS_TRADIER_API_TITLE);
                 break;
+
+            /*User's credentials for Mailbox API are invalid.*/
+            case INVALID_MAILBOX_API_CREDENTIALS:
+                message = GUIConstants.INVALID_CREDENTIALS_MAILBOX_API_TITLE;
+                createPopup(message, GUIConstants.INVALID_CREDENTIALS_MAILBOX_API);
+                break;
         }
     }
 

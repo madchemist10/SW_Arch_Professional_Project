@@ -1,5 +1,6 @@
 package app.utilities.apiHandlers;
 
+import app.constants.Constants;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
@@ -39,7 +40,11 @@ class MailBoxLayerAPIHandler extends AAPIHandler{
         String API_EMAIL = "&email=";
 
         //remove this line once the key is implemented
-        String MAILBOX_API_ACCESS_TOKEN = "7ee10ff559ad1c3520217a93599cf167";
+        String MAILBOX_API_ACCESS_TOKEN = app.getValueFromSettings(Constants.MAILBOX_API_ACCESS_TOKEN);
+
+        if(MAILBOX_API_ACCESS_TOKEN == null){
+            return null;
+        }
 
         returnValue = API_URL + MAILBOX_API_ACCESS_TOKEN + API_EMAIL + inputs[0];
 
@@ -47,12 +52,12 @@ class MailBoxLayerAPIHandler extends AAPIHandler{
     }
 
     /**
-     * Perform the request for a given url.
-     * @param request that is to be queried.
-     * @return String representation of the body of the return from the
-     * get request.
+     * Handles the execution of an API request to the Mailbox API.
+     * The return type for this execution is {@link JsonNode}.
+     * The calling method should cast the object returned from this
+     * execution to {@link JsonNode}.
+     * {@inheritDoc}
      */
-
     @Override
     public Object executeAPIRequest(String request) {
 

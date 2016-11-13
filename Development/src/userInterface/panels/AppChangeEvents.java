@@ -32,6 +32,8 @@ enum AppChangeEvents {
     INVALID_TWITTER_API_CREDENTIALS,
 
     /**Thrown when the user's access credentials for Tradier API are invalid.*/
-    INVALID_TRADIER_API_CREDENTIALS
+    INVALID_TRADIER_API_CREDENTIALS,
 
+    /**Thrown when the user's access credentials for the Mailbox API are invalid.*/
+    INVALID_MAILBOX_API_CREDENTIALS
 }
