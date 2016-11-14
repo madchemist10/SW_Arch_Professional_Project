@@ -5,12 +5,9 @@ import app.constants.Constants;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 /**
@@ -42,7 +39,7 @@ class TradierAPIHandler extends AAPIHandler{
      */
     @Override
     public String buildAPIRequest(String[] inputs) {
-        return "https://sandbox.tradier.com/v1/markets/lookup?q=" + inputs[0];              //works
+        return "https://sandbox.tradier.com/v1/markets/quotes?symbols=" + inputs[0];
     }
 
     /**
@@ -60,25 +57,22 @@ class TradierAPIHandler extends AAPIHandler{
         }
         BufferedReader responseBody = null;
         JsonNode jsonObj = null;
-        //build client
-        HttpClient tradierClient = HttpClientBuilder.create().build();
 
         try {
             //Form request
-            HttpGet tradierReq = new HttpGet(request);
+            URL tradeNetURL = new URL(request);
 
-            //Set headers
-            tradierReq.addHeader("Accept", "application/json");
-            tradierReq.addHeader("Authorization", "Bearer " + tradierAPIToken);
+            //Open connection and set headers
+            HttpURLConnection con = (HttpURLConnection)tradeNetURL.openConnection();
+            con.setRequestProperty("Accept", "application/json");
+            con.setRequestProperty("Authorization", "Bearer " + tradierAPIToken);
 
-            //Invoke the service
-            HttpResponse tradierResponse = tradierClient.execute(tradierReq);
-
-            int statusCode = tradierResponse.getStatusLine().getStatusCode();
+            //Check response
+            int statusCode = con.getResponseCode();
             if (statusCode != 200) {
                 throw new RuntimeException("Failed with HTTP error code: " + statusCode);
             } else {
-                responseBody = new BufferedReader(new InputStreamReader(tradierResponse.getEntity().getContent()));
+                responseBody = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 String line = "";
                 StringBuilder tradierString = new StringBuilder();
                 while ((line = responseBody.readLine()) != null){
