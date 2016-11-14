@@ -48,6 +48,8 @@ public class GUIConstants {
     public static final String CREATE_BUTTON_TEXT = "Create";
     /**Text to be given to the {@link userInterface.panels.LoginPanel#createAccountButton}*/
     public static final String CREATE_ACCOUNT_BUTTON_TEXT = "Create Account";
+    /**Text to be given to the {@link userInterface.panels.TradierResultsPanel#refreshButton}*/
+    public static final String REFRESH_BUTTON_TEXT = "Refresh";
 
     /*Panel Identifiers*/
     /**Name of the {@link userInterface.panels.CreateNewAccountPanel}*/

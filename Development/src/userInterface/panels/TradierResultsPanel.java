@@ -27,6 +27,8 @@ class TradierResultsPanel extends JFrame{
     private final JLabel dailyNetChangeDataLabel = new JLabel();
     /**Data label for volume.*/
     private final JLabel volumeDataLabel = new JLabel();
+    /**Button to refresh the data on the page.*/
+    private final JButton refreshButton = new JButton(GUIConstants.REFRESH_BUTTON_TEXT);
 
     /**
      * Create a new Twitter Results panel with a given query.
@@ -105,6 +107,21 @@ class TradierResultsPanel extends JFrame{
         constraints.gridx++;
         resultsPanel.add(volumeDataPanel, constraints);
         constraints.gridx = 0;
+
+        /*Add Refresh Button*/
+        addRefreshButton();
+    }
+
+    /**
+     * Add a refresh button to refresh the data that is in thi
+     * panel.
+     */
+    private void addRefreshButton(){
+        constraints.gridx = 0;
+        constraints.gridwidth = 2;
+        constraints.gridy++;
+        resultsPanel.add(refreshButton, constraints);
+        constraints.gridwidth = 1;
     }
 
     /**
