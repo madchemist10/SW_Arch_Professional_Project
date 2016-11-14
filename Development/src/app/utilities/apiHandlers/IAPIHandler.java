@@ -1,5 +1,7 @@
 package app.utilities.apiHandlers;
 
+import app.exception.BaseException;
+
 /**
  * This interface maintains the all functionality that
  * should be present outside of this package for use
@@ -21,5 +23,5 @@ public interface IAPIHandler {
      * @param request that is to be sent to the external API.
      * @return Object that is received after the request has been made.
      */
-    Object executeAPIRequest(String request);
+    Object executeAPIRequest(String request) throws BaseException;
 }

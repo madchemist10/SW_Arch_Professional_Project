@@ -1,7 +1,7 @@
 package app.utilities.apiHandlers;
-//package com.tradier.webservice.client;
 
 import app.constants.Constants;
+import app.exception.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -50,7 +50,7 @@ class TradierAPIHandler extends AAPIHandler{
      * {@inheritDoc}
      */
     @Override
-    public Object executeAPIRequest(String request){
+    public Object executeAPIRequest(String request) throws BaseException {
         String tradierAPIToken = app.getValueFromSettings(Constants.TRADIER_API_ACCESS_TOKEN);
         if(tradierAPIToken == null){
             return null;
@@ -70,10 +70,21 @@ class TradierAPIHandler extends AAPIHandler{
             //Check response
             int statusCode = con.getResponseCode();
             if (statusCode != 200) {
-                throw new RuntimeException("Failed with HTTP error code: " + statusCode);
+                switch(statusCode){
+                    case 404:
+                        throw new Tradier404Exception();
+                    case 400:
+                        throw new Tradier400Exception();
+                    case 501:
+                        throw new Tradier501Exception();
+                    case 500:
+                        throw new Tradier500Exception();
+                    default:
+                        throw new RuntimeException("HTTP ERROR: "+statusCode);
+                }
             } else {
                 responseBody = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String line = "";
+                String line;
                 StringBuilder tradierString = new StringBuilder();
                 while ((line = responseBody.readLine()) != null){
                     tradierString.append(line);

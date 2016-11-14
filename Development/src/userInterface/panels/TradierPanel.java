@@ -1,5 +1,6 @@
 package userInterface.panels;
 
+import app.exception.BaseException;
 import app.utilities.apiHandlers.APIHandles;
 import app.utilities.apiHandlers.IAPIHandler;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -48,7 +49,15 @@ public class TradierPanel extends BasePanel{
         }
         IAPIHandler tradierAPI = app.getAPIHandler(APIHandles.TRADIER);
         String request = tradierAPI.buildAPIRequest(new String[]{query});
-        Object returnVal = tradierAPI.executeAPIRequest(request);
+        Object returnVal;
+
+        try {
+            returnVal = tradierAPI.executeAPIRequest(request);
+        }catch(BaseException e){
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.TRADIER_HTTP_ERROR));
+            return;
+        }
+
         if(returnVal == null){
             notifyListeners(new CustomChangeEvent(this,AppChangeEvents.INVALID_TRADIER_API_CREDENTIALS));
             return;

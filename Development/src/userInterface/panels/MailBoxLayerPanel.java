@@ -1,6 +1,7 @@
 package userInterface.panels;
 
 import app.constants.Constants;
+import app.exception.BaseException;
 import app.utilities.apiHandlers.APIHandles;
 import app.utilities.apiHandlers.IAPIHandler;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -51,7 +52,12 @@ public class MailBoxLayerPanel extends BasePanel {
         if(request == null){
             notifyListeners(new CustomChangeEvent(this, AppChangeEvents.INVALID_MAILBOX_API_CREDENTIALS));
         }
-        Object returnVal = mailboxAPI.executeAPIRequest(request);
+        Object returnVal;
+        try {
+            returnVal = mailboxAPI.executeAPIRequest(request);
+        } catch (BaseException e) {
+            return;
+        }
         if(returnVal == null){
             notifyListeners(new CustomChangeEvent(this, AppChangeEvents.INVALID_MAILBOX_API_CREDENTIALS));
             return;

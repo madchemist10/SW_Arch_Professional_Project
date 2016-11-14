@@ -1,5 +1,6 @@
 package userInterface.panels;
 
+import app.exception.BaseException;
 import app.utilities.apiHandlers.APIHandles;
 import app.utilities.apiHandlers.IAPIHandler;
 import twitter4j.QueryResult;
@@ -45,7 +46,14 @@ public class TwitterPanel extends BasePanel{
         }
         IAPIHandler twitterAPI = app.getAPIHandler(APIHandles.TWITTER);
         String request = twitterAPI.buildAPIRequest(new String[]{query});
-        Object returnVal = twitterAPI.executeAPIRequest(request);
+        Object returnVal;
+
+        try {
+             returnVal = twitterAPI.executeAPIRequest(request);
+        } catch (BaseException e) {
+            return;
+        }
+
         if(returnVal == null){
             notifyListeners(new CustomChangeEvent(this,AppChangeEvents.INVALID_TWITTER_API_CREDENTIALS));
         }

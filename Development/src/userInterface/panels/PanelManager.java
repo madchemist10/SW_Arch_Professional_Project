@@ -136,6 +136,12 @@ public class PanelManager extends JFrame implements PropertyChangeListener{
                 message = GUIConstants.INVALID_CREDENTIALS_MAILBOX_API_TITLE;
                 createPopup(message, GUIConstants.INVALID_CREDENTIALS_MAILBOX_API);
                 break;
+
+            /*HTTP error from Tradier API*/
+            case TRADIER_HTTP_ERROR:
+                message = GUIConstants.TRADIER_API_HTTP_ERROR;
+                createPopup(message, GUIConstants.TRADIER_API_HTTP_ERROR_TITLE);
+                break;
         }
     }
 

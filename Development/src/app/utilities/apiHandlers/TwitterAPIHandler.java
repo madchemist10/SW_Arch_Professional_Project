@@ -1,6 +1,7 @@
 package app.utilities.apiHandlers;
 
 import app.constants.Constants;
+import app.exception.BaseException;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -85,7 +86,7 @@ class TwitterAPIHandler extends AAPIHandler{
      * {@inheritDoc}
      */
     @Override
-    public Object executeAPIRequest(String request){
+    public Object executeAPIRequest(String request) throws BaseException {
         if(twitter == null){
             return null;
         }

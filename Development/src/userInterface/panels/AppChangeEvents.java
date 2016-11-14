@@ -35,5 +35,8 @@ enum AppChangeEvents {
     INVALID_TRADIER_API_CREDENTIALS,
 
     /**Thrown when the user's access credentials for the Mailbox API are invalid.*/
-    INVALID_MAILBOX_API_CREDENTIALS
+    INVALID_MAILBOX_API_CREDENTIALS,
+
+    /**Thrown when the Tradier API throws an HTTP error.*/
+    TRADIER_HTTP_ERROR
 }

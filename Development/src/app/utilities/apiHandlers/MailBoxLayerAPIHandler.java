@@ -1,6 +1,7 @@
 package app.utilities.apiHandlers;
 
 import app.constants.Constants;
+import app.exception.BaseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
@@ -59,7 +60,7 @@ class MailBoxLayerAPIHandler extends AAPIHandler{
      * {@inheritDoc}
      */
     @Override
-    public Object executeAPIRequest(String request) {
+    public Object executeAPIRequest(String request) throws BaseException {
 
         String returnValue = null;
 

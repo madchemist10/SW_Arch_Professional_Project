@@ -1,6 +1,7 @@
 package app.utilities.apiHandlers;
 
 import app.Application;
+import app.exception.BaseException;
 
 /**
  * This abstract APIHandler is responsible for ensuring
@@ -30,7 +31,7 @@ abstract class AAPIHandler implements IAPIHandler {
      * {@inheritDoc}
      */
     @Override
-    public Object executeAPIRequest(String request) {
+    public Object executeAPIRequest(String request) throws BaseException {
         return null;
     }
 }
