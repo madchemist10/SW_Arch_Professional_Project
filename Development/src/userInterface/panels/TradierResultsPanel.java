@@ -1,5 +1,6 @@
 package userInterface.panels;
 
+import app.constants.Constants;
 import com.fasterxml.jackson.databind.JsonNode;
 import userInterface.GUIConstants;
 
@@ -111,9 +112,35 @@ class TradierResultsPanel extends JFrame{
      * This method can be used to refresh data as well.
      */
     void updateResultsEntry(JsonNode node){
-        String lastPrice = "";
-        String dailyNetChange = "";
-        String volumeLabel = "";
+        JsonNode quotes = node.get(Constants.QUOTES);
+        JsonNode singleQuote = null;
+
+        /*Loop over all quotes until we find the one that matches
+        * the user's request exactly.*/
+        for(JsonNode quote: quotes){
+            JsonNode symbolNode = quote.get(Constants.SYMBOL);
+            String currentQuote = tickerDataLabel.getText();
+            String nodeSymbol = symbolNode.textValue();
+            if(currentQuote.toLowerCase().equals(nodeSymbol.toLowerCase())){
+                singleQuote = quote;
+                break;
+            }
+        }
+        if(singleQuote == null){
+            return;
+        }
+
+        /*Get the sub nodes that we need to display*/
+        JsonNode lastNode = singleQuote.get(Constants.LAST);
+        JsonNode dailyNetChangeNode = singleQuote.get(Constants.CHANGE);
+        JsonNode volumeNode = singleQuote.get(Constants.VOLUME);
+
+        /*Get the sub nodes' text values to display*/
+        String lastPrice = lastNode.asText();
+        String dailyNetChange = dailyNetChangeNode.asText();
+        String volumeLabel = volumeNode.asText();
+
+        /*Update the text values for the sub nodes' text*/
         lastPriceDataLabel.setText(lastPrice);
         dailyNetChangeDataLabel.setText(dailyNetChange);
         volumeDataLabel.setText(volumeLabel);

@@ -39,4 +39,16 @@ public class Constants {
     /*Mailbox JsonNode Constants*/
     /**Json Node key for valid format.*/
     public static final String FORMAT_VALID = "format_valid";
+
+    /*Tradier JsonNode Constants*/
+    /**Json Node key for getting all the quotes from a request.*/
+    public static final String QUOTES = "quotes";
+    /**Json Node key for getting the last price.*/
+    public static final String LAST = "last";
+    /**Json Node key for getting symbol of the quote.*/
+    public static final String SYMBOL = "symbol";
+    /**Json Node key for getting the daily change value.*/
+    public static final String CHANGE = "change";
+    /**Json Node key for getting volume of the quote.*/
+    public static final String VOLUME = "volume";
 }
