@@ -9,13 +9,14 @@ import userInterface.GUIConstants;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.HashMap;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * This panel is required for interaction with
  * the {@link app.utilities.apiHandlers.TradierAPIHandler}.
  */
-public class TradierPanel extends BasePanel{
+public class TradierPanel extends BasePanel implements PropertyChangeListener {
 
     /**Text field for ticker symbol input.*/
     private final JTextField tickerTextField = new JTextField(20);
@@ -26,8 +27,6 @@ public class TradierPanel extends BasePanel{
     private final JPanel controlsPanel = new JPanel();
     /**Grid constraints on where elements should be placed in the controls panel.*/
     private final GridBagConstraints controlsPanelConstraints = new GridBagConstraints();
-    /**Map of Tradier Results frames to the Ticker Symbol.*/
-    private final HashMap<String, TradierResultsPanel> tradierResultsMap = new HashMap<>();
 
     /**
      * Create a new {@link TradierPanel}.
@@ -47,6 +46,23 @@ public class TradierPanel extends BasePanel{
         if(!validateUserInput(query)){
             return;
         }
+        JsonNode returnNode = executeTradierQuery(query);
+        if(returnNode == null){
+            return;
+        }
+        TradierResultsPanel resultsPanel = new TradierResultsPanel(query);
+        resultsPanel.addPropertyListener(this);
+        resultsPanel.updateResultsEntry(returnNode);
+        SwingUtilities.invokeLater(() -> resultsPanel.setVisible(true));
+    }
+
+    /**
+     * Execution of the tradier query is solo here so that
+     * the refresh button is able to call here.
+     * @param query that is from the user's input.
+     * @return JsonNode of the return value or null if error occurred.
+     */
+    private JsonNode executeTradierQuery(String query){
         IAPIHandler tradierAPI = app.getAPIHandler(APIHandles.TRADIER);
         String request = tradierAPI.buildAPIRequest(new String[]{query});
         Object returnVal;
@@ -55,20 +71,18 @@ public class TradierPanel extends BasePanel{
             returnVal = tradierAPI.executeAPIRequest(request);
         }catch(BaseException e){
             notifyListeners(new CustomChangeEvent(this, AppChangeEvents.TRADIER_HTTP_ERROR));
-            return;
+            return null;
         }
 
         if(returnVal == null){
             notifyListeners(new CustomChangeEvent(this,AppChangeEvents.INVALID_TRADIER_API_CREDENTIALS));
-            return;
+            return null;
         }
-        if(returnVal instanceof JsonNode) {
-            JsonNode returnNode = (JsonNode) returnVal;
-            TradierResultsPanel resultsPanel = new TradierResultsPanel(query);
-            tradierResultsMap.put(query, resultsPanel);
-            resultsPanel.updateResultsEntry(returnNode);
-            SwingUtilities.invokeLater(() -> resultsPanel.setVisible(true));
+
+        if(returnVal instanceof JsonNode){
+            return (JsonNode) returnVal;
         }
+        return null;
     }
 
     /**
@@ -146,4 +160,40 @@ public class TradierPanel extends BasePanel{
         controlsPanelConstraints.gridy++;
     }
 
+    /**
+     * Catch events thrown by the Tradier Results Panel.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        CustomChangeEvent event = null;
+        if(evt instanceof CustomChangeEvent) {
+            event = (CustomChangeEvent) evt;
+        }
+        /*If the event is null, we cannot continue.*/
+        if(event == null){
+            return;
+        }
+        TradierResultsPanel tradierResultsPanel = null;
+        if(event.getSource() instanceof TradierResultsPanel){
+            tradierResultsPanel = (TradierResultsPanel) event.getSource();
+        }
+        /*If the results panel is null, we cannot continue.*/
+        if(tradierResultsPanel == null){
+            return;
+        }
+
+        AppChangeEvents eventName = event.getEventName();
+
+        switch (eventName){
+            case TRADIER_REFRESH:
+                String query = tickerTextField.getText();
+                if(!validateUserInput(query)){
+                    return;
+                }
+                JsonNode returnNode = executeTradierQuery(query);
+                final TradierResultsPanel panel = tradierResultsPanel;
+                SwingUtilities.invokeLater(() -> panel.updateResultsEntry(returnNode));
+                break;
+        }
+    }
 }

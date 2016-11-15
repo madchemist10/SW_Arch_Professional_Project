@@ -6,6 +6,10 @@ import userInterface.GUIConstants;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
+import java.util.*;
+import java.util.List;
 
 /**
  * This frame is a popup for when the user has decided to search
@@ -30,6 +34,9 @@ class TradierResultsPanel extends JFrame{
     /**Button to refresh the data on the page.*/
     private final JButton refreshButton = new JButton(GUIConstants.REFRESH_BUTTON_TEXT);
 
+    /**List of all listeners that are associated with this class.*/
+    private final List<PropertyChangeListener> listeners = new LinkedList<>();
+
     /**
      * Create a new Twitter Results panel with a given query.
      * @param query to be added to the title to denote which query's results
@@ -42,6 +49,25 @@ class TradierResultsPanel extends JFrame{
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         buildFrame();
+    }
+
+    /**
+     * Add a property change listener to this panel for when this
+     * panel should notify its listeners of property changes.
+     * @param listener that is to listen for events from this panel.
+     */
+    void addPropertyListener(PropertyChangeListener listener){
+        listeners.add(listener);
+    }
+
+    /**
+     * Notify all listeners that an event has been created.
+     * @param event that is to alert all listeners of an event.
+     */
+    private void notifyListeners(CustomChangeEvent event){
+        for(PropertyChangeListener listener: listeners){
+            listener.propertyChange(event);
+        }
     }
 
     /**
@@ -113,13 +139,29 @@ class TradierResultsPanel extends JFrame{
     }
 
     /**
-     * Add a refresh button to refresh the data that is in thi
+     * Callback for when the refresh button is pressed.
+     * This should be run on a new thread.
+     */
+    private void refreshCallBack(){
+        notifyListeners(new CustomChangeEvent(this, AppChangeEvents.TRADIER_REFRESH));
+    }
+
+    /**
+     * Add a refresh button to refresh the data that is in this
      * panel.
      */
     private void addRefreshButton(){
         constraints.gridx = 0;
         constraints.gridwidth = 2;
         constraints.gridy++;
+        refreshButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                /*Spawn background thread to keep from locking up the GUI.*/
+                Thread queryCallback = new Thread(() -> refreshCallBack());
+                queryCallback.start();
+            }
+        });
         resultsPanel.add(refreshButton, constraints);
         constraints.gridwidth = 1;
     }

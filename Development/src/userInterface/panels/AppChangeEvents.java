@@ -38,5 +38,9 @@ enum AppChangeEvents {
     INVALID_MAILBOX_API_CREDENTIALS,
 
     /**Thrown when the Tradier API throws an HTTP error.*/
-    TRADIER_HTTP_ERROR
+    TRADIER_HTTP_ERROR,
+
+    /**Thrown when the refresh button is pressed for a given
+     * {@link TradierResultsPanel}.*/
+    TRADIER_REFRESH
 }
