@@ -1,11 +1,21 @@
 package app.utilities.apiHandlers;
 
+import app.constants.Constants;
+import app.exception.BaseException;
+import net.tanesha.recaptcha.ReCaptcha;
+import net.tanesha.recaptcha.ReCaptchaFactory;
+
 /**
  */
 class CaptchaAPIHandler extends AAPIHandler {
 
+    private final ReCaptcha captcha;
+
     private CaptchaAPIHandler(){
         super();
+        String siteKey = app.getValueFromSettings(Constants.CAPTCHA_API_SITE_KEY);
+        String secretKey = app.getValueFromSettings(Constants.CAPTCHA_API_SECRET_KEY);
+        captcha = ReCaptchaFactory.newReCaptcha(siteKey,secretKey,false);
     }
 
     /**
@@ -27,16 +37,16 @@ class CaptchaAPIHandler extends AAPIHandler {
      */
     @Override
     public String buildAPIRequest(String[] inputs) {
-        return null;
+        return captcha.createRecaptchaHtml(null,null);
     }
 
     /**
-     * Return value is of type {@link java.awt.image.BufferedImage}.
+     * Return value is of type {@link String}.
      * Must be cast to be used.
      * {@inheritDoc}
      */
     @Override
-    public Object executeAPIRequest(String request){
-        return null;
+    public Object executeAPIRequest(String request) throws BaseException{
+        return super.executeAPIRequest(request);
     }
 }

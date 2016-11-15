@@ -4,12 +4,8 @@ import app.constants.Constants;
 import app.exception.BaseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * This MailBoxAPIHandler is used to interact with the Mailboxlayer.com API
@@ -61,21 +57,19 @@ class MailBoxLayerAPIHandler extends AAPIHandler{
      */
     @Override
     public Object executeAPIRequest(String request) throws BaseException {
+        Object superReturn =  super.executeAPIRequest(request);
+
+        if (superReturn == null){
+            return null;
+        }
 
         String returnValue = null;
 
-        try {
-            URL myURL = new URL(request);
-            URLConnection connection = myURL.openConnection();
-            InputStream inputStream = connection.getInputStream();
-            String encoding = connection.getContentEncoding();
-            encoding = encoding == null ? "UTF-8" : encoding;
-            returnValue =  IOUtils.toString(inputStream, encoding);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(superReturn instanceof String ){
+            returnValue = (String) superReturn;
         }
 
-        if (returnValue == null){
+        if(returnValue == null){
             return null;
         }
 
@@ -90,8 +84,5 @@ class MailBoxLayerAPIHandler extends AAPIHandler{
         }
 
         return jsonNode;
-
     }
-
-
 }
