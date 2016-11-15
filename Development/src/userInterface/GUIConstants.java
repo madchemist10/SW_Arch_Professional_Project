@@ -64,6 +64,8 @@ public class GUIConstants {
     public static final String NEWS_PANEL_IDENTIFIER = "News";
     /**Name of the {@link userInterface.panels.TradierPanel}*/
     public static final String TRADIER_PANEL_IDENTIFIER = "Tradier";
+    /**Name of the {@link userInterface.panels.CaptchaPanel}*/
+    public static final String CAPTCHA_PANEL_IDENTIFIER = "Captcha";
 
     /*Warning Dialog Titles*/
     /**Title of the Warning Popup for {@link userInterface.panels.AppChangeEvents#EMAIL_INVALID}*/
