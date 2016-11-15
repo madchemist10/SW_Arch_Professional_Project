@@ -90,6 +90,4 @@ public class GUIConstants {
     public static final String INVALID_CREDENTIALS_TRADIER_API = "Invalid Credentials for Tradier API found.";
     /**Message of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_MAILBOX_API_CREDENTIALS}*/
     public static final String INVALID_CREDENTIALS_MAILBOX_API = "Invalid Credentials for Mailbox API found.";
-    /**Message of the Warning Popup for {@link userInterface.panels.AppChangeEvents#TRADIER_HTTP_ERROR}*/
-    public static final String TRADIER_API_HTTP_ERROR = "Error with request to Tradier API.";
 }

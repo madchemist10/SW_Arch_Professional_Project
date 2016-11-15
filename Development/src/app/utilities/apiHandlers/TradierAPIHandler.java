@@ -75,12 +75,14 @@ class TradierAPIHandler extends AAPIHandler{
                         throw new Tradier404Exception();
                     case 400:
                         throw new Tradier400Exception();
+                    case 401:
+                        throw new Tradier401Exception();
                     case 501:
                         throw new Tradier501Exception();
                     case 500:
                         throw new Tradier500Exception();
                     default:
-                        throw new RuntimeException("HTTP ERROR: "+statusCode);
+                        throw new TradierException(statusCode);
                 }
             } else {
                 responseBody = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -93,7 +95,7 @@ class TradierAPIHandler extends AAPIHandler{
                 jsonObj = mapper.readTree(tradierString.toString());
             }
         }
-        catch(Exception e){
+        catch(IOException e){
             e.printStackTrace();
         }
         finally {
@@ -101,7 +103,7 @@ class TradierAPIHandler extends AAPIHandler{
                 try{
                     responseBody.close();
                 }
-                catch(Exception e){
+                catch(IOException e){
                     e.printStackTrace();
                 }
             }

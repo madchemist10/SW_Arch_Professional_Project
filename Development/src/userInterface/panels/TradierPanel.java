@@ -70,7 +70,7 @@ public class TradierPanel extends BasePanel implements PropertyChangeListener {
         try {
             returnVal = tradierAPI.executeAPIRequest(request);
         }catch(BaseException e){
-            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.TRADIER_HTTP_ERROR));
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.TRADIER_HTTP_ERROR, e.getMessage()));
             return null;
         }
 

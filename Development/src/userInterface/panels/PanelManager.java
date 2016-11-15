@@ -139,7 +139,14 @@ public class PanelManager extends JFrame implements PropertyChangeListener{
 
             /*HTTP error from Tradier API*/
             case TRADIER_HTTP_ERROR:
-                message = GUIConstants.TRADIER_API_HTTP_ERROR;
+                Object newValue = event.getNewValue();
+                String newVal = "";
+                if(newValue != null){
+                    if(newValue instanceof String){
+                        newVal = (String) newValue;
+                    }
+                }
+                message = newVal;
                 createPopup(message, GUIConstants.TRADIER_API_HTTP_ERROR_TITLE);
                 break;
         }
