@@ -1,10 +1,6 @@
 package userInterface.panels;
 
-import app.utilities.apiHandlers.APIHandles;
 import userInterface.GUIConstants;
-
-import javax.swing.*;
-import java.awt.image.BufferedImage;
 
 /**
  */
@@ -21,8 +17,5 @@ public class CaptchaPanel extends BasePanel {
     }
 
     private void addCaptchaImage(){
-        BufferedImage captcha = (BufferedImage) app.getAPIHandler(APIHandles.CAPTCHA).executeAPIRequest("1");
-        JLabel captchaLabel = new JLabel(new ImageIcon(captcha));
-        add(captchaLabel);
     }
 }
