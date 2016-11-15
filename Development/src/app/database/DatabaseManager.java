@@ -42,4 +42,14 @@ public class DatabaseManager {
     public boolean validateLogin(String email, String password){
         return authentication.validateLogin(email, password);
     }
+
+    /**
+     * Execute the request for creation of a specific table
+     * in the given database we are connected to.
+     * @param statement create statement for execution on the connected
+     *                  database.
+     */
+    public void executeCreateStatement(String statement){
+
+    }
 }

@@ -27,4 +27,7 @@ public class Constants {
 
     /**Local path for the settings file.*/
     public static final String SETTINGS_FILE = "settings.txt";
+
+    /**Local path for the database file.*/
+    public static final String DB_FILE = "tradeNet.db";
 }

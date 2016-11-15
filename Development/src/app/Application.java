@@ -1,6 +1,7 @@
 package app;
 
 import app.constants.Constants;
+import app.database.DBConstants;
 import app.database.DatabaseManager;
 import app.utilities.Utilities;
 import app.utilities.apiHandlers.APIHandler;
@@ -31,6 +32,7 @@ public class Application {
     private Application(){
         dbManager = DatabaseManager.getInstance();
         loadSettings();
+        createDB();
     }
 
     /**
@@ -45,6 +47,22 @@ public class Application {
         }
         /*Add all settings pulled from user file.*/
         settings.putAll(tempSettings);
+    }
+
+    /**
+     * Create the database with correct tables if the database
+     * does not already exist.
+     */
+    private void createDB(){
+        if(Utilities.fileExists(Constants.DB_FILE)){
+            return;
+        }
+        dbManager.executeCreateStatement(DBConstants.DB_MAKE_ACCESS_LOGS);
+        dbManager.executeCreateStatement(DBConstants.DB_MAKE_CUSTOMER_BALANCE);
+        dbManager.executeCreateStatement(DBConstants.DB_MAKE_CUSTOMER_CREDENTIALS);
+        dbManager.executeCreateStatement(DBConstants.DB_MAKE_CUSTOMER_INFORMATION);
+        dbManager.executeCreateStatement(DBConstants.DB_MAKE_FUNDS_HISTORY);
+        dbManager.executeCreateStatement(DBConstants.DB_MAKE_TRANSACTION_HISTORY);
     }
 
     /**
