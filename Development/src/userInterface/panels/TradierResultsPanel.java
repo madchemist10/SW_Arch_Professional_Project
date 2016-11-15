@@ -18,6 +18,9 @@ import java.util.List;
  */
 class TradierResultsPanel extends JFrame{
 
+    /**Ticker symbol for this {@link TradierResultsPanel}.*/
+    private final String tickerSymbol;
+
     /**Panel that will contain the results as they are generated.*/
     private final JPanel resultsPanel = new JPanel();
     /**Constraints for label placement within the results panel.*/
@@ -45,6 +48,7 @@ class TradierResultsPanel extends JFrame{
     TradierResultsPanel(String query){
         setTitle(GUIConstants.TRADIER_RESULTS_PANEL_TITLE+": "+query);
         tickerDataLabel.setText(query);
+        tickerSymbol = query;
         setSize(new Dimension(GUIConstants.DEFAULT_GUI_WIDTH, GUIConstants.DEFAULT_GUI_HEIGHT));
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -68,6 +72,14 @@ class TradierResultsPanel extends JFrame{
         for(PropertyChangeListener listener: listeners){
             listener.propertyChange(event);
         }
+    }
+
+    /**
+     * The current ticker symbol for this panel.
+     * @return String representation of the ticker symbol for this panel.
+     */
+    String getTickerSymbol(){
+        return tickerSymbol;
     }
 
     /**
@@ -193,6 +205,10 @@ class TradierResultsPanel extends JFrame{
         JsonNode lastNode = singleQuote.get(Constants.LAST);
         JsonNode dailyNetChangeNode = singleQuote.get(Constants.CHANGE);
         JsonNode volumeNode = singleQuote.get(Constants.VOLUME);
+
+        if(lastNode == null || dailyNetChangeNode == null || volumeNode == null){
+            return;
+        }
 
         /*Get the sub nodes' text values to display*/
         String lastPrice = lastNode.asText();

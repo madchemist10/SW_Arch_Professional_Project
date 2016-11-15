@@ -186,10 +186,7 @@ public class TradierPanel extends BasePanel implements PropertyChangeListener {
 
         switch (eventName){
             case TRADIER_REFRESH:
-                String query = tickerTextField.getText();
-                if(!validateUserInput(query)){
-                    return;
-                }
+                String query = tradierResultsPanel.getTickerSymbol();
                 JsonNode returnNode = executeTradierQuery(query);
                 final TradierResultsPanel panel = tradierResultsPanel;
                 SwingUtilities.invokeLater(() -> panel.updateResultsEntry(returnNode));
