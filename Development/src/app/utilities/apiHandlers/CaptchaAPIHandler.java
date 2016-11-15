@@ -1,13 +1,8 @@
 package app.utilities.apiHandlers;
 
-import com.octo.captcha.service.image.DefaultManageableImageCaptchaService;
-import com.octo.captcha.service.image.ImageCaptchaService;
-
 /**
  */
 class CaptchaAPIHandler extends AAPIHandler {
-
-    private static ImageCaptchaService captchaService = new DefaultManageableImageCaptchaService();
 
     private CaptchaAPIHandler(){
         super();
@@ -42,6 +37,6 @@ class CaptchaAPIHandler extends AAPIHandler {
      */
     @Override
     public Object executeAPIRequest(String request){
-        return captchaService.getImageChallengeForID(request);
+        return null;
     }
 }
