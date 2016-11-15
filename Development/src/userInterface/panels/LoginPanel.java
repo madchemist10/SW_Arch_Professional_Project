@@ -129,7 +129,6 @@ class LoginPanel extends BasePanel{
         constraints.gridx = 0;
         constraints.gridy = 0;
         addComponent(loginSubPanel);
-        addComponent(new CaptchaPanel());
     }
 
     /**

@@ -54,9 +54,6 @@ public class APIHandler {
                 break;
             case NEWS:
                 break;
-            case CAPTCHA:
-                iapiHandler = CaptchaAPIHandler.getInstance();
-                break;
         }
         /*Should never return null.*/
         return iapiHandler;
