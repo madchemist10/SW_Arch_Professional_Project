@@ -161,7 +161,7 @@ public class TradierPanel extends BasePanel implements PropertyChangeListener {
     }
 
     /**
-     * Catch events thrown by the Tradier Results Panel.
+     * Catch events thrown by the {@link TradierResultsPanel}.
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

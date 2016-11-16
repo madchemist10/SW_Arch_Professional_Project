@@ -117,6 +117,9 @@ public class NewsPanel extends BasePanel implements PropertyChangeListener{
         controlsPanelConstraints.gridy++;
     }
 
+    /**
+     * Handle the events thrown from the {@link NewsResultsPanel}.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         CustomChangeEvent event = null;

@@ -36,16 +36,16 @@ class NewsAPIHandler extends AAPIHandler{
     @Override
     public String buildAPIRequest(String[] inputs) {
 
-        String API_URL = "https://newsapi.org/v1/articles?source=bloomberg&sortBy=top&apiKey=";
+        String apiURL = "https://newsapi.org/v1/articles?source=bloomberg&sortBy=top&apiKey=";
 
         //remove this line once the key is implemented
-        String NEWS_API_ACCESS_TOKEN = app.getValueFromSettings(Constants.NEWS_API_ACCESS_TOKEN); //the api key is d13f5f5661fa4159acafda81fac77acf"
+        String NEWS_API_ACCESS_TOKEN = app.getValueFromSettings(Constants.NEWS_API_ACCESS_TOKEN);
 
         if(NEWS_API_ACCESS_TOKEN == null){
             return null;
         }
 
-        return API_URL + NEWS_API_ACCESS_TOKEN;
+        return apiURL + NEWS_API_ACCESS_TOKEN;
     }
 
     /**

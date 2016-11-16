@@ -37,8 +37,8 @@ class MailBoxLayerAPIHandler extends AAPIHandler{
     public String buildAPIRequest(String[] inputs) {
 
         String returnValue;
-        String API_URL = "http://apilayer.net/api/check?access_key=";
-        String API_EMAIL = "&email=";
+        String apiURL = "http://apilayer.net/api/check?access_key=";
+        String apiEmail = "&email=";
 
         //remove this line once the key is implemented
         String MAILBOX_API_ACCESS_TOKEN = app.getValueFromSettings(Constants.MAILBOX_API_ACCESS_TOKEN);
@@ -47,7 +47,7 @@ class MailBoxLayerAPIHandler extends AAPIHandler{
             return null;
         }
 
-        returnValue = API_URL + MAILBOX_API_ACCESS_TOKEN + API_EMAIL + inputs[0];
+        returnValue = apiURL + MAILBOX_API_ACCESS_TOKEN + apiEmail + inputs[0];
 
         return returnValue;
     }

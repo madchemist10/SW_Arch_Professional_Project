@@ -16,6 +16,9 @@ import java.net.URL;
  */
 class TradierAPIHandler extends AAPIHandler{
 
+    /**
+     * Create a new tradier APIHandler.
+     */
     private TradierAPIHandler(){
         super();
     }
@@ -70,6 +73,7 @@ class TradierAPIHandler extends AAPIHandler{
             //Check response
             int statusCode = con.getResponseCode();
             if (statusCode != 200) {
+                /*Throw custom Tradier Exceptions for error codes.*/
                 switch(statusCode){
                     case 404:
                         throw new Tradier404Exception();
