@@ -36,7 +36,6 @@ class NewsAPIHandler extends AAPIHandler{
     @Override
     public String buildAPIRequest(String[] inputs) {
 
-        String returnValue;
         String API_URL = "https://newsapi.org/v1/articles?source=bloomberg&sortBy=top&apiKey=";
 
         //remove this line once the key is implemented
@@ -46,9 +45,7 @@ class NewsAPIHandler extends AAPIHandler{
             return null;
         }
 
-        returnValue = API_URL + NEWS_API_ACCESS_TOKEN + inputs[0];
-
-        return returnValue;
+        return API_URL + NEWS_API_ACCESS_TOKEN;
     }
 
     /**

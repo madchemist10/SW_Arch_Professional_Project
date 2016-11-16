@@ -37,10 +37,17 @@ enum AppChangeEvents {
     /**Thrown when the user's access credentials for the Mailbox API are invalid.*/
     INVALID_MAILBOX_API_CREDENTIALS,
 
+    /**Thrown when the user's access credentials for the News API are invalid.*/
+    INVALID_NEWS_API_CREDENTIALS,
+
     /**Thrown when the Tradier API throws an HTTP error.*/
     TRADIER_HTTP_ERROR,
 
     /**Thrown when the refresh button is pressed for a given
      * {@link TradierResultsPanel}.*/
-    TRADIER_REFRESH
+    TRADIER_REFRESH,
+
+    /**Thrown when the refresh button is pressed for a given
+     * {@link NewsResultsPanel}.*/
+    NEWS_REFRESH
 }

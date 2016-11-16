@@ -34,13 +34,6 @@ public class Constants {
     public static final String NEWS_API_ACCESS_TOKEN =
             "NEWS_API_ACCESS_TOKEN";
 
-    /*Captcha API Access Credentials*/
-    /**Access site key for Captcha API Calls.*/
-    public static final String CAPTCHA_API_SITE_KEY = "CAPTCHA_API_SITE_KEY";
-
-    /**Access secret key for Captcha API Calls.*/
-    public static final String CAPTCHA_API_SECRET_KEY = "CAPTCHA_API_SECRET_KEY";
-
     /**Identifier for MD5 algorithm.*/
     public static final String MD5_ALGORITHM = "MD5";
 
@@ -62,4 +55,11 @@ public class Constants {
     public static final String CHANGE = "change";
     /**Json Node key for getting volume of the quote.*/
     public static final String VOLUME = "volume";
+
+    /*News JsonNode Constants*/
+    /**Json Node key for getting title of the quote.*/
+    public static final String TITLE = "title";
+    /**Json Node key for getting articles of the quote.*/
+    public static final String ARTICLES = "articles";
+
 }
