@@ -30,6 +30,10 @@ public class Constants {
     public static final String MAILBOX_API_ACCESS_TOKEN =
             "MAILBOX_API_ACCESS_TOKEN";
 
+    /**Access token for the News API Calls.*/
+    public static final String NEWS_API_ACCESS_TOKEN =
+            "NEWS_API_ACCESS_TOKEN";
+
     /*Captcha API Access Credentials*/
     /**Access site key for Captcha API Calls.*/
     public static final String CAPTCHA_API_SITE_KEY = "CAPTCHA_API_SITE_KEY";
