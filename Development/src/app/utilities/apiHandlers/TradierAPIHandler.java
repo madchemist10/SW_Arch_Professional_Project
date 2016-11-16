@@ -16,6 +16,10 @@ import java.net.URL;
  */
 class TradierAPIHandler extends AAPIHandler{
 
+    /**Local static reference to the AAPIHandler that
+     * handles the request from the application.*/
+    private static AAPIHandler instance = null;
+
     /**
      * Create a new tradier APIHandler.
      */
