@@ -30,11 +30,19 @@ public class GUIConstants {
     public static final String QUERY_LABEL = "Query: ";
 
     /*Tradier Labels*/
+    /**Text to be given to the {@link userInterface.panels.TradierPanel} ticker symbol label.*/
     public static final String TICKER_SYMBOL_LABEL = "Ticker Symbol: ";
+    /**Text to be given to the {@link userInterface.panels.TradierPanel} last price label.*/
     public static final String LAST_PRICE_LABEL = "Last Price: ";
+    /**Text to be given to the {@link userInterface.panels.TradierPanel} daily net change label.*/
     public static final String DAILY_NET_CHANGE_LABEL = "Daily Net Change: ";
+    /**Text to be given to the {@link userInterface.panels.TradierPanel} volume label.*/
     public static final String VOLUME_LABEL = "Volume: ";
+
+    /*Mailbox Labels*/
+    /**Text to be given to the {@link userInterface.panels.MailBoxLayerPanel} email valid label.*/
     public static final String EMAIL_VALID = "Email Valid Format";
+    /**Text to be given to the {@link userInterface.panels.TradierPanel} email invalid label.*/
     public static final String EMAIL_INVALID = "Email Invalid Format";
 
     /*Text for buttons*/
@@ -80,6 +88,8 @@ public class GUIConstants {
     public static final String INVALID_CREDENTIALS_TRADIER_API_TITLE = "Tradier API Credential Mismatch";
     /**Title of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_MAILBOX_API_CREDENTIALS}*/
     public static final String INVALID_CREDENTIALS_MAILBOX_API_TITLE = "Mailbox API Credential Mismatch";
+    /**Title of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_NEWS_API_CREDENTIALS}*/
+    public static final String INVALID_CREDENTIALS_NEWS_API_TITLE = "News API Credential Mismatch";
     /**Title of the Warning Popup for {@link userInterface.panels.AppChangeEvents#TRADIER_HTTP_ERROR}*/
     public static final String TRADIER_API_HTTP_ERROR_TITLE = "Tradier API HTTP Error";
 
@@ -90,4 +100,6 @@ public class GUIConstants {
     public static final String INVALID_CREDENTIALS_TRADIER_API = "Invalid Credentials for Tradier API found.";
     /**Message of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_MAILBOX_API_CREDENTIALS}*/
     public static final String INVALID_CREDENTIALS_MAILBOX_API = "Invalid Credentials for Mailbox API found.";
+    /**Message of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_NEWS_API_CREDENTIALS}*/
+    public static final String INVALID_CREDENTIALS_NEWS_API = "Invalid Credentials for News API found.";
 }

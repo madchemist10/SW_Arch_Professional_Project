@@ -137,6 +137,12 @@ public class PanelManager extends JFrame implements PropertyChangeListener{
                 createPopup(message, GUIConstants.INVALID_CREDENTIALS_MAILBOX_API);
                 break;
 
+            /*User's credentials for News API are invalid.*/
+            case INVALID_NEWS_API_CREDENTIALS:
+                message = GUIConstants.INVALID_CREDENTIALS_NEWS_API_TITLE;
+                createPopup(message, GUIConstants.INVALID_CREDENTIALS_NEWS_API);
+                break;
+
             /*HTTP error from Tradier API*/
             case TRADIER_HTTP_ERROR:
                 Object newValue = event.getNewValue();

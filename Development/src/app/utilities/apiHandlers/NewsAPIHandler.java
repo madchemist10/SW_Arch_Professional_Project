@@ -16,6 +16,10 @@ import java.net.URLConnection;
  */
 class NewsAPIHandler extends AAPIHandler{
 
+    /**Local static reference to the AAPIHandler that
+     * handles the request from the application.*/
+    private static AAPIHandler instance = null;
+
     /**
      * Retrieve an instance of the NewsAPIHandler so that
      * the application may have access to the methods within

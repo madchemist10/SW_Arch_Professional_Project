@@ -51,6 +51,7 @@ public class MailBoxLayerPanel extends BasePanel {
         String request = mailboxAPI.buildAPIRequest(new String[]{query});
         if(request == null){
             notifyListeners(new CustomChangeEvent(this, AppChangeEvents.INVALID_MAILBOX_API_CREDENTIALS));
+            return;
         }
         Object returnVal;
         try {

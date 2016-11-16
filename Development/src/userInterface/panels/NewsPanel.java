@@ -57,6 +57,12 @@ public class NewsPanel extends BasePanel implements PropertyChangeListener{
     private JsonNode executeNewsQuery(){
         IAPIHandler newsAPI = app.getAPIHandler(APIHandles.NEWS);
         String request = newsAPI.buildAPIRequest(null);
+
+        if(request == null){
+            notifyListeners(new CustomChangeEvent(this,AppChangeEvents.INVALID_NEWS_API_CREDENTIALS));
+            return null;
+        }
+
         Object returnVal;
 
         try {

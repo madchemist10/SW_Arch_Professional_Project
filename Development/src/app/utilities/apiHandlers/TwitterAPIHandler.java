@@ -11,6 +11,10 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 class TwitterAPIHandler extends AAPIHandler{
 
+    /**Local static reference to the AAPIHandler that
+     * handles the request from the application.*/
+    private static AAPIHandler instance = null;
+
     /**Local singleton reference to the twitter api library.*/
     private static Twitter twitter = null;
 

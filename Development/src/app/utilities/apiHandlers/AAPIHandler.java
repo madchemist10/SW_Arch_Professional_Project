@@ -11,9 +11,6 @@ import app.exception.BaseException;
  */
 abstract class AAPIHandler implements IAPIHandler {
 
-    /**Local static reference to the AAPIHandler that
-     * handles the request from the application.*/
-    static AAPIHandler instance = null;
     /**Reference to the Application to gain access to the settings file.*/
     static Application app;
 
