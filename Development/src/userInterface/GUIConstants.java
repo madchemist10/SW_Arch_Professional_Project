@@ -15,6 +15,9 @@ public class GUIConstants {
     /**Title of the Twitter results panel that is generated when the user
      * has executed a query from the {@link userInterface.panels.TwitterPanel}*/
     public static final String TWITTER_RESULTS_PANEL_TITLE = "Twitter Results";
+    /**Title of the Tradier results panel that is generated when the user
+     * has executed a query from the {@link userInterface.panels.TradierPanel}*/
+    public static final String TRADIER_RESULTS_PANEL_TITLE = "Tradier Results";
 
     /*Text for Labels*/
     /**Label for Email labels to tell the user what belongs in a given text field.*/
@@ -25,6 +28,14 @@ public class GUIConstants {
     public static final String TICKER_LABEL = "Ticker Symbol:";
     /**Label for Query labels to tell the user what belongs in a given text field.*/
     public static final String QUERY_LABEL = "Query: ";
+
+    /*Tradier Labels*/
+    public static final String TICKER_SYMBOL_LABEL = "Ticker Symbol: ";
+    public static final String LAST_PRICE_LABEL = "Last Price: ";
+    public static final String DAILY_NET_CHANGE_LABEL = "Daily Net Change: ";
+    public static final String VOLUME_LABEL = "Volume: ";
+    public static final String EMAIL_VALID = "Email Valid Format";
+    public static final String EMAIL_INVALID = "Email Invalid Format";
 
     /*Text for buttons*/
     /**Text to be given to the {@link userInterface.panels.LoginPanel#loginButton}.*/
@@ -37,6 +48,8 @@ public class GUIConstants {
     public static final String CREATE_BUTTON_TEXT = "Create";
     /**Text to be given to the {@link userInterface.panels.LoginPanel#createAccountButton}*/
     public static final String CREATE_ACCOUNT_BUTTON_TEXT = "Create Account";
+    /**Text to be given to the {@link userInterface.panels.TradierResultsPanel#refreshButton}*/
+    public static final String REFRESH_BUTTON_TEXT = "Refresh";
 
     /*Panel Identifiers*/
     /**Name of the {@link userInterface.panels.CreateNewAccountPanel}*/
@@ -61,4 +74,20 @@ public class GUIConstants {
     public static final String LOGIN_FAILED_TITLE = "Failed Login";
     /**Title of the Warning Popup for {@link userInterface.panels.AppChangeEvents#ACCOUNT_CREATION_FAILED}*/
     public static final String ACCOUNT_CREATED_FAILED_TITLE = "Account Creation Failed";
+    /**Title of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_TWITTER_API_CREDENTIALS}*/
+    public static final String INVALID_CREDENTIALS_TWITTER_API_TITLE = "Twitter API Credential Mismatch";
+    /**Title of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_TRADIER_API_CREDENTIALS}*/
+    public static final String INVALID_CREDENTIALS_TRADIER_API_TITLE = "Tradier API Credential Mismatch";
+    /**Title of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_MAILBOX_API_CREDENTIALS}*/
+    public static final String INVALID_CREDENTIALS_MAILBOX_API_TITLE = "Mailbox API Credential Mismatch";
+    /**Title of the Warning Popup for {@link userInterface.panels.AppChangeEvents#TRADIER_HTTP_ERROR}*/
+    public static final String TRADIER_API_HTTP_ERROR_TITLE = "Tradier API HTTP Error";
+
+    /*Warning Dialog Messages*/
+    /**Message of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_TWITTER_API_CREDENTIALS}*/
+    public static final String INVALID_CREDENTIALS_TWITTER_API = "Invalid Credentials for Twitter API found.";
+    /**Message of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_TRADIER_API_CREDENTIALS}*/
+    public static final String INVALID_CREDENTIALS_TRADIER_API = "Invalid Credentials for Tradier API found.";
+    /**Message of the Warning Popup for {@link userInterface.panels.AppChangeEvents#INVALID_MAILBOX_API_CREDENTIALS}*/
+    public static final String INVALID_CREDENTIALS_MAILBOX_API = "Invalid Credentials for Mailbox API found.";
 }

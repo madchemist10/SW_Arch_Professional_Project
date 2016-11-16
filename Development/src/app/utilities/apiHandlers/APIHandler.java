@@ -53,6 +53,7 @@ public class APIHandler {
                 iapiHandler = TwitterAPIHandler.getInstance();
                 break;
             case NEWS:
+                iapiHandler = NewsAPIHandler.getInstance();
                 break;
         }
         /*Should never return null.*/

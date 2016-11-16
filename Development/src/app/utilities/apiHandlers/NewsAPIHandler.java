@@ -12,20 +12,20 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
- * This MailBoxAPIHandler is used to interact with the Mailboxlayer.com API
+ * This NewsAPIHandler is used to interact with the newsapi.org API
  */
-class MailBoxLayerAPIHandler extends AAPIHandler{
+class NewsAPIHandler extends AAPIHandler{
 
     /**
-     * Retrieve an instance of the MailBoxLayerAPIHandler so that
+     * Retrieve an instance of the NewsAPIHandler so that
      * the application may have access to the methods within
      * this class.
      * Instance is a singleton reference.
-     * @return instance of this MailBoxLayerAPIHandler.
+     * @return instance of this NewsAPIHandler.
      */
     static AAPIHandler getInstance() {
         if(instance == null){
-            instance = new MailBoxLayerAPIHandler();
+            instance = new NewsAPIHandler();
         }
         return instance;
     }
@@ -36,24 +36,20 @@ class MailBoxLayerAPIHandler extends AAPIHandler{
     @Override
     public String buildAPIRequest(String[] inputs) {
 
-        String returnValue;
-        String apiURL = "http://apilayer.net/api/check?access_key=";
-        String apiEmail = "&email=";
+        String apiURL = "https://newsapi.org/v1/articles?source=bloomberg&sortBy=top&apiKey=";
 
         //remove this line once the key is implemented
-        String MAILBOX_API_ACCESS_TOKEN = app.getValueFromSettings(Constants.MAILBOX_API_ACCESS_TOKEN);
+        String NEWS_API_ACCESS_TOKEN = app.getValueFromSettings(Constants.NEWS_API_ACCESS_TOKEN);
 
-        if(MAILBOX_API_ACCESS_TOKEN == null){
+        if(NEWS_API_ACCESS_TOKEN == null){
             return null;
         }
 
-        returnValue = apiURL + MAILBOX_API_ACCESS_TOKEN + apiEmail + inputs[0];
-
-        return returnValue;
+        return apiURL + NEWS_API_ACCESS_TOKEN;
     }
 
     /**
-     * Handles the execution of an API request to the Mailbox API.
+     * Handles the execution of an API request to the News API.
      * The return type for this execution is {@link JsonNode}.
      * The calling method should cast the object returned from this
      * execution to {@link JsonNode}.
