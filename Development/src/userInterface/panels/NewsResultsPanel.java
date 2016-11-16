@@ -36,7 +36,7 @@ class NewsResultsPanel extends JFrame{
      * Create a new News Results panel.
      */
     NewsResultsPanel(){
-        setTitle(GUIConstants.TRADIER_RESULTS_PANEL_TITLE);
+        setTitle(GUIConstants.NEWS_RESULTS_PANEL_TITLE);
         setSize(new Dimension(GUIConstants.DEFAULT_GUI_WIDTH, GUIConstants.DEFAULT_GUI_HEIGHT));
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
