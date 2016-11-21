@@ -12,6 +12,13 @@ import java.beans.PropertyChangeListener;
  */
 public class GUIController extends JFrame implements PropertyChangeListener{
 
+    /**Tabbed pane that is responsible for displaying the correct tabs to the user.*/
+    private final JTabbedPane tabbedPane = new JTabbedPane();
+    /**Reference to the login panel.*/
+    private final LoginPanel loginPanel = new LoginPanel();
+    /**Reference to the create account panel.*/
+    private final CreateNewAccountPanel createNewAccountPanel = new CreateNewAccountPanel();
+
     /**
      * Generate a new Controller.
      * Should only be called one from the {@link userInterface.finalGUI.TradeNetGUI}.
@@ -29,9 +36,10 @@ public class GUIController extends JFrame implements PropertyChangeListener{
      * Construct the parent frame that houses all sub class panels.
      */
     private void buildFrame(){
-        LoginPanel loginPanel = new LoginPanel();
+        /*Add the Login Panel.*/
         loginPanel.addPropertyListener(this);
-        add(loginPanel);
+        this.add(tabbedPane);
+        addLoginPanel();
     }
 
     /**
@@ -107,7 +115,8 @@ public class GUIController extends JFrame implements PropertyChangeListener{
      * remove the create account panel.
      */
     private void addLoginPanel(){
-
+        tabbedPane.remove(createNewAccountPanel);
+        tabbedPane.add(loginPanel, loginPanel.getPanelIdentifier());
     }
 
     /**
@@ -115,9 +124,10 @@ public class GUIController extends JFrame implements PropertyChangeListener{
      * add the create account panel.
      */
     private void addCreateAccountPanel(){
-
+        tabbedPane.remove(loginPanel);
+        createNewAccountPanel.addPropertyListener(this);
+        tabbedPane.add(createNewAccountPanel, createNewAccountPanel.getPanelIdentifier());
     }
-
 
     /**
      * Execute a runnable with swing utilities.
@@ -128,8 +138,7 @@ public class GUIController extends JFrame implements PropertyChangeListener{
     private static void executeOnSwing(Runnable runnable){
         SwingUtilities.invokeLater(runnable);
     }
-
-
+    
     /**
      * Custom runnable to add new panels, after login.
      */
