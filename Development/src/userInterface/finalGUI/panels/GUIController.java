@@ -29,7 +29,9 @@ public class GUIController extends JFrame implements PropertyChangeListener{
      * Construct the parent frame that houses all sub class panels.
      */
     private void buildFrame(){
-
+        LoginPanel loginPanel = new LoginPanel();
+        loginPanel.addPropertyListener(this);
+        add(loginPanel);
     }
 
     /**
@@ -39,6 +41,149 @@ public class GUIController extends JFrame implements PropertyChangeListener{
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        CustomChangeEvent event = null;
+        if(evt instanceof CustomChangeEvent) {
+            event = (CustomChangeEvent) evt;
+        }
+        /*If the event is null, we cannot continue.*/
+        if(event == null){
+            return;
+        }
+        AppChangeEvents eventName = event.getEventName();
+        String message;
+        switch(eventName){
 
+            /*Email invalid event is thrown.*/
+            case EMAIL_INVALID:
+                message = "Email entered is invalid.";
+                createPopup(message, TradeNetGUIConstants.INVALID_EMAIL_TITLE);
+                break;
+
+            /*Password invalid event is thrown.*/
+            case PASSWORD_INVALID:
+                message = "Password entered is invalid.";
+                createPopup(message, TradeNetGUIConstants.INVALID_PASSWORD_TITLE);
+                break;
+
+            /*User has successfully logged in.*/
+            case LOGIN_SUCCESS:
+                executeOnSwing(new AddPanelRunnable(this));
+                break;
+
+            /*User has failed to login.*/
+            case LOGIN_FAIL:
+                message = "Username or password incorrect.";
+                createPopup(message, TradeNetGUIConstants.LOGIN_FAILED_TITLE);
+                break;
+
+            /*User has requested to create a new account.*/
+            case CREATE_ACCOUNT:
+                executeOnSwing(new AddCreateAccountPanelRunnable(this));
+                break;
+
+            /*User has successfully created a new account.*/
+            case ACCOUNT_CREATED:
+                executeOnSwing(new AddLoginPanelRunnable(this));
+                break;
+
+            /*User has failed to create a new account.*/
+            case ACCOUNT_CREATION_FAILED:
+                message = "Username and password combination are already used.";
+                createPopup(message, TradeNetGUIConstants.ACCOUNT_CREATED_FAILED_TITLE);
+                break;
+        }
+    }
+
+    /**
+     * Helper method to add all the application
+     * panels to this panelManager.
+     */
+    private void addAppPanels(){
+
+    }
+
+    /**
+     * Add the Login Panel to the tabbed pane and
+     * remove the create account panel.
+     */
+    private void addLoginPanel(){
+
+    }
+
+    /**
+     * Removes the login panel and
+     * add the create account panel.
+     */
+    private void addCreateAccountPanel(){
+
+    }
+
+
+    /**
+     * Execute a runnable with swing utilities.
+     * Used only when the gui would be changed.
+     * @param runnable of what should be executed
+     *                 on the UI Thread.
+     */
+    private static void executeOnSwing(Runnable runnable){
+        SwingUtilities.invokeLater(runnable);
+    }
+
+
+    /**
+     * Custom runnable to add new panels, after login.
+     */
+    private static class AddPanelRunnable implements Runnable{
+        private final GUIController manager;
+
+        AddPanelRunnable(GUIController manager){
+            this.manager = manager;
+        }
+
+        @Override
+        public void run() {
+            manager.addAppPanels();
+        }
+    }
+
+    /**
+     * Custom runnable to add login panel.
+     */
+    private static class AddLoginPanelRunnable implements Runnable{
+        private final GUIController manager;
+
+        AddLoginPanelRunnable(GUIController manager){
+            this.manager = manager;
+        }
+
+        @Override
+        public void run() {
+            manager.addLoginPanel();
+        }
+    }
+
+    /**
+     * Custom runnable to add create account panel.
+     */
+    private static class AddCreateAccountPanelRunnable implements Runnable{
+        private final GUIController manager;
+
+        AddCreateAccountPanelRunnable(GUIController manager){
+            this.manager = manager;
+        }
+
+        @Override
+        public void run() {
+            manager.addCreateAccountPanel();
+        }
+    }
+
+    /**
+     * Create a popup that displays a message with a given title.
+     * @param message that is to be displayed to the user.
+     * @param title of the popup panel.
+     */
+    private void createPopup(String message, String title){
+        JOptionPane.showMessageDialog(this, message, title, JOptionPane.WARNING_MESSAGE);
     }
 }
