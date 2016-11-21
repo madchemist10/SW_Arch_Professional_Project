@@ -1,6 +1,8 @@
 package app;
 
 import app.constants.Constants;
+import app.database.DBConstants;
+import app.database.DatabaseManager;
 import app.utilities.Utilities;
 import app.utilities.apiHandlers.APIHandler;
 import app.utilities.apiHandlers.APIHandles;
@@ -17,6 +19,9 @@ public class Application {
     /**Singleton instance of the application.*/
     private static Application instance = null;
 
+    /**Singleton instance of the database manager.*/
+    private static DatabaseManager dbManager = null;
+
     /**Map of settings read in from the user's settings file.*/
     private final static HashMap<String, String> settings = new HashMap<>();
 
@@ -25,7 +30,9 @@ public class Application {
      * instance to be instantiated.
      */
     private Application(){
+        dbManager = DatabaseManager.getInstance();
         loadSettings();
+        createDB();
     }
 
     /**
@@ -40,6 +47,22 @@ public class Application {
         }
         /*Add all settings pulled from user file.*/
         settings.putAll(tempSettings);
+    }
+
+    /**
+     * Create the database with correct tables if the database
+     * does not already exist.
+     */
+    private void createDB(){
+        if(Utilities.fileExists(Constants.DB_FILE)){
+            return;
+        }
+        dbManager.executeCreateStatement(DBConstants.DB_MAKE_ACCESS_LOGS);
+        dbManager.executeCreateStatement(DBConstants.DB_MAKE_CUSTOMER_BALANCE);
+        dbManager.executeCreateStatement(DBConstants.DB_MAKE_CUSTOMER_CREDENTIALS);
+        dbManager.executeCreateStatement(DBConstants.DB_MAKE_CUSTOMER_INFORMATION);
+        dbManager.executeCreateStatement(DBConstants.DB_MAKE_FUNDS_HISTORY);
+        dbManager.executeCreateStatement(DBConstants.DB_MAKE_TRANSACTION_HISTORY);
     }
 
     /**
@@ -71,7 +94,7 @@ public class Application {
      * @return true if login is valid, false otherwise.
      */
     public boolean validateLogin(String email, String password){
-        return true;
+        return dbManager.validateLogin(email, password);
     }
 
     /**

@@ -62,4 +62,7 @@ public class Constants {
     /**Json Node key for getting articles of the quote.*/
     public static final String ARTICLES = "articles";
 
+
+    /**Local path for the database file.*/
+    public static final String DB_FILE = "tradeNet.db";
 }
