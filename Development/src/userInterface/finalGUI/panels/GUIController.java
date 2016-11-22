@@ -1,5 +1,6 @@
 package userInterface.finalGUI.panels;
 
+import userInterface.finalGUI.TradeNetGUI;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
@@ -64,13 +65,13 @@ public class GUIController extends JFrame implements PropertyChangeListener{
             /*Email invalid event is thrown.*/
             case EMAIL_INVALID:
                 message = "Email entered is invalid.";
-                createPopup(message, TradeNetGUIConstants.INVALID_EMAIL_TITLE);
+                createMessagePopup(message, TradeNetGUIConstants.INVALID_EMAIL_TITLE);
                 break;
 
             /*Password invalid event is thrown.*/
             case PASSWORD_INVALID:
                 message = "Password entered is invalid.";
-                createPopup(message, TradeNetGUIConstants.INVALID_PASSWORD_TITLE);
+                createMessagePopup(message, TradeNetGUIConstants.INVALID_PASSWORD_TITLE);
                 break;
 
             /*User has successfully logged in.*/
@@ -81,7 +82,7 @@ public class GUIController extends JFrame implements PropertyChangeListener{
             /*User has failed to login.*/
             case LOGIN_FAIL:
                 message = "Username or password incorrect.";
-                createPopup(message, TradeNetGUIConstants.LOGIN_FAILED_TITLE);
+                createMessagePopup(message, TradeNetGUIConstants.LOGIN_FAILED_TITLE);
                 break;
 
             /*User has requested to create a new account.*/
@@ -97,7 +98,12 @@ public class GUIController extends JFrame implements PropertyChangeListener{
             /*User has failed to create a new account.*/
             case ACCOUNT_CREATION_FAILED:
                 message = "Username and password combination are already used.";
-                createPopup(message, TradeNetGUIConstants.ACCOUNT_CREATED_FAILED_TITLE);
+                createMessagePopup(message, TradeNetGUIConstants.ACCOUNT_CREATED_FAILED_TITLE);
+                break;
+
+            case TRADE_STOCK:
+                TradePanel panel = new TradePanel();
+                createDecisionPopup(panel);
                 break;
         }
     }
@@ -202,7 +208,11 @@ public class GUIController extends JFrame implements PropertyChangeListener{
      * @param message that is to be displayed to the user.
      * @param title of the popup panel.
      */
-    private void createPopup(String message, String title){
+    private void createMessagePopup(String message, String title){
         JOptionPane.showMessageDialog(this, message, title, JOptionPane.WARNING_MESSAGE);
+    }
+
+    private void createDecisionPopup(BasePanel panel){
+        JOptionPane.showMessageDialog(this, panel, panel.getPanelIdentifier(), JOptionPane.QUESTION_MESSAGE);
     }
 }

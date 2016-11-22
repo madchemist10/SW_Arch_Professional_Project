@@ -91,6 +91,12 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
      */
     @Override
     void buildPanel() {
+        /*Assign default sizes to panels*/
+        Dimension panelDim = new Dimension(TradeNetGUIConstants.DEFAULT_ACCOUNT_MANAGE_WIDTH,TradeNetGUIConstants.DEFAULT_ACCOUNT_MANAGE_HEIGHT);
+        internalAccountDataPanel.setMinimumSize(panelDim);
+        internalTransactionPanel.setMinimumSize(panelDim);
+        internalStockPanel.setMinimumSize(panelDim);
+
         /*Add account management data.*/
         constraints.gridx = 0;
         constraints.gridy = 0;

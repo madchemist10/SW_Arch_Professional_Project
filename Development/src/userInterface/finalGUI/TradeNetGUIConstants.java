@@ -12,6 +12,10 @@ public class TradeNetGUIConstants {
     public static final int DEFAULT_GUI_WIDTH = 800;
     /**Default height of the GUI.*/
     public static final int DEFAULT_GUI_HEIGHT = 800;
+    /**Default width of the internal account management panels.*/
+    public static final int DEFAULT_ACCOUNT_MANAGE_WIDTH = 800;
+    /**Default height of the internal account management panels.*/
+    public static final int DEFAULT_ACCOUNT_MANAGE_HEIGHT = 250;
 
     /*Text for Labels*/
     /**Label for Email labels to tell the user what belongs in a given text field.*/
@@ -28,6 +32,10 @@ public class TradeNetGUIConstants {
     public static final String CREATE_BUTTON_TEXT = "Create";
     /**Text to be given to the {@link userInterface.finalGUI.panels.StockEntryPanel#tradeButton}*/
     public static final String TRADE_BUTTON_TEXT = "Trade";
+    /**Text to be given to the {@link userInterface.finalGUI.panels.TradePanel}*/
+    public static final String BUY_BUTTON_TEXT = "Buy";
+    /**Text to be given to the {@link userInterface.finalGUI.panels.TradePanel}*/
+    public static final String SELL_BUTTON_TEXT = "Sell";
 
     /*Panel Identifiers*/
     /**Name of the {@link userInterface.finalGUI.panels.CreateNewAccountPanel}*/
@@ -38,6 +46,8 @@ public class TradeNetGUIConstants {
     public static final String ACCOUNT_MANAGEMENT_PANEL_IDENTIFIER = "Account Management";
     /**Name of the {@link userInterface.finalGUI.panels.Research}*/
     public static final String RESEARCH_PANEL_IDENTIFIER = "Research";
+    /**Name of the {@link userInterface.finalGUI.panels.TradePanel}*/
+    public static final String TRADE_PANEL_IDENTIFIER = "Trade";
 
     /*Warning Dialog Titles*/
     /**Title of the Warning Popup for {@link userInterface.finalGUI.panels.AppChangeEvents#EMAIL_INVALID}*/

@@ -146,8 +146,8 @@ class StockEntryPanel extends BasePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 /*Spawn background thread to keep from locking up the GUI.*/
-                Thread loginCallback = new Thread(()-> tradeCallBack());
-                loginCallback.start();
+                Thread tradeButtonThread = new Thread(()-> tradeCallBack());
+                tradeButtonThread.start();
             }
         });
         addComponent(tradeButton);
