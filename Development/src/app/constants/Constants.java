@@ -66,7 +66,7 @@ public class Constants {
     /**Local path for the database file.*/
     public static final String DB_FILE = "tradeNet.db";
 
-    /*Transaction History Entry Panel label keys for pulling from stock data map.*/
+    /*Stock Entry Panel label keys for pulling from stock data map.*/
     /**Key value for Stock name*/
     public static final String STOCK_NAME_LABEL_KEY = "STOCK_NAME_LABEL_KEY";
     /**Key value for Current value*/
@@ -77,4 +77,18 @@ public class Constants {
     public static final String STOCKS_OWNED_LABEL_KEY = "STOCKS_OWNED_LABEL_KEY";
     /**Key value for Profit lost*/
     public static final String PROFIT_LOST_LABEL_KEY = "PROFIT_LOST_LABEL_KEY";
+
+    /*Transaction History Entry Panel label keys for pulling from transaction data map.*/
+    /**Key value for timestamp*/
+    public static final String TIMESTAMP_LABEL_KEY = "TIMESTAMP_LABEL_KEY";
+    /**Key value for trade type*/
+    public static final String TRADE_TYPE_LABEL_KEY = "TRADE_TYPE_LABEL_KEY";
+    /**Key value for trade item*/
+    public static final String TRADE_ITEM_LABEL_KEY = "TRADE_ITEM_LABEL_KEY";
+    /**Key value for share qty*/
+    public static final String SHARE_QTY_LABEL_KEY = "SHARE_QTY_LABEL_KEY";
+    /**Key value for transaction cost*/
+    public static final String TRANSACTION_COST_LABEL_KEY = "TRANSACTION_COST_LABEL_KEY";
+    /**Key value for new balance*/
+    public static final String NEW_BALANCE_LABEL_KEY = "NEW_BALANCE_LABEL_KEY";
 }

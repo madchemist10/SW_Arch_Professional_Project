@@ -1,6 +1,7 @@
 package userInterface.finalGUI.panels;
 
 import app.user.Stock;
+import app.user.Transaction;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
@@ -131,7 +132,7 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
             stockEntryPanel.addPropertyListener(this);
 
             //update the labels from the given stock
-            stockEntryPanel.updateTransactionLabels(stock.getData());
+            stockEntryPanel.updateStockLabels(stock.getData());
 
             //add this stock entry panel to the internal stock panel
             internalStockPanel.add(stockEntryPanel, internalStockConstraints);
@@ -141,8 +142,28 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
         }
     }
 
-    void addTransactionEntries(){
+    /**
+     * Add list of transactions to this account panel.
+     * @param transactions list of transaction for the logged in user.
+     */
+    void addTransactionEntries(List<Transaction> transactions){
         internalTransactionConstraints.gridx = 0;
         internalTransactionConstraints.gridy = 0;
+        for(Transaction transaction: transactions){
+            //create a new transaction entry panel
+            TransactionEntryPanel transactionEntryPanel = new TransactionEntryPanel();
+
+            //add parent panel as listener for events
+            transactionEntryPanel.addPropertyListener(this);
+
+            //update the labels from the given transaction
+            transactionEntryPanel.updateTransactionLabels(transaction.getData());
+
+            //add this transaction entry panel to the internal transaction panel
+            internalTransactionPanel.add(transactionEntryPanel, internalTransactionConstraints);
+
+            //increment the constraints to go to next row
+            internalTransactionConstraints.gridy++;
+        }
     }
 }

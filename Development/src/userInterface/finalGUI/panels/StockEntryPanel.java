@@ -118,16 +118,16 @@ class StockEntryPanel extends BasePanel {
     }
 
     /**
-     * Update the transaction labels from a map of transaction data.
-     * @param transaction map of data associated with transaction.
+     * Update the stock data labels from a map of stock data.
+     * @param stockData map of data associated with this stock's data.
      */
-    void updateTransactionLabels(Map<String,String> transaction){
+    void updateStockLabels(Map<String,String> stockData){
         /*Assign each entry to the specified labels*/
-        String stockName = transaction.get(Constants.STOCK_NAME_LABEL_KEY);
-        String currentValue = transaction.get(Constants.CURRENT_VALUE_LABEL_KEY);
-        String purchasedValue = transaction.get(Constants.PURCHASED_VALUE_LABEL_KEY);
-        String stocksOwned = transaction.get(Constants.STOCKS_OWNED_LABEL_KEY);
-        String profitLost = transaction.get(Constants.PROFIT_LOST_LABEL_KEY);
+        String stockName = stockData.get(Constants.STOCK_NAME_LABEL_KEY);
+        String currentValue = stockData.get(Constants.CURRENT_VALUE_LABEL_KEY);
+        String purchasedValue = stockData.get(Constants.PURCHASED_VALUE_LABEL_KEY);
+        String stocksOwned = stockData.get(Constants.STOCKS_OWNED_LABEL_KEY);
+        String profitLost = stockData.get(Constants.PROFIT_LOST_LABEL_KEY);
         if(stockName == null || currentValue == null || purchasedValue == null || stocksOwned == null || profitLost == null){
             return;
         }
