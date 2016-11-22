@@ -30,5 +30,8 @@ enum AppChangeEvents {
     EMAIL_INVALID,
 
     /**Thrown when the user has decided to trade more stock.*/
-    TRADE_STOCK
+    TRADE_STOCK,
+
+    /**Thrown when the user has decided to add cash to their account.*/
+    ADD_CASH
 }

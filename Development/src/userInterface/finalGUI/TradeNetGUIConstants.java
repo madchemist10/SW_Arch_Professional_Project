@@ -46,4 +46,8 @@ public class TradeNetGUIConstants {
     public static final String LOGIN_FAILED_TITLE = "Failed Login";
     /**Title of the Warning Popup for {@link userInterface.finalGUI.panels.AppChangeEvents#ACCOUNT_CREATION_FAILED}*/
     public static final String ACCOUNT_CREATED_FAILED_TITLE = "Account Creation Failed";
+
+    /*Popup titles*/
+    /**Title of the add cash popup for {@link userInterface.finalGUI.panels.AppChangeEvents#ADD_CASH}*/
+    public static final String ADD_CASH = "Add Cash";
 }

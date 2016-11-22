@@ -6,6 +6,7 @@ import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
@@ -39,6 +40,10 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
     private final JPanel internalTransactionPanel = new JPanel();
     /**Constraints for {@link #internalTransactionPanel} layout.*/
     private final GridBagConstraints internalTransactionConstraints = new GridBagConstraints();
+    /**Internal account data panel.*/
+    private final JPanel internalAccountDataPanel = new JPanel();
+    /**Constraints for {@link #internalAccountDataPanel} layout.*/
+    private final GridBagConstraints internalAccountConstraints = new GridBagConstraints();
 
     /**
      * Create a new {@link AccountManagement} panel.
@@ -73,6 +78,11 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
                 * calling stock panel.*/
                 notifyListeners(event);
                 break;
+
+            /*User has decided to add cash to their account.*/
+            case ADD_CASH:
+                createAddCashPopup();
+                break;
         }
     }
 
@@ -81,13 +91,16 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
      */
     @Override
     void buildPanel() {
+        /*Add account management data.*/
         constraints.gridx = 0;
         constraints.gridy = 0;
         addAccountManagementData();
 
+        /*Add internal transaction panel.*/
         constraints.gridy++;
         addInternalTransactionPanel();
 
+        /*Add internal stock panel.*/
         constraints.gridy++;
         addInternalStockPanel();
     }
@@ -96,7 +109,8 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
      * Add the data for the account management data.
      */
     private void addAccountManagementData(){
-
+        addAddCashButton();
+        addComponent(internalAccountDataPanel);
     }
 
     /**
@@ -165,5 +179,50 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
             //increment the constraints to go to next row
             internalTransactionConstraints.gridy++;
         }
+    }
+
+    /**
+     * Add the specified amount of cash to the account.
+     * @param cashAmount to be added to the user account.
+     */
+    private void addCashToAccount(String cashAmount){
+
+    }
+
+    /**
+     * Create add cash popup and wait for user input.
+     * If the user entered a value and hit "OK" then add
+     * that amount of cash to the user's account.
+     */
+    private void createAddCashPopup(){
+        String userInput = JOptionPane.showInputDialog(this,
+                TradeNetGUIConstants.ADD_CASH,
+                TradeNetGUIConstants.ADD_CASH,
+                JOptionPane.NO_OPTION);
+
+        /*User hit OK*/
+        if(userInput != null){
+            addCashToAccount(userInput);
+        }
+    }
+
+    /**
+     * Add cash button to initiate the addition of
+     * new cash to the user's account. Add supporting
+     * callback to be executed on separate thread.
+     */
+    private void addAddCashButton(){
+        internalAccountConstraints.gridx = 0;
+        internalAccountConstraints.gridy = 0;
+        JButton button = new JButton(TradeNetGUIConstants.ADD_CASH);
+        button.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                /*Spawn background thread to keep from locking up the GUI.*/
+                Thread createAddCash = new Thread(()-> createAddCashPopup());
+                createAddCash.start();
+            }
+        });
+        internalAccountDataPanel.add(button,internalAccountConstraints);
     }
 }
