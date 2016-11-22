@@ -65,4 +65,16 @@ public class Constants {
 
     /**Local path for the database file.*/
     public static final String DB_FILE = "tradeNet.db";
+
+    /*Transaction History Entry Panel label keys for pulling from stock data map.*/
+    /**Key value for Stock name*/
+    public static final String STOCK_NAME_LABEL_KEY = "STOCK_NAME_LABEL_KEY";
+    /**Key value for Current value*/
+    public static final String CURRENT_VALUE_LABEL_KEY = "CURRENT_VALUE_LABEL_KEY";
+    /**Key value for Purchased value*/
+    public static final String PURCHASED_VALUE_LABEL_KEY = "PURCHASED_VALUE_LABEL_KEY";
+    /**Key value for Stocks owned*/
+    public static final String STOCKS_OWNED_LABEL_KEY = "STOCKS_OWNED_LABEL_KEY";
+    /**Key value for Profit lost*/
+    public static final String PROFIT_LOST_LABEL_KEY = "PROFIT_LOST_LABEL_KEY";
 }

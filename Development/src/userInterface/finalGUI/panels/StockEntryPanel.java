@@ -1,5 +1,6 @@
 package userInterface.finalGUI.panels;
 
+import app.constants.Constants;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ import java.util.Map;
  * Button callback for each stock allows the user to
  * purchase or sell more of a given stock.
  */
-public class StockEntryPanel extends BasePanel {
+class StockEntryPanel extends BasePanel {
 
     /**Label to display the stock name.*/
     private final JLabel stockNameLabel = new JLabel();
@@ -122,11 +123,11 @@ public class StockEntryPanel extends BasePanel {
      */
     void updateTransactionLabels(Map<String,String> transaction){
         /*Assign each entry to the specified labels*/
-        String stockName = transaction.get(TradeNetGUIConstants.STOCK_NAME_LABEL_KEY);
-        String currentValue = transaction.get(TradeNetGUIConstants.CURRENT_VALUE_LABEL_KEY);
-        String purchasedValue = transaction.get(TradeNetGUIConstants.PURCHASED_VALUE_LABEL_KEY);
-        String stocksOwned = transaction.get(TradeNetGUIConstants.STOCKS_OWNED_LABEL_KEY);
-        String profitLost = transaction.get(TradeNetGUIConstants.PROFIT_LOST_LABEL_KEY);
+        String stockName = transaction.get(Constants.STOCK_NAME_LABEL_KEY);
+        String currentValue = transaction.get(Constants.CURRENT_VALUE_LABEL_KEY);
+        String purchasedValue = transaction.get(Constants.PURCHASED_VALUE_LABEL_KEY);
+        String stocksOwned = transaction.get(Constants.STOCKS_OWNED_LABEL_KEY);
+        String profitLost = transaction.get(Constants.PROFIT_LOST_LABEL_KEY);
         if(stockName == null || currentValue == null || purchasedValue == null || stocksOwned == null || profitLost == null){
             return;
         }
