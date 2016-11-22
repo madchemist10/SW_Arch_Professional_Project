@@ -22,6 +22,8 @@ public class TradeNetGUIConstants {
     public static final String EMAIL_LABEL = "Email:";
     /**Label for Password labels to tell the user what belongs in a given text field.*/
     public static final String PASSWORD_LABEL = "Password:";
+    /**Label for Shares labels to tell the user what belongs in a given text field.*/
+    public static final String SHARES_LABEL = "Shares:";
 
     /*Text for buttons*/
     /**Text to be given to the {@link userInterface.finalGUI.panels.LoginPanel#loginButton}.*/

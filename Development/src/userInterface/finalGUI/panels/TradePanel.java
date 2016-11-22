@@ -1,5 +1,6 @@
 package userInterface.finalGUI.panels;
 
+import jdk.nashorn.internal.scripts.JO;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
@@ -17,13 +18,17 @@ public class TradePanel extends BasePanel {
     /**Sell button for issuing sell command on this trade.*/
     private final JButton sellButton = new JButton(TradeNetGUIConstants.SELL_BUTTON_TEXT);
     /**Text field for user to input number of shares to trade.*/
-    private final JTextField sharesTextField = new JTextField();
+    private final JTextField sharesTextField = new JTextField(20);
+    /**Reference to the current research stock panel. This is used to present
+     * the user the current researched stock while in this trade panel.*/
+    private final BasePanel tradierStockDataPanel;
 
     /**
      * Create a new {@link TradePanel}.
      */
-    TradePanel(){
+    TradePanel(BasePanel tradierStockData){
         super(TradeNetGUIConstants.TRADE_PANEL_IDENTIFIER);
+        tradierStockDataPanel = tradierStockData;
         buildPanel();
     }
 
@@ -35,8 +40,9 @@ public class TradePanel extends BasePanel {
         /*Add shares text field*/
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
         addSharesTextField();
+
+        constraints.fill = GridBagConstraints.HORIZONTAL;
 
         /*Add buy button*/
         constraints.gridy++;
@@ -49,16 +55,29 @@ public class TradePanel extends BasePanel {
 
     /**
      * Callback for executing a buy action.
+     * Close current window when button is pressed.
      */
     private void buyCallBack(){
-
+        closeWindow(buyButton);
     }
 
     /**
      * Callback for executing a sell action.
+     * Close current window when button is pressed.
      */
     private void sellCallBack(){
+        closeWindow(sellButton);
+    }
 
+    /**
+     * Close the window where a given button is enclosed within.
+     * @param button that exists in the window to be closed.
+     */
+    private void closeWindow(JButton button){
+        Window window = SwingUtilities.getWindowAncestor(button);
+        if(window != null){
+            window.setVisible(false);
+        }
     }
 
     /**
@@ -73,7 +92,7 @@ public class TradePanel extends BasePanel {
                 buyButtonThread.start();
             }
         });
-        addComponent(buyButton);
+        addComponent(new BasicFlowPanel(buyButton));
     }
 
     /**
@@ -88,21 +107,37 @@ public class TradePanel extends BasePanel {
                 sellButtonThread.start();
             }
         });
-        addComponent(sellButton);
+        addComponent(new BasicFlowPanel(sellButton));
     }
 
     /**
      * Add shares text field to this panel.
      */
     private void addSharesTextField(){
+        //create inner panel to hold the label and text field.
         JPanel innerSharesPanel = new JPanel();
+
+        //assign the layout
         innerSharesPanel.setLayout(new GridBagLayout());
+        GridBagConstraints sharesConstraints = new GridBagConstraints();
 
-        JLabel sharesLabel = new JLabel("Shares");
+        //create the shares label
+        JLabel sharesLabel = new JLabel(TradeNetGUIConstants.SHARES_LABEL);
+
+        //create the flow panels for placement in the inner panel
         BasicFlowPanel sharesFlowPanel = new BasicFlowPanel(sharesLabel);
+        BasicFlowPanel sharesTextFlowPanel = new BasicFlowPanel(sharesTextField);
 
+        //place the panels in the inner shares panel
+        sharesConstraints.gridx = 0;
+        sharesConstraints.gridy = 0;
+        innerSharesPanel.add(sharesFlowPanel, sharesConstraints);
+        sharesConstraints.gridx = 1;
+        innerSharesPanel.add(sharesTextFlowPanel, sharesConstraints);
+
+        //place the inner shares panel in this Trade Panel
         constraints.gridwidth = 2;
-        addComponent(sharesTextField);
+        addComponent(innerSharesPanel);
         constraints.gridwidth = 1;
     }
 }

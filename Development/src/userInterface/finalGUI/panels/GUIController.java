@@ -1,6 +1,5 @@
 package userInterface.finalGUI.panels;
 
-import userInterface.finalGUI.TradeNetGUI;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
@@ -19,6 +18,8 @@ public class GUIController extends JFrame implements PropertyChangeListener{
     private final LoginPanel loginPanel = new LoginPanel();
     /**Reference to the create account panel.*/
     private final CreateNewAccountPanel createNewAccountPanel = new CreateNewAccountPanel();
+    /**Reference to the research panel.*/
+    private final Research research = new Research();
 
     /**
      * Generate a new Controller.
@@ -101,8 +102,10 @@ public class GUIController extends JFrame implements PropertyChangeListener{
                 createMessagePopup(message, TradeNetGUIConstants.ACCOUNT_CREATED_FAILED_TITLE);
                 break;
 
+            /*User has decided to trade stock.*/
             case TRADE_STOCK:
-                TradePanel panel = new TradePanel();
+                BasePanel tradierStockData = research.getTradierStockData();
+                TradePanel panel = new TradePanel(tradierStockData);
                 createDecisionPopup(panel);
                 break;
         }
@@ -121,7 +124,6 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         tabbedPane.add(accountManagement, accountManagement.getPanelIdentifier());
         
         /*Add research panel*/
-        Research research = new Research();
         research.addPropertyListener(this);
         tabbedPane.add(research, research.getPanelIdentifier());
     }
@@ -209,10 +211,14 @@ public class GUIController extends JFrame implements PropertyChangeListener{
      * @param title of the popup panel.
      */
     private void createMessagePopup(String message, String title){
-        JOptionPane.showMessageDialog(this, message, title, JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * Create a custom decision popup with a given panel.
+     * @param panel that is the complete panel to be enclosed in the popup.
+     */
     private void createDecisionPopup(BasePanel panel){
-        JOptionPane.showMessageDialog(this, panel, panel.getPanelIdentifier(), JOptionPane.QUESTION_MESSAGE);
+        JOptionPane.showOptionDialog(this, panel, panel.getPanelIdentifier(), JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
     }
 }

@@ -22,4 +22,8 @@ public class Research extends BasePanel {
     void buildPanel() {
 
     }
+
+    BasePanel getTradierStockData(){
+        return null;
+    }
 }
