@@ -27,5 +27,8 @@ enum AppChangeEvents {
     PASSWORD_INVALID,
 
     /**Thrown when the user's email input is invalid.*/
-    EMAIL_INVALID
+    EMAIL_INVALID,
+
+    /**Thrown when the user has decided to trade more stock.*/
+    TRADE_STOCK
 }

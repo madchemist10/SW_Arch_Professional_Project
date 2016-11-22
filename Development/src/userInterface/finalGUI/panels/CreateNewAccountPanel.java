@@ -1,7 +1,7 @@
 package userInterface.finalGUI.panels;
 
 import app.utilities.Utilities;
-import userInterface.GUIConstants;
+import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,7 @@ class CreateNewAccountPanel extends BasePanel {
     /**Text field for user password input.*/
     private final JPasswordField passwordField = new JPasswordField(20);
     /**Button to attempt to create a new user for the application.*/
-    private final JButton createButton = new JButton(GUIConstants.CREATE_BUTTON_TEXT);
+    private final JButton createButton = new JButton(TradeNetGUIConstants.CREATE_BUTTON_TEXT);
     /**Inner panel for handling the controls for account creation.*/
     private final JPanel createAccountSubPanel = new JPanel();
     /**Constraints for the inner {@link #createAccountSubPanel}.*/
@@ -28,7 +28,7 @@ class CreateNewAccountPanel extends BasePanel {
      * Create a new {@link CreateNewAccountPanel}.
      */
     CreateNewAccountPanel(){
-        super(GUIConstants.CREATE_ACCOUNT_PANEL_IDENTIFIER);
+        super(TradeNetGUIConstants.CREATE_ACCOUNT_PANEL_IDENTIFIER);
         /*Construct the panel.*/
         buildPanel();
     }
@@ -105,7 +105,7 @@ class CreateNewAccountPanel extends BasePanel {
      */
     private void addEmailTextField(){
         subPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
-        JLabel emailLabel = new JLabel(GUIConstants.EMAIL_LABEL);
+        JLabel emailLabel = new JLabel(TradeNetGUIConstants.EMAIL_LABEL);
         emailLabel.setHorizontalAlignment(SwingConstants.LEFT);
         createAccountSubPanel.add(emailLabel, subPanelConstraints);
         subPanelConstraints.gridx++;
@@ -133,7 +133,7 @@ class CreateNewAccountPanel extends BasePanel {
      */
     private void addPasswordTextField(){
         subPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
-        JLabel passwordLabel = new JLabel(GUIConstants.PASSWORD_LABEL);
+        JLabel passwordLabel = new JLabel(TradeNetGUIConstants.PASSWORD_LABEL);
         passwordLabel.setHorizontalAlignment(SwingConstants.LEFT);
         createAccountSubPanel.add(passwordLabel, subPanelConstraints);
         subPanelConstraints.gridx++;

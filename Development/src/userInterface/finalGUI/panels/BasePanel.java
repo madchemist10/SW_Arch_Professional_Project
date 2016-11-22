@@ -33,13 +33,19 @@ abstract class BasePanel extends JPanel{
      * @param panelIdentifier unique name identifier for this panel.
      */
     BasePanel(String panelIdentifier){
-        super();
+        this.panelIdentifier = panelIdentifier;
         setLayout(new GridBagLayout());
         constraints = new GridBagConstraints();
         constraints.gridx = 0;
         constraints.gridy = 0;
-        this.panelIdentifier = panelIdentifier;
         getApp();
+    }
+
+    /**
+     * Default constructor to call the other constructor.
+     */
+    BasePanel(){
+        this("");
     }
 
     /**
