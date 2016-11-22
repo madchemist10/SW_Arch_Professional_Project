@@ -108,9 +108,16 @@ public class GUIController extends JFrame implements PropertyChangeListener{
      */
     private void addAppPanels(){
         tabbedPane.remove(loginPanel);
+
+        /*Add account management panel*/
         AccountManagement accountManagement = new AccountManagement();
         accountManagement.addPropertyListener(this);
         tabbedPane.add(accountManagement, accountManagement.getPanelIdentifier());
+        
+        /*Add research panel*/
+        Research research = new Research();
+        research.addPropertyListener(this);
+        tabbedPane.add(research, research.getPanelIdentifier());
     }
 
     /**

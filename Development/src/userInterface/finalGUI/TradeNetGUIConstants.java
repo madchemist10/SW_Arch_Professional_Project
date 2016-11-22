@@ -36,6 +36,8 @@ public class TradeNetGUIConstants {
     public static final String LOGIN_PANEL_IDENTIFIER = "Login";
     /**Name of the {@link userInterface.finalGUI.panels.AccountManagement}*/
     public static final String ACCOUNT_MANAGEMENT_PANEL_IDENTIFIER = "Account Management";
+    /**Name of the {@link userInterface.finalGUI.panels.Research}*/
+    public static final String RESEARCH_PANEL_IDENTIFIER = "Research";
 
     /*Warning Dialog Titles*/
     /**Title of the Warning Popup for {@link userInterface.finalGUI.panels.AppChangeEvents#EMAIL_INVALID}*/
