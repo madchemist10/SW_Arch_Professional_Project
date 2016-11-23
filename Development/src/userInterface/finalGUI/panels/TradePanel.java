@@ -1,6 +1,5 @@
 package userInterface.finalGUI.panels;
 
-import jdk.nashorn.internal.scripts.JO;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
@@ -37,9 +36,13 @@ public class TradePanel extends BasePanel {
      */
     @Override
     void buildPanel() {
-        /*Add shares text field*/
         constraints.gridx = 0;
         constraints.gridy = 0;
+
+        /*Add tradier data panel*/
+        addTradierPanel();
+
+        /*Add shares text field*/
         addSharesTextField();
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -138,6 +141,19 @@ public class TradePanel extends BasePanel {
         //place the inner shares panel in this Trade Panel
         constraints.gridwidth = 2;
         addComponent(innerSharesPanel);
+        constraints.gridwidth = 1;
+    }
+
+    /**
+     * Add tradier panel of data to the trade panel.
+     */
+    private void addTradierPanel(){
+        if(tradierStockDataPanel == null){
+            return;
+        }
+        constraints.gridwidth = 2;
+        addComponent(tradierStockDataPanel);
+        constraints.gridy++;
         constraints.gridwidth = 1;
     }
 }

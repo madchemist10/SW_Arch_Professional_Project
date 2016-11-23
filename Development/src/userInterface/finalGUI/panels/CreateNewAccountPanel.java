@@ -161,6 +161,7 @@ class CreateNewAccountPanel extends BasePanel {
      */
     private void addCreateAccountButton(){
         subPanelConstraints.gridwidth = 2;  //have button span two columns
+        subPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
         createButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -172,6 +173,7 @@ class CreateNewAccountPanel extends BasePanel {
         createAccountSubPanel.add(createButton, subPanelConstraints);
 
         /*Setup the next items defaults.*/
+        subPanelConstraints.fill = GridBagConstraints.NONE;
         subPanelConstraints.gridwidth = 1;
         subPanelConstraints.gridx = 0;
         subPanelConstraints.gridy++;

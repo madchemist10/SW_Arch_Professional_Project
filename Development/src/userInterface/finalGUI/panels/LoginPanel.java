@@ -193,6 +193,7 @@ class LoginPanel extends BasePanel{
      */
     private void addLoginButton(){
         subPanelConstraints.gridwidth = 2;  //have button span two columns
+        subPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
         loginButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -204,6 +205,7 @@ class LoginPanel extends BasePanel{
         loginSubPanel.add(loginButton, subPanelConstraints);
 
         /*Setup the next items defaults.*/
+        subPanelConstraints.fill = GridBagConstraints.NONE;
         subPanelConstraints.gridwidth = 1;
         subPanelConstraints.gridx = 0;
         subPanelConstraints.gridy++;
@@ -215,6 +217,7 @@ class LoginPanel extends BasePanel{
      */
     private void addCreateAccountButton(){
         subPanelConstraints.gridwidth = 2;  //have button span two columns
+        subPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
         createAccountButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -226,6 +229,7 @@ class LoginPanel extends BasePanel{
         loginSubPanel.add(createAccountButton, subPanelConstraints);
 
         /*Setup the next items defaults.*/
+        subPanelConstraints.fill = GridBagConstraints.NONE;
         subPanelConstraints.gridwidth = 1;
         subPanelConstraints.gridx = 0;
         subPanelConstraints.gridy++;
