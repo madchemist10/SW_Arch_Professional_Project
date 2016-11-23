@@ -3,12 +3,17 @@ package app;
 import app.constants.Constants;
 import app.database.DBConstants;
 import app.database.DatabaseManager;
+import app.user.Portfolio;
+import app.user.Stock;
+import app.user.Transaction;
+import app.user.User;
 import app.utilities.Utilities;
 import app.utilities.apiHandlers.APIHandler;
 import app.utilities.apiHandlers.APIHandles;
 import app.utilities.apiHandlers.IAPIHandler;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Represents the portal for the user interface module to
@@ -24,6 +29,9 @@ public class Application {
 
     /**Map of settings read in from the user's settings file.*/
     private final static HashMap<String, String> settings = new HashMap<>();
+
+    /**Current User that is logged in.*/
+    private static User currentUser = null;
 
     /**
      * Default constructor to only allow a new
@@ -87,17 +95,6 @@ public class Application {
     }
 
     /**
-     * Allow the user interface to validate a user login.
-     * Callback for validating user login from email and password.
-     * @param email for the user's unique identifier.
-     * @param password of the user's account.
-     * @return true if login is valid, false otherwise.
-     */
-    public boolean validateLogin(String email, String password){
-        return dbManager.validateLogin(email, password);
-    }
-
-    /**
      * Allow the user interface to create a new account.
      * Callback for creating a new user from email and password.
      * @param email for the new user's unique identifier.
@@ -116,4 +113,76 @@ public class Application {
     public IAPIHandler getAPIHandler(APIHandles handle){
         return APIHandler.getInstance().getAPIHandler(handle);
     }
+
+    /**
+     * Add cash to the current logged in user.
+     * @param cash to be added to the user's account.
+     */
+    public void addCashToUser(String cash){
+
+    }
+    /**
+     * Allow the user interface to validate a user login.
+     * Logs in the user.
+     * Before any action can be taken for a given user,
+     * this method must return true. Otherwise, null pointer
+     * exception are possible.
+     * Callback for validating user login from email and password.
+     * @param email for the user's unique identifier.
+     * @param password of the user's account.
+     * @return true if login is valid, false otherwise.
+     */
+    public boolean loginUser(String email, String password){
+        boolean validLogin = dbManager.validateLogin(email, password);
+        if(validLogin){
+            /*todo set up the current logged in user
+            * by asking the database for the data to generate the
+            * new user. Creation of user from the database data
+            * should create the supporting portfolio, stock, and
+            * transaction data.*/
+            currentUser = new User();
+        }
+        return validLogin;
+    }
+
+    /**
+     * Get list of {@link Transaction} the belongs to the portfolio
+     * of the logged in user.
+     * User must be logged in prior to this method being
+     * executed.
+     * @return List of {@link Transaction}.
+     */
+    public List<Transaction> getUserTransactions(){
+        if(currentUser == null){
+            //user not logged in
+            return null;
+        }
+        Portfolio portfolio = currentUser.getPortfolio();
+        if(portfolio == null){
+            //user has no portfolio
+            return null;
+        }
+        return portfolio.getTransactions();
+    }
+
+    /**
+     * Get list of {@link Stock} the belongs to the portfolio
+     * of the logged in user.
+     * User must be logged in prior to this method being
+     * executed.
+     * @return List of {@link Stock}.
+     */
+    public List<Stock> getUserStocks(){
+        if(currentUser == null){
+            //user not logged in
+            return null;
+        }
+        Portfolio portfolio = currentUser.getPortfolio();
+        if(portfolio == null){
+            //user has no portfolio
+            return null;
+        }
+        return portfolio.getStocks();
+    }
+
 }

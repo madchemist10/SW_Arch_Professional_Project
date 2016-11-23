@@ -84,23 +84,23 @@ class StockEntryPanel extends BasePanel {
         /*Add stock name label*/
         constraints.gridx = 0;
         constraints.gridy = 0;
-        addComponent(stockNameLabel);
+        addComponent(new BasicFlowPanel(stockNameLabel));
 
         /*Add current value label*/
         constraints.gridx++;
-        addComponent(currentValueLabel);
+        addComponent(new BasicFlowPanel(currentValueLabel));
 
         /*Add purchased value label*/
         constraints.gridx++;
-        addComponent(purchasedValueLabel);
+        addComponent(new BasicFlowPanel(purchasedValueLabel));
 
         /*Add stocks owned label*/
         constraints.gridx++;
-        addComponent(stocksOwnedLabel);
+        addComponent(new BasicFlowPanel(stocksOwnedLabel));
 
         /*Add profit lost label*/
         constraints.gridx++;
-        addComponent(profitLostLabel);
+        addComponent(new BasicFlowPanel(profitLostLabel));
 
         /*Add trade button*/
         constraints.gridx++;

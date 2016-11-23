@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -51,6 +52,13 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
     AccountManagement(){
         super(TradeNetGUIConstants.ACCOUNT_MANAGEMENT_PANEL_IDENTIFIER);
         buildPanel();
+        //todo remove test code
+//        List<Stock> stocks = new LinkedList<>();
+//        stocks.add(new Stock());
+//        addStockEntries(stocks);
+        //todo end of test code
+        addStockEntries(app.getUserStocks());
+        addTransactionEntries(app.getUserTransactions());
     }
 
     /**
@@ -141,7 +149,10 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
      * Add list of stocks to this account panel.
      * @param stocks list of stock for the logged in user.
      */
-    void addStockEntries(List<Stock> stocks) {
+    private void addStockEntries(List<Stock> stocks) {
+        if(stocks == null){
+            return;
+        }
         internalStockConstraints.gridx = 0;
         internalStockConstraints.gridy = 0;
         for(Stock stock: stocks){
@@ -166,7 +177,10 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
      * Add list of transactions to this account panel.
      * @param transactions list of transaction for the logged in user.
      */
-    void addTransactionEntries(List<Transaction> transactions){
+    private void addTransactionEntries(List<Transaction> transactions){
+        if(transactions == null){
+            return;
+        }
         internalTransactionConstraints.gridx = 0;
         internalTransactionConstraints.gridy = 0;
         for(Transaction transaction: transactions){
@@ -192,7 +206,7 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
      * @param cashAmount to be added to the user account.
      */
     private void addCashToAccount(String cashAmount){
-
+        app.addCashToUser(cashAmount);
     }
 
     /**

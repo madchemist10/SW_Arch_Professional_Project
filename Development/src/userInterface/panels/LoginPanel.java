@@ -44,7 +44,7 @@ class LoginPanel extends BasePanel{
      * @return true if login is valid, false otherwise.
      */
     private static boolean validateLogin(String email, String password){
-        return app.validateLogin(email, password);
+        return app.loginUser(email, password);
     }
 
     /**
