@@ -50,6 +50,8 @@ public class TradeNetGUIConstants {
     public static final String RESEARCH_PANEL_IDENTIFIER = "Research";
     /**Name of the {@link userInterface.finalGUI.panels.TradePanel}*/
     public static final String TRADE_PANEL_IDENTIFIER = "Trade";
+    /**Name of the {@link userInterface.finalGUI.panels.TradePanel}*/
+    public static final String TRADIER_PANEL_IDENTIFIER = "Tradier";
 
     /*Warning Dialog Titles*/
     /**Title of the Warning Popup for {@link userInterface.finalGUI.panels.AppChangeEvents#EMAIL_INVALID}*/
@@ -64,4 +66,14 @@ public class TradeNetGUIConstants {
     /*Popup titles*/
     /**Title of the add cash popup for {@link userInterface.finalGUI.panels.AppChangeEvents#ADD_CASH}*/
     public static final String ADD_CASH = "Add Cash";
+
+    /*Tradier Labels*/
+    /**Text to be given to the {@link userInterface.panels.TradierPanel} ticker symbol label.*/
+    public static final String TICKER_SYMBOL_LABEL = "Ticker Symbol: ";
+    /**Text to be given to the {@link userInterface.panels.TradierPanel} last price label.*/
+    public static final String LAST_PRICE_LABEL = "Last Price: ";
+    /**Text to be given to the {@link userInterface.panels.TradierPanel} daily net change label.*/
+    public static final String DAILY_NET_CHANGE_LABEL = "Daily Net Change: ";
+    /**Text to be given to the {@link userInterface.panels.TradierPanel} volume label.*/
+    public static final String VOLUME_LABEL = "Volume: ";
 }

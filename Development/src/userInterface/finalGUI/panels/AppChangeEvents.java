@@ -33,5 +33,15 @@ enum AppChangeEvents {
     TRADE_STOCK,
 
     /**Thrown when the user has decided to add cash to their account.*/
-    ADD_CASH
+    ADD_CASH,
+
+    /**Thrown when the refresh button is pressed for a given
+     * {@link TradierResultsPanel}.*/
+    TRADIER_REFRESH,
+
+    /**Thrown when the Tradier API throws an HTTP error.*/
+    TRADIER_HTTP_ERROR,
+
+    /**Thrown when the user's access credentials for Tradier API are invalid.*/
+    INVALID_TRADIER_API_CREDENTIALS
 }
