@@ -14,6 +14,7 @@ import app.utilities.apiHandlers.IAPIHandler;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents the portal for the user interface module to
@@ -121,6 +122,7 @@ public class Application {
     public void addCashToUser(String cash){
 
     }
+
     /**
      * Allow the user interface to validate a user login.
      * Logs in the user.
@@ -183,6 +185,18 @@ public class Application {
             return null;
         }
         return portfolio.getStocks();
+    }
+
+    /**
+     * Get a map of the user's data.
+     * @return Map of User Data.
+     */
+    public Map<String, String> getUserData(){
+        if(currentUser == null){
+            //user not logged in
+            return null;
+        }
+        return currentUser.getUserData();
     }
 
 }

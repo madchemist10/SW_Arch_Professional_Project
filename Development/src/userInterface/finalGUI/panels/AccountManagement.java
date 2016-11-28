@@ -9,8 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Account management profile panel that displays a user's
@@ -45,6 +45,8 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
     private final JPanel internalAccountDataPanel = new JPanel();
     /**Constraints for {@link #internalAccountDataPanel} layout.*/
     private final GridBagConstraints internalAccountConstraints = new GridBagConstraints();
+    /**User data panel that can be updated.*/
+    private final UserDataPanel userDataPanel = new UserDataPanel();
 
     /**
      * Create a new {@link AccountManagement} panel.
@@ -59,6 +61,7 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
         //todo end of test code
         addStockEntries(app.getUserStocks());
         addTransactionEntries(app.getUserTransactions());
+        addUserData(app.getUserData());
     }
 
     /**
@@ -123,6 +126,10 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
      * Add the data for the account management data.
      */
     private void addAccountManagementData(){
+        internalAccountConstraints.gridx = 0;
+        internalAccountConstraints.gridy = 0;
+        addUserDataPanel();
+        internalAccountConstraints.gridy++;
         addAddCashButton();
         addComponent(internalAccountDataPanel);
     }
@@ -202,6 +209,22 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
     }
 
     /**
+     * Add user data to this panel.
+     * @param userData map of user data.
+     */
+    private void addUserData(Map<String, String> userData){
+        if(userData == null){
+            //user data is null
+            return;
+        }
+        if(userDataPanel == null){
+            //panel not defined
+            return;
+        }
+        userDataPanel.updateLabels(userData);
+    }
+
+    /**
      * Add the specified amount of cash to the account.
      * @param cashAmount to be added to the user account.
      */
@@ -227,13 +250,19 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
     }
 
     /**
+     * Add user data to the internal account data panel.
+     */
+    private void addUserDataPanel(){
+        BasicFlowPanel userFlowPanel = new BasicFlowPanel(userDataPanel);
+        internalAccountDataPanel.add(userFlowPanel, internalAccountConstraints);
+    }
+
+    /**
      * Add cash button to initiate the addition of
      * new cash to the user's account. Add supporting
      * callback to be executed on separate thread.
      */
     private void addAddCashButton(){
-        internalAccountConstraints.gridx = 0;
-        internalAccountConstraints.gridy = 0;
         JButton button = new JButton(TradeNetGUIConstants.ADD_CASH);
         button.addActionListener(new AbstractAction() {
             @Override

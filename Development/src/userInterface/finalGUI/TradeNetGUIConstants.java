@@ -24,6 +24,12 @@ public class TradeNetGUIConstants {
     public static final String PASSWORD_LABEL = "Password:";
     /**Label for Shares labels to tell the user what belongs in a given text field.*/
     public static final String SHARES_LABEL = "Shares:";
+    /**Label for Username labels to tell the user what will be stored in the next label.*/
+    public static final String USERNAME_LABEL = "Username:";
+    /**Label for Total Profit Lost to tell the user what will be stored in the next label.*/
+    public static final String TOTAL_PROFIT_LABEL = "Total Profit Lost:";
+    /**Label for Account Balance to tell the user what will be stored in the next label.*/
+    public static final String ACCOUNT_BALANCE_LABEL = "Account Balance:";
 
     /*Text for buttons*/
     /**Text to be given to the {@link userInterface.finalGUI.panels.LoginPanel#loginButton}.*/
@@ -52,6 +58,8 @@ public class TradeNetGUIConstants {
     public static final String TRADE_PANEL_IDENTIFIER = "Trade";
     /**Name of the {@link userInterface.finalGUI.panels.TradePanel}*/
     public static final String TRADIER_PANEL_IDENTIFIER = "Tradier";
+    /**Name of the {@link userInterface.finalGUI.panels.UserDataPanel}*/
+    public static final String USER_PANEL_IDENTIFIER = "User";
 
     /*Warning Dialog Titles*/
     /**Title of the Warning Popup for {@link userInterface.finalGUI.panels.AppChangeEvents#EMAIL_INVALID}*/

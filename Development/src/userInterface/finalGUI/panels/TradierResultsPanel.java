@@ -45,6 +45,7 @@ class TradierResultsPanel extends BasePanel{
      *              are displayed in the panel.
      */
     TradierResultsPanel(String query){
+        super(TradeNetGUIConstants.TRADIER_PANEL_IDENTIFIER);
         tickerDataLabel.setText(query);
         tickerSymbol = query;
         buildPanel();
@@ -61,6 +62,7 @@ class TradierResultsPanel extends BasePanel{
      * @param query to reset this tradier panel ticker symbol.
      */
     void updateTickerSymbol(String query){
+        tickerDataLabel.setText(query);
         tickerSymbol = query;
     }
 
@@ -246,8 +248,8 @@ class TradierResultsPanel extends BasePanel{
         @Override
         public void run() {
             /*Spawn background thread to keep from locking up the GUI.*/
-            Thread tradeButtonThread = new Thread(results::queryExecution);
-            tradeButtonThread.start();
+            Thread helperThread = new Thread(results::queryExecution);
+            helperThread.start();
         }
     }
 }
