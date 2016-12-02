@@ -1,4 +1,5 @@
 package app.database;
+import java.util.ArrayList;
 
 /**
  * Use an the instance of this Database Manager for accessing
@@ -11,6 +12,9 @@ public class DatabaseManager {
 
     /**Singleton instance of the authentication.*/
     private static Authentication authentication = null;
+
+    /**Signleton instance of database connection. */
+    private static DatabaseConn connection = null;
 
     /**
      * Create a new {@link DatabaseManager}.
@@ -50,6 +54,141 @@ public class DatabaseManager {
      *                  database.
      */
     public void executeCreateStatement(String statement){
+        connection = DatabaseConn.getInstance();
+        connection.makeTable(statement);
+    }
 
+    /**
+     *
+     * @param credentials string of credentials column values for insertion into Customer_Credentials table
+     */
+    public void insertCredentials(String credentials){
+        connection = DatabaseConn.getInstance();
+        String values = DBStatementBuilder.valueStatement(credentials);
+        String columns = DBConstants.EMAIL + ", " + DBConstants.PASSWORD;
+        String statement = DBStatementBuilder.insertStatement(DBConstants.CUSTOMER_CREDENTIALS_TABLE, columns, values);
+        connection.insertIntoTable(statement);
+    }
+
+    /**
+     *
+     * @param custID customer ID constraint on which table entry to return
+     * @return array of customer credentials information
+     */
+    public ArrayList<String[]> getCredentials(int custID){
+        connection = DatabaseConn.getInstance();
+        String statement = DBStatementBuilder.selectStatement("*") +
+                DBStatementBuilder.fromStatement(DBConstants.CUSTOMER_CREDENTIALS_TABLE) +
+                DBStatementBuilder.whereStatement(DBConstants.CUST_ID) +
+                " = " + custID;
+        return connection.selectFromTable(statement);
+    }
+
+    /**
+     * Insert a customer balance for a new customer in the Customer_Balance table
+     * @param balanceEntry string of customer balance column values for insertion into Customer_Balance table
+     */
+    public void insertCustomerBalance(String balanceEntry){
+        connection = DatabaseConn.getInstance();
+        String values = DBStatementBuilder.valueStatement(balanceEntry);
+        String columns = DBConstants.CUST_ID + " = " + DBConstants.BALANCE;
+        String statement = DBStatementBuilder.insertStatement(DBConstants.CUSTOMER_BALANCE_TABLE, columns, values);
+        connection.insertIntoTable(statement);
+    }
+
+    /**
+     * Update customer balance in the database for a specific user
+     * @param balance new balance to set in the Customer_Balance table
+     */
+    public void updateCustomerBalance(int balance){
+        connection = DatabaseConn.getInstance();
+        String statement = DBStatementBuilder.updateStatement(DBConstants.CUSTOMER_BALANCE_TABLE) +
+                DBStatementBuilder.setStatement(DBConstants.BALANCE) +
+                " = " + balance;
+        connection.updateTableEntry(statement);
+    }
+
+    /**
+     * Retrieve customer balance from the database for a specific user
+     * @param custID customer ID constraint on which table entry to return
+     * @return array of customer balance information
+     */
+    public ArrayList<String[]> getCustomerBalance(int custID){
+        connection = DatabaseConn.getInstance();
+        String statement = DBStatementBuilder.selectStatement(DBConstants.BALANCE) +
+                           DBStatementBuilder.fromStatement(DBConstants.CUSTOMER_BALANCE_TABLE) +
+                           DBStatementBuilder.whereStatement(DBConstants.CUST_ID) +
+                           " = " + custID;
+        return connection.selectFromTable(statement);
+    }
+
+    /**
+     *
+     * @param stock string of stock column values for insertion into the Stock_Ownership table
+     */
+    public void insertStockOwnership(String stock){
+        connection = DatabaseConn.getInstance();
+        String values = DBStatementBuilder.valueStatement(stock);
+        String columns = DBConstants.CUST_ID + ", " + DBConstants.TICKER + ", " + DBConstants.SHARES + ", " +
+                DBConstants.PURCHASE_PRICE + ", " + DBConstants.COMPANY + ", " + DBConstants.EXCHANGE;
+        String statement = DBStatementBuilder.insertStatement(DBConstants.STOCK_OWNERSHIP_TABLE, columns, values);
+        connection.insertIntoTable(statement);
+    }
+
+    /**
+     * Update stock ownership data for a specific user
+     * @param custID customer ID constraint on which table entry to update
+     * @param shares new quantity of shares in the appropriate entry in the Stock_Ownership table
+     */
+    public void updateStockOwnership(int custID, int shares){
+        connection = DatabaseConn.getInstance();
+        String statement = DBStatementBuilder.updateStatement(DBConstants.STOCK_OWNERSHIP_TABLE) +
+                DBStatementBuilder.setStatement(DBConstants.SHARES) +
+                " = " + shares +
+                DBStatementBuilder.whereStatement(DBConstants.CUST_ID) +
+                " = " + custID;
+        connection.updateTableEntry(statement);
+    }
+
+    /**
+     * Retrieve stock ownership data for a specific user
+     * @param custID customer ID constraint on which table entry to return
+     * @return array of stock ownership data
+     */
+    public ArrayList<String[]> getStockOwnership(int custID){
+        connection = DatabaseConn.getInstance();
+        String statement = DBStatementBuilder.selectStatement("*") +
+                DBStatementBuilder.fromStatement(DBConstants.STOCK_OWNERSHIP_TABLE) +
+                DBStatementBuilder.whereStatement(DBConstants.CUST_ID) +
+                " = " + custID;
+        return connection.selectFromTable(statement);
+    }
+
+    /**
+     *
+     * @param transaction string of transaction column values for insertion into Transaction_History table
+     */
+    public void insertTransaction(String transaction){
+        connection = DatabaseConn.getInstance();
+        String values = DBStatementBuilder.valueStatement(transaction);
+        String columns = DBConstants.CUST_ID + ", " + DBConstants.TYPE + ", " + DBConstants.TICKER + ", " +
+                DBConstants.SHARES + ", " + DBConstants.PRICE + ", " + DBConstants.COMPANY + ", " +
+                DBConstants.EXCHANGE + ", " + DBConstants.DATE + ", " + DBConstants.TIME;
+        String statement = DBStatementBuilder.insertStatement(DBConstants.TRANSACTION_HISTORY_TABLE, columns, values);
+        connection.insertIntoTable(statement);
+    }
+
+    /**
+     * Retrieve the transaction history from the Transaction_History table
+     * @param custID customer ID constraint on which table entries to return
+     * @return array of transaction history
+     */
+    public ArrayList<String[]> getTransactionHistory(int custID){
+        connection = DatabaseConn.getInstance();
+        String statement = DBStatementBuilder.selectStatement("*") +
+                           DBStatementBuilder.fromStatement(DBConstants.TRANSACTION_HISTORY_TABLE) +
+                           DBStatementBuilder.whereStatement(DBConstants.CUST_ID) +
+                           " = " + custID;
+        return connection.selectFromTable(statement);
     }
 }

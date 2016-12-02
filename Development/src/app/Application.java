@@ -72,6 +72,8 @@ public class Application {
         dbManager.executeCreateStatement(DBConstants.DB_MAKE_CUSTOMER_INFORMATION);
         dbManager.executeCreateStatement(DBConstants.DB_MAKE_FUNDS_HISTORY);
         dbManager.executeCreateStatement(DBConstants.DB_MAKE_TRANSACTION_HISTORY);
+        dbManager.executeCreateStatement(DBConstants.DB_MAKE_STOCK_OWNERSHIP);
+        //dbManager.insertCredentials("hannah@email, password");
     }
 
     /**

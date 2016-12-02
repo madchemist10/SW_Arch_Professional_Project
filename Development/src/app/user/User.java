@@ -19,6 +19,7 @@ public class User {
      * @return Map of user data.
      */
     public Map<String, String> getUserData(){
+
         return null;
     }
 }

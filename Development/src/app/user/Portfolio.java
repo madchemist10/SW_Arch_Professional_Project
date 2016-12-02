@@ -12,9 +12,7 @@ public class Portfolio {
      * {@link Portfolio}.
      * @return List of {@link Transaction}.
      */
-    public List<Transaction> getTransactions(){
-        return null;
-    }
+    public List<Transaction> getTransactions(){ return null; }
 
     /**
      * Get a list of the stocks from the

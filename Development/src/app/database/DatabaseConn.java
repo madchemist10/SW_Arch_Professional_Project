@@ -13,12 +13,14 @@ public class DatabaseConn {
     private Connection conn = null;
     /**Database filepath for which this connection is connecting to.*/
     private String database = null;
+    /**Singleton instance of the database manager.*/
+    private static DatabaseConn instance = null;
 
     /**
      * Create and establish a new connection to the database.
      * @param db String representation of the filepath to the database.
      */
-    DatabaseConn(String db){
+    private DatabaseConn(String db){
         this.database = db;
         this.conn = this.makeConnection(this.database);
     }
@@ -37,6 +39,18 @@ public class DatabaseConn {
      */
     public String getDatabase() {
         return database;
+    }
+
+    /**
+     * Retrieve the instance of this Database Manager,
+     * if it does not exist, create it.
+     * @return instance of {@link DatabaseManager}
+     */
+    public static DatabaseConn getInstance(){
+        if(instance == null){
+            instance = new DatabaseConn(app.constants.Constants.DB_FILE);
+        }
+        return instance;
     }
 
     /**

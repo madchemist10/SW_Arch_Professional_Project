@@ -11,9 +11,10 @@ public class DBStatementBuilder {
     static String updateStatement(String updateVar){
         return "UPDATE "+updateVar;
     }
-    static String insertStatement(String tableName, String insertVar){
-        return "INSERT INTO "+tableName+" ("+insertVar+")";
+    static String insertStatement(String tableName, String columnVar, String insertVar){
+        return "INSERT INTO "+tableName+" " + "("+columnVar+") ("+insertVar+")";
     }
+
     static String whereStatement(String whereVar){
         return " WHERE "+whereVar;
     }
