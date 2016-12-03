@@ -56,7 +56,18 @@ public class DatabaseManager {
      * @return true if login is valid, false otherwise.
      */
     public boolean validateLogin(String email, String password){
-        return authentication.validateLogin(email, password);
+        connection.makeConnection();
+
+        String statement = DBStatementBuilder.selectStatement(DBConstants.BALANCE) +
+                DBStatementBuilder.fromStatement(DBConstants.CUSTOMER_CREDENTIALS_TABLE);
+                String where_statement = DBConstants.EMAIL + " = \""+email+"\" AND "+DBConstants.PASSWORD
+                        +" = \""+password+"\"";
+        statement += DBStatementBuilder.whereStatement(where_statement);
+
+        ArrayList<String[]> returnVal = connection.selectFromTable(statement);
+
+        return returnVal.size() != 0;
+
     }
 
     /**
