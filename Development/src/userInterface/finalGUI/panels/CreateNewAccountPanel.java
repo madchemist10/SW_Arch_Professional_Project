@@ -49,7 +49,7 @@ class CreateNewAccountPanel extends BasePanel {
      * This should be run on a new thread.
      */
     private void createAccountCallBack(){
-        String userEmail = emailField.getText();
+            String userEmail = emailField.getText();
         if(!validateUserInput(userEmail)){
             notifyListeners(new CustomChangeEvent(this, AppChangeEvents.EMAIL_INVALID));
             return;
