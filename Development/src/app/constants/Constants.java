@@ -69,28 +69,34 @@ public class Constants {
     /*Stock Entry Panel label keys for pulling from stock data map.*/
     /**Key value for Stock name*/
     public static final String STOCK_NAME_LABEL_KEY = "STOCK_NAME_LABEL_KEY";
-    /**Key value for Current value*/
-    public static final String CURRENT_VALUE_LABEL_KEY = "CURRENT_VALUE_LABEL_KEY";
-    /**Key value for Purchased value*/
-    public static final String PURCHASED_VALUE_LABEL_KEY = "PURCHASED_VALUE_LABEL_KEY";
     /**Key value for Stocks owned*/
     public static final String STOCKS_OWNED_LABEL_KEY = "STOCKS_OWNED_LABEL_KEY";
+    /**Key value for Purchased value*/
+    public static final String PURCHASED_VALUE_LABEL_KEY = "PURCHASED_VALUE_LABEL_KEY";
+    /**Key value for Company name*/
+    public static final String COMPANY_NAME_LABEL_KEY = "COMPANY_NAME_LABEL_KEY";
+    /**Key value for Exchange name*/
+    public static final String EXCHANGE_NAME_LABEL_KEY = "EXCHANGE_NAME_LABEL_KEY";
+    /**Key value for Current value*/
+    public static final String CURRENT_VALUE_LABEL_KEY = "CURRENT_VALUE_LABEL_KEY";
     /**Key value for Profit lost*/
     public static final String PROFIT_LOST_LABEL_KEY = "PROFIT_LOST_LABEL_KEY";
 
     /*Transaction History Entry Panel label keys for pulling from transaction data map.*/
-    /**Key value for timestamp*/
-    public static final String TIMESTAMP_LABEL_KEY = "TIMESTAMP_LABEL_KEY";
     /**Key value for trade type*/
     public static final String TRADE_TYPE_LABEL_KEY = "TRADE_TYPE_LABEL_KEY";
-    /**Key value for trade item*/
-    public static final String TRADE_ITEM_LABEL_KEY = "TRADE_ITEM_LABEL_KEY";
+    /**Key value for ticker*/
+    public static final String TICKER_LABEL_KEY = "TICKER_LABEL_KEY";
     /**Key value for share qty*/
     public static final String SHARE_QTY_LABEL_KEY = "SHARE_QTY_LABEL_KEY";
     /**Key value for transaction cost*/
     public static final String TRANSACTION_COST_LABEL_KEY = "TRANSACTION_COST_LABEL_KEY";
     /**Key value for new balance*/
     public static final String NEW_BALANCE_LABEL_KEY = "NEW_BALANCE_LABEL_KEY";
+    /**Key value for timestamp*/
+    public static final String TIMESTAMP_LABEL_KEY = "TIMESTAMP_LABEL_KEY";
+    /**Key value for trade item*/
+    public static final String TRADE_ITEM_LABEL_KEY = "TRADE_ITEM_LABEL_KEY";
 
     /*User Data Panel label keys for pulling from user data map.*/
     /**Key value for username*/
