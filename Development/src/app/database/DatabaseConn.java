@@ -81,6 +81,8 @@ class DatabaseConn {
         }catch (Exception e){
             e.printStackTrace();
         }
+        /*Assign null to ensure next connection can be established.*/
+        this.conn = null;
     }
 
     /**
