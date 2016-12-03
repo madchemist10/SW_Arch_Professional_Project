@@ -70,7 +70,7 @@ public class DatabaseManager {
             return null;
         }
 
-        //assuming only one entry and that the one entry is the correct entry
+        //assumes only one entry and that the one entry is the correct entry
         return returnVal.get(0);
     }
 
