@@ -18,12 +18,11 @@ class DatabaseConn {
     private static DatabaseConn instance = null;
 
     /**
-     * Create and establish a new connection to the database.
+     * Create a new DatabaseConn.
      * @param db String representation of the filepath to the database.
      */
     private DatabaseConn(String db){
         this.database = db;
-        this.conn = this.makeConnection();
     }
 
     /**
@@ -109,7 +108,6 @@ class DatabaseConn {
      *              and data types.
      */
     void makeTable(String table){
-        Connection conn = this.conn;
         if (this.verifyConnection() == 1){
             try{
                 Statement stmt = conn.createStatement();
@@ -129,7 +127,6 @@ class DatabaseConn {
      *               data into a table.
      */
     void insertIntoTable(String insert){
-        Connection conn = this.conn;
         if (this.verifyConnection() == 1){
             try{
                 conn.setAutoCommit(false);
@@ -152,7 +149,6 @@ class DatabaseConn {
      */
     ArrayList<String[]> selectFromTable(String selectStatement){
         ArrayList<String[]> returnData = new ArrayList<>();
-        Connection conn = this.conn;
         if (this.verifyConnection() == 1) {
             try {
                 Statement stmt = conn.createStatement();
@@ -182,7 +178,6 @@ class DatabaseConn {
      *                        for updating an entry in a given table.
      */
     void updateTableEntry(String updateStatement){
-        Connection conn = this.conn;
         if (this.verifyConnection() == 1) {
             try {
                 conn.setAutoCommit(false);
