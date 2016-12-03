@@ -50,7 +50,7 @@ class DBStatementBuilder {
      * @return properly formatted string of a sql statement.
      */
     static String insertStatement(String tableName, String columnVar, String insertVar){
-        return INSERT_INTO+tableName+" " + "("+columnVar+") ("+insertVar+")";
+        return INSERT_INTO+tableName+" " + "("+columnVar+") "+insertVar;
     }
 
     /**

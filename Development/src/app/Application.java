@@ -1,5 +1,6 @@
 package app;
 
+import app.exception.BaseException;
 import app.constants.Constants;
 import app.database.DBConstants;
 import app.database.DatabaseManager;
@@ -11,6 +12,7 @@ import app.utilities.Utilities;
 import app.utilities.apiHandlers.APIHandler;
 import app.utilities.apiHandlers.APIHandles;
 import app.utilities.apiHandlers.IAPIHandler;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -105,8 +107,38 @@ public class Application {
      * @return true if create account was success, false otherwise.
      */
     public boolean createAccount(String email, String password){
-        return true;
+
+        /*
+         * Use Mailbox API to make sure that the inserted email is valid
+         * before allowing account to be created
+         */
+
+        IAPIHandler mailboxAPI = getAPIHandler(APIHandles.MAILBOX_LAYER);
+        String request = mailboxAPI.buildAPIRequest(new String[]{email});
+        if(request == null){
+            return false;
+        }
+        Object returnVal;
+        try {
+            returnVal = mailboxAPI.executeAPIRequest(request);
+        } catch (BaseException e) {
+            return false;
+        }
+        if(returnVal == null){
+            return false;
+        }
+        if(returnVal instanceof JsonNode) {
+            JsonNode returnNode = (JsonNode) returnVal;
+            JsonNode formatNode = returnNode.get(Constants.FORMAT_VALID);
+            if(formatNode.booleanValue()){
+                String credentials = "\""+email+"\",\""+password+"\"";
+                dbManager.insertCredentials(credentials);
+                return true;
+            }
+        }
+        return false;
     }
+
 
     /**
      * Retrieve the desired API Handler from the given {@link APIHandles}.
