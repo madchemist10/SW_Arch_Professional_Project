@@ -55,10 +55,10 @@ public class DatabaseManager {
      * @param password of the user's account.
      * @return true if login is valid, false otherwise.
      */
-    public boolean validateLogin(String email, String password){
+    public String[] validateLogin(String email, String password){
         connection.makeConnection();
 
-        String statement = DBStatementBuilder.selectStatement(DBConstants.BALANCE) +
+        String statement = DBStatementBuilder.selectStatement("*") +
                 DBStatementBuilder.fromStatement(DBConstants.CUSTOMER_CREDENTIALS_TABLE);
                 String where_statement = DBConstants.EMAIL + " = \""+email+"\" AND "+DBConstants.PASSWORD
                         +" = \""+password+"\"";
@@ -66,8 +66,12 @@ public class DatabaseManager {
 
         ArrayList<String[]> returnVal = connection.selectFromTable(statement);
 
-        return returnVal.size() != 0;
+        if (returnVal.size() == 0){
+            return null;
+        }
 
+        //assuming only one entry and that the one entry is the correct entry
+        return returnVal.get(0);
     }
 
     /**

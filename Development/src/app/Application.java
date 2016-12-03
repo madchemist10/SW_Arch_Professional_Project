@@ -193,8 +193,8 @@ public class Application {
      * @return true if login is valid, false otherwise.
      */
     public boolean loginUser(String email, String password){
-        boolean validLogin = dbManager.validateLogin(email, password);
-        if(validLogin){
+        String[] userData = dbManager.validateLogin(email, password);
+        if(userData != null){
             /*todo set up the current logged in user
             * by asking the database for the data to generate the
             * new user. Creation of user from the database data
@@ -203,8 +203,9 @@ public class Application {
             currentUser = new User("1");        //change
             ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(1);
             ArrayList<String[]> userStocks = dbManager.getStockOwnership(1);
+            return true;
         }
-        return validLogin;
+        return false;
     }
 
     /**
