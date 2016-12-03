@@ -12,9 +12,7 @@ import app.utilities.apiHandlers.APIHandler;
 import app.utilities.apiHandlers.APIHandles;
 import app.utilities.apiHandlers.IAPIHandler;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Represents the portal for the user interface module to
@@ -64,16 +62,42 @@ public class Application {
      */
     private void createDB(){
         if(Utilities.fileExists(Constants.DB_FILE)){
+            /*System.out.println("CREDENTIALS");
+            for (String[] item : dbManager.getCredentials(1)){
+                System.out.println(Arrays.toString(item));
+            }
+            System.out.println("BALANCE");
+            for (String[] item : dbManager.getCustomerBalance(1)){
+                System.out.println(Arrays.toString(item));
+            }
+            System.out.println("STOCK OWNERSHIP");
+            for (String[] item : dbManager.getStockOwnership(1)){
+                System.out.println(Arrays.toString(item));
+            }
+            System.out.println("TRANSACTION HISTORY");
+            for (String[] item : dbManager.getTransactionHistory(1)){
+                for (String object : item){
+                    System.out.println(object);
+                }
+            }*/
+            System.out.println("Already made, not creating tables");
             return;
         }
-        dbManager.executeCreateStatement(DBConstants.DB_MAKE_ACCESS_LOGS);
+
         dbManager.executeCreateStatement(DBConstants.DB_MAKE_CUSTOMER_BALANCE);
         dbManager.executeCreateStatement(DBConstants.DB_MAKE_CUSTOMER_CREDENTIALS);
-        dbManager.executeCreateStatement(DBConstants.DB_MAKE_CUSTOMER_INFORMATION);
-        dbManager.executeCreateStatement(DBConstants.DB_MAKE_FUNDS_HISTORY);
         dbManager.executeCreateStatement(DBConstants.DB_MAKE_TRANSACTION_HISTORY);
         dbManager.executeCreateStatement(DBConstants.DB_MAKE_STOCK_OWNERSHIP);
-        //dbManager.insertCredentials("hannah@email, password");
+        /*//dbManager.executeCreateStatement(DBConstants.DB_MAKE_ACCESS_LOGS);
+        //dbManager.executeCreateStatement(DBConstants.DB_MAKE_CUSTOMER_INFORMATION);
+        //dbManager.executeCreateStatement(DBConstants.DB_MAKE_FUNDS_HISTORY);
+        dbManager.insertCredentials("\"hannah@email\", \"password\"");
+        dbManager.insertCustomerBalance("1, 2500");
+        dbManager.insertStockOwnership("1, \"AAPL\", 30, 50, \"Apple\", \"NASDAQ\"");
+        dbManager.insertStockOwnership("1, \"MSFT\", 20, 40, \"Microsoft\", \"NASDAQ\"");
+        dbManager.insertTransaction("1, \"BUY\", \"AAPL\", 50, 50, \"Apple\", \"NASDAQ\", \"November 4\", \"19:78\"");
+        dbManager.insertTransaction("1, \"SELL\", \"AAPL\", 20, 20, \"Apple\", \"NASDAQ\", \"November 4\", \"20:30\"");
+        dbManager.insertTransaction("1, \"BUY\", \"MSFT\", 20, 40, \"Apple\", \"NASDAQ\", \"November 4\", \"19:18\"");*/
     }
 
     /**
@@ -105,6 +129,7 @@ public class Application {
      * @return true if create account was success, false otherwise.
      */
     public boolean createAccount(String email, String password){
+        dbManager.insertCredentials("\"" + email + "\", \"" + password + "\"");
         return true;
     }
 
@@ -144,7 +169,9 @@ public class Application {
             * new user. Creation of user from the database data
             * should create the supporting portfolio, stock, and
             * transaction data.*/
-            currentUser = new User();
+            currentUser = new User("1");        //change
+            ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(1);
+            ArrayList<String[]> userStocks = dbManager.getStockOwnership(1);
         }
         return validLogin;
     }

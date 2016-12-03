@@ -6,23 +6,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * This class forms a Stock object for the user
  */
 public class Stock {
+
+    private final Map<String, String> object = new HashMap<>();
+
+    /**
+     * Initialzer for the Stock class that maps the passed in data to Stock elements
+     * @param data String array result returned from previous database call
+     */
+    public Stock(String[] data){
+        int i = 0;
+        object.put(Constants.STOCK_NAME_LABEL_KEY, data[i++]);
+        object.put(Constants.STOCKS_OWNED_LABEL_KEY, data[i++]);
+        object.put(Constants.PURCHASED_VALUE_LABEL_KEY, data[i++]);
+        object.put(Constants.COMPANY_NAME_LABEL_KEY, data[i++]);
+        object.put(Constants.EXCHANGE_NAME_LABEL_KEY, data[i]);
+    }
 
     /**
      * Get this stock's data.
      * @return map of this stocks data.
      */
     public Map<String,String> getData(){
-        //todo remove test code
-//        Map<String, String> data = new HashMap<>();
-//        data.put(Constants.STOCK_NAME_LABEL_KEY, "AAPL");
-//        data.put(Constants.CURRENT_VALUE_LABEL_KEY, "100.00");
-//        data.put(Constants.PURCHASED_VALUE_LABEL_KEY, "125.00");
-//        data.put(Constants.STOCKS_OWNED_LABEL_KEY, "2");
-//        data.put(Constants.PROFIT_LOST_LABEL_KEY, "50.00");
-//        return data;
-        //todo end of test code
-        return null;
+        return object;
     }
 }

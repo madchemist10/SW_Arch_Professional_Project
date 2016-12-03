@@ -79,6 +79,7 @@ public class DatabaseManager {
         String values = DBStatementBuilder.valueStatement(credentials);
         String columns = DBConstants.EMAIL + ", " + DBConstants.PASSWORD;
         String statement = DBStatementBuilder.insertStatement(DBConstants.CUSTOMER_CREDENTIALS_TABLE, columns, values);
+        System.out.println("Inserting Credentials: " + statement);
         connection.insertIntoTable(statement);
     }
 
@@ -103,8 +104,9 @@ public class DatabaseManager {
     public void insertCustomerBalance(String balanceEntry){
         connection.makeConnection();
         String values = DBStatementBuilder.valueStatement(balanceEntry);
-        String columns = DBConstants.CUST_ID + " = " + DBConstants.BALANCE;
+        String columns = DBConstants.CUST_ID + " , " + DBConstants.BALANCE;
         String statement = DBStatementBuilder.insertStatement(DBConstants.CUSTOMER_BALANCE_TABLE, columns, values);
+        System.out.println("Inserting customer balance: " + statement);
         connection.insertIntoTable(statement);
     }
 
@@ -144,6 +146,7 @@ public class DatabaseManager {
         String columns = DBConstants.CUST_ID + ", " + DBConstants.TICKER + ", " + DBConstants.SHARES + ", " +
                 DBConstants.PURCHASE_PRICE + ", " + DBConstants.COMPANY + ", " + DBConstants.EXCHANGE;
         String statement = DBStatementBuilder.insertStatement(DBConstants.STOCK_OWNERSHIP_TABLE, columns, values);
+        System.out.println("Insert stock ownership: " + statement);
         connection.insertIntoTable(statement);
     }
 
@@ -187,6 +190,7 @@ public class DatabaseManager {
                 DBConstants.SHARES + ", " + DBConstants.PRICE + ", " + DBConstants.COMPANY + ", " +
                 DBConstants.EXCHANGE + ", " + DBConstants.DATE + ", " + DBConstants.TIME;
         String statement = DBStatementBuilder.insertStatement(DBConstants.TRANSACTION_HISTORY_TABLE, columns, values);
+        System.out.println("Insert transaction: " + statement);
         connection.insertIntoTable(statement);
     }
 
