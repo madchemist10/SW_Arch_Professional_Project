@@ -4,6 +4,10 @@ import java.util.ArrayList;
 /**
  * Use an the instance of this Database Manager for accessing
  * the database throughout the system.
+ * The DatabaseConn is used to execute the queries onto the database.
+ * This is stored as a static reference when the database is created.
+ * Each call to the database requires the make connection to be called prior
+ * to execution of the queries.
  */
 public class DatabaseManager {
 
@@ -13,25 +17,33 @@ public class DatabaseManager {
     /**Singleton instance of the authentication.*/
     private static Authentication authentication = null;
 
-    /**Signleton instance of database connection. */
+    /**Singleton instance of database connection. */
     private static DatabaseConn connection = null;
+
+    /**Name of the DB that has been given to this manager.*/
+    private String dbName;
 
     /**
      * Create a new {@link DatabaseManager}.
      * Retrieve the instance of the {@link Authentication} module.
      */
-    private DatabaseManager(){
+    private DatabaseManager(String dbName){
+        this.dbName = dbName;
         authentication = Authentication.getInstance();
     }
 
     /**
      * Retrieve the instance of this Database Manager,
      * if it does not exist, create it.
+     * @param dbName database path for this manager.
      * @return instance of {@link DatabaseManager}
      */
-    public static DatabaseManager getInstance(){
+    public static DatabaseManager getInstance(String dbName){
         if(instance == null){
-            instance = new DatabaseManager();
+            instance = new DatabaseManager(dbName);
+        }
+        if(connection == null) {
+            connection = DatabaseConn.getInstance(instance.dbName);
         }
         return instance;
     }
@@ -54,7 +66,7 @@ public class DatabaseManager {
      *                  database.
      */
     public void executeCreateStatement(String statement){
-        connection = DatabaseConn.getInstance();
+        connection.makeConnection();
         connection.makeTable(statement);
     }
 
@@ -63,7 +75,7 @@ public class DatabaseManager {
      * @param credentials string of credentials column values for insertion into Customer_Credentials table
      */
     public void insertCredentials(String credentials){
-        connection = DatabaseConn.getInstance();
+        connection.makeConnection();
         String values = DBStatementBuilder.valueStatement(credentials);
         String columns = DBConstants.EMAIL + ", " + DBConstants.PASSWORD;
         String statement = DBStatementBuilder.insertStatement(DBConstants.CUSTOMER_CREDENTIALS_TABLE, columns, values);
@@ -76,7 +88,7 @@ public class DatabaseManager {
      * @return array of customer credentials information
      */
     public ArrayList<String[]> getCredentials(int custID){
-        connection = DatabaseConn.getInstance();
+        connection.makeConnection();
         String statement = DBStatementBuilder.selectStatement("*") +
                 DBStatementBuilder.fromStatement(DBConstants.CUSTOMER_CREDENTIALS_TABLE) +
                 DBStatementBuilder.whereStatement(DBConstants.CUST_ID) +
@@ -89,7 +101,7 @@ public class DatabaseManager {
      * @param balanceEntry string of customer balance column values for insertion into Customer_Balance table
      */
     public void insertCustomerBalance(String balanceEntry){
-        connection = DatabaseConn.getInstance();
+        connection.makeConnection();
         String values = DBStatementBuilder.valueStatement(balanceEntry);
         String columns = DBConstants.CUST_ID + " = " + DBConstants.BALANCE;
         String statement = DBStatementBuilder.insertStatement(DBConstants.CUSTOMER_BALANCE_TABLE, columns, values);
@@ -101,7 +113,7 @@ public class DatabaseManager {
      * @param balance new balance to set in the Customer_Balance table
      */
     public void updateCustomerBalance(int balance){
-        connection = DatabaseConn.getInstance();
+        connection.makeConnection();
         String statement = DBStatementBuilder.updateStatement(DBConstants.CUSTOMER_BALANCE_TABLE) +
                 DBStatementBuilder.setStatement(DBConstants.BALANCE) +
                 " = " + balance;
@@ -114,7 +126,7 @@ public class DatabaseManager {
      * @return array of customer balance information
      */
     public ArrayList<String[]> getCustomerBalance(int custID){
-        connection = DatabaseConn.getInstance();
+        connection.makeConnection();
         String statement = DBStatementBuilder.selectStatement(DBConstants.BALANCE) +
                            DBStatementBuilder.fromStatement(DBConstants.CUSTOMER_BALANCE_TABLE) +
                            DBStatementBuilder.whereStatement(DBConstants.CUST_ID) +
@@ -127,7 +139,7 @@ public class DatabaseManager {
      * @param stock string of stock column values for insertion into the Stock_Ownership table
      */
     public void insertStockOwnership(String stock){
-        connection = DatabaseConn.getInstance();
+        connection.makeConnection();
         String values = DBStatementBuilder.valueStatement(stock);
         String columns = DBConstants.CUST_ID + ", " + DBConstants.TICKER + ", " + DBConstants.SHARES + ", " +
                 DBConstants.PURCHASE_PRICE + ", " + DBConstants.COMPANY + ", " + DBConstants.EXCHANGE;
@@ -141,7 +153,7 @@ public class DatabaseManager {
      * @param shares new quantity of shares in the appropriate entry in the Stock_Ownership table
      */
     public void updateStockOwnership(int custID, int shares){
-        connection = DatabaseConn.getInstance();
+        connection.makeConnection();
         String statement = DBStatementBuilder.updateStatement(DBConstants.STOCK_OWNERSHIP_TABLE) +
                 DBStatementBuilder.setStatement(DBConstants.SHARES) +
                 " = " + shares +
@@ -156,7 +168,7 @@ public class DatabaseManager {
      * @return array of stock ownership data
      */
     public ArrayList<String[]> getStockOwnership(int custID){
-        connection = DatabaseConn.getInstance();
+        connection.makeConnection();
         String statement = DBStatementBuilder.selectStatement("*") +
                 DBStatementBuilder.fromStatement(DBConstants.STOCK_OWNERSHIP_TABLE) +
                 DBStatementBuilder.whereStatement(DBConstants.CUST_ID) +
@@ -169,7 +181,7 @@ public class DatabaseManager {
      * @param transaction string of transaction column values for insertion into Transaction_History table
      */
     public void insertTransaction(String transaction){
-        connection = DatabaseConn.getInstance();
+        connection.makeConnection();
         String values = DBStatementBuilder.valueStatement(transaction);
         String columns = DBConstants.CUST_ID + ", " + DBConstants.TYPE + ", " + DBConstants.TICKER + ", " +
                 DBConstants.SHARES + ", " + DBConstants.PRICE + ", " + DBConstants.COMPANY + ", " +
@@ -184,7 +196,7 @@ public class DatabaseManager {
      * @return array of transaction history
      */
     public ArrayList<String[]> getTransactionHistory(int custID){
-        connection = DatabaseConn.getInstance();
+        connection.makeConnection();
         String statement = DBStatementBuilder.selectStatement("*") +
                            DBStatementBuilder.fromStatement(DBConstants.TRANSACTION_HISTORY_TABLE) +
                            DBStatementBuilder.whereStatement(DBConstants.CUST_ID) +

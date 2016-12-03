@@ -1,4 +1,5 @@
 package app.database;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * http://www.tutorialspoint.com/sqlite/sqlite_java.htm
  */
 
-public class DatabaseConn {
+class DatabaseConn {
 
     /**Reference to the connection for this database connection.*/
     private Connection conn = null;
@@ -22,7 +23,7 @@ public class DatabaseConn {
      */
     private DatabaseConn(String db){
         this.database = db;
-        this.conn = this.makeConnection(this.database);
+        this.conn = this.makeConnection();
     }
 
     /**
@@ -44,11 +45,12 @@ public class DatabaseConn {
     /**
      * Retrieve the instance of this Database Manager,
      * if it does not exist, create it.
+     * @param dbName database path for this manager.
      * @return instance of {@link DatabaseManager}
      */
-    public static DatabaseConn getInstance(){
+    public static DatabaseConn getInstance(String dbName){
         if(instance == null){
-            instance = new DatabaseConn(app.constants.Constants.DB_FILE);
+            instance = new DatabaseConn(dbName);
         }
         return instance;
     }
@@ -56,11 +58,10 @@ public class DatabaseConn {
     /**
      * Establish a connection to an sqlite database.
      * Uses sqlite library.
-     * @param database filepath to the database.
      * @return Connection that has been established or null
      *      if an error occurred.
      */
-    private Connection makeConnection(String database){
+    Connection makeConnection(){
         try{
             Class.forName("org.sqlite.JDBC");
             return DriverManager.getConnection("jdbc:sqlite:"+database);
@@ -91,7 +92,7 @@ public class DatabaseConn {
      */
     private Integer verifyConnection(){
         if (this.conn == null){
-            this.conn = this.makeConnection(this.database);
+            this.conn = this.makeConnection();
             if (this.conn != null) {
                 return 1;
             }else {

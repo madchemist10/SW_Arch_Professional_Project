@@ -39,7 +39,7 @@ public class Application {
      * instance to be instantiated.
      */
     private Application(){
-        dbManager = DatabaseManager.getInstance();
+        dbManager = DatabaseManager.getInstance(Constants.DB_FILE);
         loadSettings();
         createDB();
     }
