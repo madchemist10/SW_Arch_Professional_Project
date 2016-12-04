@@ -133,7 +133,6 @@ public class Application {
         return false;
     }
 
-
     /**
      * Retrieve the desired API Handler from the given {@link APIHandles}.
      * @param handle for the Handler to retrieve.
@@ -171,6 +170,10 @@ public class Application {
             ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(Integer.parseInt(userData[0]));
             ArrayList<String[]> userStocks = dbManager.getStockOwnership(Integer.parseInt(userData[0]));
             currentUser = new User();
+            if (balance.isEmpty()){
+                dbManager.insertCustomerBalance(userData[0] + ", 0.00");
+                balance = dbManager.getCustomerBalance(Integer.parseInt(userData[0]));
+            }
             currentUser.setUserData(userData, balance.get(0));
             currentUser.setPortfolio(userTransactions, userStocks);
             return true;
