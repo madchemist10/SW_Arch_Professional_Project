@@ -127,9 +127,8 @@ public class Application {
             if(formatNode.booleanValue()){
                 String credentials = "\""+email+"\",\""+password+"\"";
                 dbManager.insertCredentials(credentials);
-                ArrayList<String[]> userCred = dbManager.getCredentialsByEmail("\"" + email + "\"");
-                String ID = userCred.get(0)[0];
-                dbManager.insertCustomerBalance(Integer.parseInt(ID) + ", 0.00");
+                String[] userEntry = dbManager.validateLogin(email, password);
+                dbManager.insertCustomerBalance(Integer.parseInt(userEntry[0]) + ", 0.00");
                 return true;
             }
         }

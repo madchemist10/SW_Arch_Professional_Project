@@ -112,20 +112,6 @@ public class DatabaseManager {
     }
 
     /**
-     * Retrieves credentials of a provided customer ID
-     * @param email email constraint on which table entry to return
-     * @return array of customer credentials information
-     */
-    public ArrayList<String[]> getCredentialsByEmail(String email){
-        connection.makeConnection();
-        String statement = DBStatementBuilder.selectStatement("*") +
-                DBStatementBuilder.fromStatement(DBConstants.CUSTOMER_CREDENTIALS_TABLE) +
-                DBStatementBuilder.whereStatement(DBConstants.EMAIL) +
-                " = " + email;
-        return connection.selectFromTable(statement);
-    }
-
-    /**
      * Insert a customer balance for a new customer in the Customer_Balance table
      * @param balanceEntry string of customer balance column values for insertion into Customer_Balance table
      */
