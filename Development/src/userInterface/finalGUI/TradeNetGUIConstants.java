@@ -36,8 +36,6 @@ public class TradeNetGUIConstants {
     public static final String LOGIN_BUTTON_TEXT = "Login";
     /**Text to be given to the {@link userInterface.finalGUI.panels.LoginPanel#createAccountButton}*/
     public static final String CREATE_ACCOUNT_BUTTON_TEXT = "Create Account";
-    /**Text to be given to the {@link userInterface.finalGUI.panels.CreateNewAccountPanel#createButton}*/
-    public static final String CREATE_BUTTON_TEXT = "Create";
     /**Text to be given to the {@link userInterface.finalGUI.panels.StockEntryPanel#tradeButton}*/
     public static final String TRADE_BUTTON_TEXT = "Trade";
     /**Text to be given to the {@link userInterface.finalGUI.panels.TradePanel}*/
@@ -46,8 +44,6 @@ public class TradeNetGUIConstants {
     public static final String SELL_BUTTON_TEXT = "Sell";
 
     /*Panel Identifiers*/
-    /**Name of the {@link userInterface.finalGUI.panels.CreateNewAccountPanel}*/
-    public static final String CREATE_ACCOUNT_PANEL_IDENTIFIER = "Create Account";
     /**Name of the {@link userInterface.finalGUI.panels.LoginPanel}*/
     public static final String LOGIN_PANEL_IDENTIFIER = "Login";
     /**Name of the {@link userInterface.finalGUI.panels.AccountManagement}*/

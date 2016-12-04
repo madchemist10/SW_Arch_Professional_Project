@@ -16,8 +16,6 @@ public class GUIController extends JFrame implements PropertyChangeListener{
     private final JTabbedPane tabbedPane = new JTabbedPane();
     /**Reference to the login panel.*/
     private final LoginPanel loginPanel = new LoginPanel();
-    /**Reference to the create account panel.*/
-    private final CreateNewAccountPanel createNewAccountPanel = new CreateNewAccountPanel();
     /**Reference to the research panel.*/
     private final Research research = new Research();
 
@@ -86,11 +84,6 @@ public class GUIController extends JFrame implements PropertyChangeListener{
                 createMessagePopup(message, TradeNetGUIConstants.LOGIN_FAILED_TITLE);
                 break;
 
-            /*User has requested to create a new account.*/
-            case CREATE_ACCOUNT:
-                executeOnSwing(new AddCreateAccountPanelRunnable(this));
-                break;
-
             /*User has successfully created a new account.*/
             case ACCOUNT_CREATED:
                 executeOnSwing(new AddLoginPanelRunnable(this));
@@ -133,18 +126,7 @@ public class GUIController extends JFrame implements PropertyChangeListener{
      * remove the create account panel.
      */
     private void addLoginPanel(){
-        tabbedPane.remove(createNewAccountPanel);
         tabbedPane.add(loginPanel, loginPanel.getPanelIdentifier());
-    }
-
-    /**
-     * Removes the login panel and
-     * add the create account panel.
-     */
-    private void addCreateAccountPanel(){
-        tabbedPane.remove(loginPanel);
-        createNewAccountPanel.addPropertyListener(this);
-        tabbedPane.add(createNewAccountPanel, createNewAccountPanel.getPanelIdentifier());
     }
 
     /**
@@ -186,22 +168,6 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         @Override
         public void run() {
             manager.addLoginPanel();
-        }
-    }
-
-    /**
-     * Custom runnable to add create account panel.
-     */
-    private static class AddCreateAccountPanelRunnable implements Runnable{
-        private final GUIController manager;
-
-        AddCreateAccountPanelRunnable(GUIController manager){
-            this.manager = manager;
-        }
-
-        @Override
-        public void run() {
-            manager.addCreateAccountPanel();
         }
     }
 
