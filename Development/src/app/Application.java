@@ -185,7 +185,6 @@ public class Application {
         ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(ID);
         ArrayList<String[]> userStocks = dbManager.getStockOwnership(ID);
         currentUser.setPortfolio(userTransactions, userStocks);
-        currentUser = new User();
         currentUser.setUserData(userData.get(0), balance.get(0));
         currentUser.setPortfolio(userTransactions, userStocks);
     }
