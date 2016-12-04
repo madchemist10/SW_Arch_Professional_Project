@@ -127,6 +127,9 @@ public class Application {
             if(formatNode.booleanValue()){
                 String credentials = "\""+email+"\",\""+password+"\"";
                 dbManager.insertCredentials(credentials);
+                ArrayList<String[]> userCred = dbManager.getCredentialsByEmail("\"" + email + "\"");
+                String ID = userCred.get(0)[0];
+                dbManager.insertCustomerBalance(Integer.parseInt(ID) + ", 0.00");
                 return true;
             }
         }
@@ -170,10 +173,6 @@ public class Application {
             ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(Integer.parseInt(userData[0]));
             ArrayList<String[]> userStocks = dbManager.getStockOwnership(Integer.parseInt(userData[0]));
             currentUser = new User();
-            if (balance.isEmpty()){
-                dbManager.insertCustomerBalance(userData[0] + ", 0.00");
-                balance = dbManager.getCustomerBalance(Integer.parseInt(userData[0]));
-            }
             currentUser.setUserData(userData, balance.get(0));
             currentUser.setPortfolio(userTransactions, userStocks);
             return true;
@@ -192,10 +191,6 @@ public class Application {
         ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(ID);
         ArrayList<String[]> userStocks = dbManager.getStockOwnership(ID);
         currentUser = new User();
-        if (balance.isEmpty()){
-            dbManager.insertCustomerBalance(ID + ", 0.00");
-            balance = dbManager.getCustomerBalance(ID);
-        }
         currentUser.setUserData(userData.get(0), balance.get(0));
         currentUser.setPortfolio(userTransactions, userStocks);
     }
