@@ -91,7 +91,7 @@ public class GUIController extends JFrame implements PropertyChangeListener{
 
             /*User has failed to create a new account.*/
             case ACCOUNT_CREATION_FAILED:
-                message = "Username and password combination are already used.";
+                message = "Account could not be created.";
                 createMessagePopup(message, TradeNetGUIConstants.ACCOUNT_CREATED_FAILED_TITLE);
                 break;
 
