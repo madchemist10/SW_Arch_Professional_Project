@@ -181,6 +181,20 @@ public class Application {
         return false;
     }
 
+    public void refreshUser(){
+        int ID = Integer.parseInt(currentUser.getUserData().get(Constants.USER_ID_KEY));
+        ArrayList<String[]> userData = dbManager.getCredentials(ID);
+        ArrayList<String[]> balance = dbManager.getCustomerBalance(ID);
+        ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(ID);
+        ArrayList<String[]> userStocks = dbManager.getStockOwnership(ID);
+        currentUser = new User();
+        if (balance.isEmpty()){
+            dbManager.insertCustomerBalance(ID + ", 0.00");
+            balance = dbManager.getCustomerBalance(ID);
+        }
+        currentUser.setUserData(userData.get(0), balance.get(0));
+        currentUser.setPortfolio(userTransactions, userStocks);
+    }
     /**
      * Get list of {@link Transaction} the belongs to the portfolio
      * of the logged in user.
