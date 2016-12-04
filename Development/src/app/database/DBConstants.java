@@ -19,11 +19,11 @@ public class DBConstants {
                     "Type TEXT NOT NULL," +
                     "Ticker TEXT NOT NULL," +
                     "Shares INT NOT NULL," +
-                    "Price REAL NOT NULL," +
+                    "Trans_Cost REAL NOT NULL," +
                     "Company TEXT NOT NULL," +
                     "New_Balance TEXT NOT NULL," +
                     "Timestamp TEXT NOT NULL," +
-                    "FOREIGN KEY(Cust_ID) REFERENCES Customer_Information(Cust_ID))";
+                    "FOREIGN KEY(Cust_ID) REFERENCES Customer_Credentials(Cust_ID))";
 
     /**Makes Customer_Credentials Table*/
     public static final String DB_MAKE_CUSTOMER_CREDENTIALS =
@@ -42,7 +42,7 @@ public class DBConstants {
                     "Purchase_Price REAL NOT NULL," +
                     "Company TEXT NOT NULL," +
                     "Exchange TEXT NOT NULL," +
-                    "FOREIGN KEY(Cust_ID) REFERENCES Customer_Information(Cust_ID))";
+                    "FOREIGN KEY(Cust_ID) REFERENCES Customer_Credentials(Cust_ID))";
 
     /**Database table names*/
     public static final String STOCK_OWNERSHIP_TABLE = "Stock_Ownership";
@@ -56,11 +56,11 @@ public class DBConstants {
     public static final String SHARES = "Shares";
     public static final String TYPE = "Type";
     public static final String TICKER = "Ticker";
-    public static final String PRICE = "Price";
+    public static final String TRANS_COST = "Trans_Cost";
+    public static final String NEW_BALANCE = "New_Balance";
     public static final String COMPANY = "Company";
     public static final String EXCHANGE = "Exchange";
-    public static final String DATE = "Date";
-    public static final String TIME = "Time";
+    public static final String TIMESTAMP = "Timestamp";
     public static final String EMAIL = "Email";
     public static final String PASSWORD = "Password";
     public static final String PURCHASE_PRICE = "Purchase_Price";

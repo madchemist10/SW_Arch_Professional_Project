@@ -99,10 +99,12 @@ public class Constants {
     public static final String TRADE_ITEM_LABEL_KEY = "TRADE_ITEM_LABEL_KEY";
 
     /*User Data Panel label keys for pulling from user data map.*/
+    /**Key value for user ID*/
+    public static final String USER_ID_KEY = "USER_ID_KEY";
     /**Key value for username*/
-    public static final String USERNAME_LABEL_LABEL_KEY = "";
+    public static final String USERNAME_LABEL_LABEL_KEY = "USERNAME_LABEL_LABEL_KEY";
     /**Key value for account balance*/
-    public static final String ACCOUNT_BALANCE_LABEL_KEY = "";
+    public static final String ACCOUNT_BALANCE_LABEL_KEY = "ACCOUNT_BALANCE_LABEL_KEY";
     /**Key value for total profit lost*/
     public static final String TOTAL_PROFIT_LOST_LABEL_KEY = "";
 }

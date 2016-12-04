@@ -1,5 +1,7 @@
 package app.user;
 
+import app.constants.Constants;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,16 +13,13 @@ public class User {
 
     private final Portfolio portfolio;
     private final Map<String, String> userData;
-    private final String custID;
 
     /**
      * Initializer for the user class to populate user elements
-     * @param custID used to set the user's ID
      */
-    public User(String custID){
+    public User(){
         portfolio = new Portfolio();
         userData = new HashMap<>();
-        this.custID = custID;
     }
 
     /**
@@ -31,9 +30,16 @@ public class User {
         return portfolio;
     }
 
+    /**
+     * Builds a user's portfolio from the passed in results of previous DB calls
+     * @param userTransactions an array of string values resulting from a previous DB call
+     * @param userStocks an array of string values resulting from a previous DB call
+     */
     public void setPortfolio(ArrayList<String[]> userTransactions, ArrayList<String[]> userStocks){
-
+        portfolio.setStocks(userStocks);
+        portfolio.setTransactions(userTransactions);
     }
+
     /**
      * Get this user's user data.
      * @return Map of user data.
@@ -42,4 +48,10 @@ public class User {
         return userData;
     }
 
+    public void setUserData(String[] userData, String[] balance){
+        int i = 0;
+        this.userData.put(Constants.USER_ID_KEY, userData[i++]);
+        this.userData.put(Constants.USERNAME_LABEL_LABEL_KEY, userData[i++]);
+        this.userData.put(Constants.ACCOUNT_BALANCE_LABEL_KEY, balance[0]);
+    }
 }

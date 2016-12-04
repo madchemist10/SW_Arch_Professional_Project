@@ -2,6 +2,7 @@ package userInterface.finalGUI.panels;
 
 
 import app.constants.Constants;
+import app.utilities.Utilities;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;

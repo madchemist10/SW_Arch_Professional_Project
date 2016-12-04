@@ -86,7 +86,7 @@ public class DatabaseManager {
     }
 
     /**
-     *
+     * Insert's a set of credentials into the credential table
      * @param credentials string of credentials column values for insertion into Customer_Credentials table
      */
     public void insertCredentials(String credentials){
@@ -94,12 +94,11 @@ public class DatabaseManager {
         String values = DBStatementBuilder.valueStatement(credentials);
         String columns = DBConstants.EMAIL + ", " + DBConstants.PASSWORD;
         String statement = DBStatementBuilder.insertStatement(DBConstants.CUSTOMER_CREDENTIALS_TABLE, columns, values);
-        System.out.println("Inserting Credentials: " + statement);
         connection.insertIntoTable(statement);
     }
 
     /**
-     *
+     * Retrieves credentials of a provided customer ID
      * @param custID customer ID constraint on which table entry to return
      * @return array of customer credentials information
      */
@@ -121,7 +120,6 @@ public class DatabaseManager {
         String values = DBStatementBuilder.valueStatement(balanceEntry);
         String columns = DBConstants.CUST_ID + " , " + DBConstants.BALANCE;
         String statement = DBStatementBuilder.insertStatement(DBConstants.CUSTOMER_BALANCE_TABLE, columns, values);
-        System.out.println("Inserting customer balance: " + statement);
         connection.insertIntoTable(statement);
     }
 
@@ -129,11 +127,11 @@ public class DatabaseManager {
      * Update customer balance in the database for a specific user
      * @param balance new balance to set in the Customer_Balance table
      */
-    public void updateCustomerBalance(int balance){
+    public void updateCustomerBalance(double balance, int custID){
         connection.makeConnection();
         String statement = DBStatementBuilder.updateStatement(DBConstants.CUSTOMER_BALANCE_TABLE) +
                 DBStatementBuilder.setStatement(DBConstants.BALANCE) +
-                " = " + balance;
+                " = " + balance + DBStatementBuilder.whereStatement(DBConstants.CUST_ID) + " = " + custID;
         connection.updateTableEntry(statement);
     }
 
@@ -152,7 +150,7 @@ public class DatabaseManager {
     }
 
     /**
-     *
+     * Insertle a stock that the user owns into the Stock_Ownership tab
      * @param stock string of stock column values for insertion into the Stock_Ownership table
      */
     public void insertStockOwnership(String stock){
@@ -161,7 +159,6 @@ public class DatabaseManager {
         String columns = DBConstants.CUST_ID + ", " + DBConstants.TICKER + ", " + DBConstants.SHARES + ", " +
                 DBConstants.PURCHASE_PRICE + ", " + DBConstants.COMPANY + ", " + DBConstants.EXCHANGE;
         String statement = DBStatementBuilder.insertStatement(DBConstants.STOCK_OWNERSHIP_TABLE, columns, values);
-        System.out.println("Insert stock ownership: " + statement);
         connection.insertIntoTable(statement);
     }
 
@@ -195,17 +192,16 @@ public class DatabaseManager {
     }
 
     /**
-     *
+     * Insert a buy/sell transaction into the transaction table
      * @param transaction string of transaction column values for insertion into Transaction_History table
      */
     public void insertTransaction(String transaction){
         connection.makeConnection();
         String values = DBStatementBuilder.valueStatement(transaction);
         String columns = DBConstants.CUST_ID + ", " + DBConstants.TYPE + ", " + DBConstants.TICKER + ", " +
-                DBConstants.SHARES + ", " + DBConstants.PRICE + ", " + DBConstants.COMPANY + ", " +
-                DBConstants.EXCHANGE + ", " + DBConstants.DATE + ", " + DBConstants.TIME;
+                DBConstants.SHARES + ", " + DBConstants.TRANS_COST + ", " + DBConstants.COMPANY + ", " +
+                DBConstants.NEW_BALANCE + ", " + DBConstants.TIMESTAMP;
         String statement = DBStatementBuilder.insertStatement(DBConstants.TRANSACTION_HISTORY_TABLE, columns, values);
-        System.out.println("Insert transaction: " + statement);
         connection.insertIntoTable(statement);
     }
 
