@@ -1,5 +1,6 @@
 package app;
 
+import app.exception.BaseException;
 import app.constants.Constants;
 import app.database.DBConstants;
 import app.database.DatabaseManager;
@@ -11,9 +12,9 @@ import app.utilities.Utilities;
 import app.utilities.apiHandlers.APIHandler;
 import app.utilities.apiHandlers.APIHandles;
 import app.utilities.apiHandlers.IAPIHandler;
+import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents the portal for the user interface module to
@@ -38,7 +39,7 @@ public class Application {
      * instance to be instantiated.
      */
     private Application(){
-        dbManager = DatabaseManager.getInstance();
+        dbManager = DatabaseManager.getInstance(Constants.DB_FILE);
         loadSettings();
         createDB();
     }
@@ -65,12 +66,10 @@ public class Application {
         if(Utilities.fileExists(Constants.DB_FILE)){
             return;
         }
-        dbManager.executeCreateStatement(DBConstants.DB_MAKE_ACCESS_LOGS);
         dbManager.executeCreateStatement(DBConstants.DB_MAKE_CUSTOMER_BALANCE);
         dbManager.executeCreateStatement(DBConstants.DB_MAKE_CUSTOMER_CREDENTIALS);
-        dbManager.executeCreateStatement(DBConstants.DB_MAKE_CUSTOMER_INFORMATION);
-        dbManager.executeCreateStatement(DBConstants.DB_MAKE_FUNDS_HISTORY);
         dbManager.executeCreateStatement(DBConstants.DB_MAKE_TRANSACTION_HISTORY);
+        dbManager.executeCreateStatement(DBConstants.DB_MAKE_STOCK_OWNERSHIP);
     }
 
     /**
@@ -102,8 +101,38 @@ public class Application {
      * @return true if create account was success, false otherwise.
      */
     public boolean createAccount(String email, String password){
-        return true;
+
+        /*
+         * Use Mailbox API to make sure that the inserted email is valid
+         * before allowing account to be created
+         */
+
+        IAPIHandler mailboxAPI = getAPIHandler(APIHandles.MAILBOX_LAYER);
+        String request = mailboxAPI.buildAPIRequest(new String[]{email});
+        if(request == null){
+            return false;
+        }
+        Object returnVal;
+        try {
+            returnVal = mailboxAPI.executeAPIRequest(request);
+        } catch (BaseException e) {
+            return false;
+        }
+        if(returnVal == null){
+            return false;
+        }
+        if(returnVal instanceof JsonNode) {
+            JsonNode returnNode = (JsonNode) returnVal;
+            JsonNode formatNode = returnNode.get(Constants.FORMAT_VALID);
+            if(formatNode.booleanValue()){
+                String credentials = "\""+email+"\",\""+password+"\"";
+                dbManager.insertCredentials(credentials);
+                return true;
+            }
+        }
+        return false;
     }
+
 
     /**
      * Retrieve the desired API Handler from the given {@link APIHandles}.
@@ -119,8 +148,11 @@ public class Application {
      * @param cash to be added to the user's account.
      */
     public void addCashToUser(String cash){
-
+        Map<String, String> user = currentUser.getUserData();
+        double new_balance = Double.parseDouble(user.get(Constants.ACCOUNT_BALANCE_LABEL_KEY)) + Double.parseDouble(cash);
+        dbManager.updateCustomerBalance(new_balance, Integer.parseInt(user.get(Constants.USER_ID_KEY)));
     }
+
     /**
      * Allow the user interface to validate a user login.
      * Logs in the user.
@@ -133,16 +165,17 @@ public class Application {
      * @return true if login is valid, false otherwise.
      */
     public boolean loginUser(String email, String password){
-        boolean validLogin = dbManager.validateLogin(email, password);
-        if(validLogin){
-            /*todo set up the current logged in user
-            * by asking the database for the data to generate the
-            * new user. Creation of user from the database data
-            * should create the supporting portfolio, stock, and
-            * transaction data.*/
+        String[] userData = dbManager.validateLogin(email, password);
+        if(userData != null){
+            ArrayList<String[]> balance = dbManager.getCustomerBalance(Integer.parseInt(userData[0]));
+            ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(Integer.parseInt(userData[0]));
+            ArrayList<String[]> userStocks = dbManager.getStockOwnership(Integer.parseInt(userData[0]));
             currentUser = new User();
+            currentUser.setUserData(userData, balance.get(0));
+            currentUser.setPortfolio(userTransactions, userStocks);
+            return true;
         }
-        return validLogin;
+        return false;
     }
 
     /**
@@ -183,6 +216,18 @@ public class Application {
             return null;
         }
         return portfolio.getStocks();
+    }
+
+    /**
+     * Get a map of the user's data.
+     * @return Map of User Data.
+     */
+    public Map<String, String> getUserData(){
+        if(currentUser == null){
+            //user not logged in
+            return null;
+        }
+        return currentUser.getUserData();
     }
 
 }

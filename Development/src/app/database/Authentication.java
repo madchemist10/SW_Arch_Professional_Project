@@ -35,7 +35,5 @@ class Authentication {
      * @param password of the user's account.
      * @return true if login is valid, false otherwise.
      */
-    boolean validateLogin(String email, String password){
-        return true;
-    }
+    boolean validateLogin(String email, String password){ return true; }
 }

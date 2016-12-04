@@ -1,4 +1,5 @@
 package app.database;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -7,20 +8,21 @@ import java.util.ArrayList;
  * http://www.tutorialspoint.com/sqlite/sqlite_java.htm
  */
 
-public class DatabaseConn {
+class DatabaseConn {
 
     /**Reference to the connection for this database connection.*/
     private Connection conn = null;
     /**Database filepath for which this connection is connecting to.*/
     private String database = null;
+    /**Singleton instance of the database manager.*/
+    private static DatabaseConn instance = null;
 
     /**
-     * Create and establish a new connection to the database.
+     * Create a new DatabaseConn.
      * @param db String representation of the filepath to the database.
      */
-    DatabaseConn(String db){
+    private DatabaseConn(String db){
         this.database = db;
-        this.conn = this.makeConnection(this.database);
     }
 
     /**
@@ -40,13 +42,25 @@ public class DatabaseConn {
     }
 
     /**
+     * Retrieve the instance of this Database Manager,
+     * if it does not exist, create it.
+     * @param dbName database path for this manager.
+     * @return instance of {@link DatabaseManager}
+     */
+    public static DatabaseConn getInstance(String dbName){
+        if(instance == null){
+            instance = new DatabaseConn(dbName);
+        }
+        return instance;
+    }
+
+    /**
      * Establish a connection to an sqlite database.
      * Uses sqlite library.
-     * @param database filepath to the database.
      * @return Connection that has been established or null
      *      if an error occurred.
      */
-    private Connection makeConnection(String database){
+    Connection makeConnection(){
         try{
             Class.forName("org.sqlite.JDBC");
             return DriverManager.getConnection("jdbc:sqlite:"+database);
@@ -67,6 +81,8 @@ public class DatabaseConn {
         }catch (Exception e){
             e.printStackTrace();
         }
+        /*Assign null to ensure next connection can be established.*/
+        this.conn = null;
     }
 
     /**
@@ -77,7 +93,7 @@ public class DatabaseConn {
      */
     private Integer verifyConnection(){
         if (this.conn == null){
-            this.conn = this.makeConnection(this.database);
+            this.conn = this.makeConnection();
             if (this.conn != null) {
                 return 1;
             }else {
@@ -94,7 +110,6 @@ public class DatabaseConn {
      *              and data types.
      */
     void makeTable(String table){
-        Connection conn = this.conn;
         if (this.verifyConnection() == 1){
             try{
                 Statement stmt = conn.createStatement();
@@ -114,7 +129,6 @@ public class DatabaseConn {
      *               data into a table.
      */
     void insertIntoTable(String insert){
-        Connection conn = this.conn;
         if (this.verifyConnection() == 1){
             try{
                 conn.setAutoCommit(false);
@@ -137,7 +151,6 @@ public class DatabaseConn {
      */
     ArrayList<String[]> selectFromTable(String selectStatement){
         ArrayList<String[]> returnData = new ArrayList<>();
-        Connection conn = this.conn;
         if (this.verifyConnection() == 1) {
             try {
                 Statement stmt = conn.createStatement();
@@ -167,7 +180,6 @@ public class DatabaseConn {
      *                        for updating an entry in a given table.
      */
     void updateTableEntry(String updateStatement){
-        Connection conn = this.conn;
         if (this.verifyConnection() == 1) {
             try {
                 conn.setAutoCommit(false);
