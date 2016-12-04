@@ -54,11 +54,6 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
     AccountManagement(){
         super(TradeNetGUIConstants.ACCOUNT_MANAGEMENT_PANEL_IDENTIFIER);
         buildPanel();
-        //todo remove test code
-//        List<Stock> stocks = new LinkedList<>();
-//        stocks.add(new Stock());
-//        addStockEntries(stocks);
-        //todo end of test code
         addStockEntries(app.getUserStocks());
         addTransactionEntries(app.getUserTransactions());
         addUserData(app.getUserData());
@@ -93,6 +88,7 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
             /*User has decided to add cash to their account.*/
             case ADD_CASH:
                 createAddCashPopup();
+                updateUserData();
                 break;
         }
     }
@@ -222,6 +218,14 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
             return;
         }
         userDataPanel.updateLabels(userData);
+    }
+
+    /**
+     * Helper method to update user data.
+     * Called whenever user information would be changed.
+     */
+    private void updateUserData(){
+        addUserData(app.getUserData());
     }
 
     /**

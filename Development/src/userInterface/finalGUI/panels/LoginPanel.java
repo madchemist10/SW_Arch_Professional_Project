@@ -78,7 +78,26 @@ class LoginPanel extends BasePanel{
      * This should be run on a new thread.
      */
     private void createAccountCallBack(){
-        notifyListeners(new CustomChangeEvent(this, AppChangeEvents.CREATE_ACCOUNT));
+        String userEmail = emailField.getText();
+        if(!validateUserInput(userEmail)){
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.EMAIL_INVALID));
+            return;
+        }
+        String userPassword = new String(passwordField.getPassword());
+        if(!validateUserInput(userPassword)){
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.PASSWORD_INVALID));
+            return;
+        }
+        String hashedPassword = Utilities.getMD5Hash(new String(passwordField.getPassword()));
+        if(app.createAccount(userEmail, hashedPassword)){
+            /*Throw event for Account Created so the Panel Manager knows how to proceed.*/
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.ACCOUNT_CREATED));
+            /*Attempt to login the user if the user has successfully created an account.*/
+            loginCallBack();
+        } else{
+            /*Throw event for Account Creation Failed so the Panel Manager knows how to proceed.*/
+            notifyListeners(new CustomChangeEvent(this, AppChangeEvents.ACCOUNT_CREATION_FAILED));
+        }
     }
 
     /**

@@ -14,9 +14,6 @@ enum AppChangeEvents {
     /**Thrown when the user has failed to log in.*/
     LOGIN_FAIL,
 
-    /**Thrown when the user successfully creates new account.*/
-    CREATE_ACCOUNT,
-
     /**Thrown when the user has create a new account.*/
     ACCOUNT_CREATED,
 
