@@ -169,27 +169,23 @@ public class Application {
     public boolean loginUser(String email, String password){
         String[] userData = dbManager.validateLogin(email, password);
         if(userData != null){
-            ArrayList<String[]> balance = dbManager.getCustomerBalance(Integer.parseInt(userData[0]));
-            ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(Integer.parseInt(userData[0]));
-            ArrayList<String[]> userStocks = dbManager.getStockOwnership(Integer.parseInt(userData[0]));
-            currentUser = new User();
-            currentUser.setUserData(userData, balance.get(0));
-            currentUser.setPortfolio(userTransactions, userStocks);
+            populateUser(Integer.parseInt(userData[0]));
             return true;
         }
         return false;
     }
 
     /**
-     * Function to refresh the data of the current user
-     * For use when adding transactions, updating stocks, updating balance, etc.
+     * Populates the user from a provided customerID
+     * @param ID ID used for DB calls when getting a customer's data
      */
-    public void refreshUser(){
-        int ID = Integer.parseInt(currentUser.getUserData().get(Constants.USER_ID_KEY));
+    public void populateUser(int ID){
+        currentUser = new User();
         ArrayList<String[]> userData = dbManager.getCredentials(ID);
         ArrayList<String[]> balance = dbManager.getCustomerBalance(ID);
         ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(ID);
         ArrayList<String[]> userStocks = dbManager.getStockOwnership(ID);
+        currentUser.setPortfolio(userTransactions, userStocks);
         currentUser = new User();
         currentUser.setUserData(userData.get(0), balance.get(0));
         currentUser.setPortfolio(userTransactions, userStocks);
