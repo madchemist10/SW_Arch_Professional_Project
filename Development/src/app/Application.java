@@ -181,6 +181,10 @@ public class Application {
         return false;
     }
 
+    /**
+     * Function to refresh the data of the current user
+     * For use when adding transactions, updating stocks, updating balance, etc.
+     */
     public void refreshUser(){
         int ID = Integer.parseInt(currentUser.getUserData().get(Constants.USER_ID_KEY));
         ArrayList<String[]> userData = dbManager.getCredentials(ID);
