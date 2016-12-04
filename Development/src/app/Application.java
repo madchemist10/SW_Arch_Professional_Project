@@ -169,6 +169,7 @@ public class Application {
     public boolean loginUser(String email, String password){
         String[] userData = dbManager.validateLogin(email, password);
         if(userData != null){
+            currentUser = new User();
             populateUser(Integer.parseInt(userData[0]));
             return true;
         }
@@ -180,7 +181,6 @@ public class Application {
      * @param ID ID used for DB calls when getting a customer's data
      */
     public void populateUser(int ID){
-        currentUser = new User();
         ArrayList<String[]> userData = dbManager.getCredentials(ID);
         ArrayList<String[]> balance = dbManager.getCustomerBalance(ID);
         ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(ID);
