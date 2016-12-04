@@ -64,6 +64,10 @@ public class TradeNetGUIConstants {
     public static final String TRADIER_PANEL_IDENTIFIER = "Tradier";
     /**Name of the {@link userInterface.finalGUI.panels.UserDataPanel}*/
     public static final String USER_PANEL_IDENTIFIER = "User";
+    /**Name of the {@link userInterface.finalGUI.panels.TwitterResultsPanel}*/
+    public static final String TWITTER_PANEL_IDENTIFIER = "Twitter";
+    /**Name of the {@link userInterface.finalGUI.panels.NewsResultsPanel}*/
+    public static final String NEWS_PANEL_IDENTIFIER = "News";
 
     /*Warning Dialog Titles*/
     /**Title of the Warning Popup for {@link userInterface.finalGUI.panels.AppChangeEvents#EMAIL_INVALID}*/
@@ -88,4 +92,11 @@ public class TradeNetGUIConstants {
     public static final String DAILY_NET_CHANGE_LABEL = "Daily Net Change: ";
     /**Text to be given to the {@link userInterface.panels.TradierPanel} volume label.*/
     public static final String VOLUME_LABEL = "Volume: ";
+
+    /*Twitter Labels*/
+    /**Text to be given to the {@link userInterface.finalGUI.panels.TwitterResultsPanel} sender label*/
+    public static final String SENDER_LABEL = "Sender: ";
+    /**Text to be given to the {@link userInterface.finalGUI.panels.TwitterResultsPanel} sender label*/
+    public static final String MESSAGE_LABEL = "Tweet: ";
+
 }
