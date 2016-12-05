@@ -40,5 +40,12 @@ enum AppChangeEvents {
     TRADIER_HTTP_ERROR,
 
     /**Thrown when the user's access credentials for Tradier API are invalid.*/
-    INVALID_TRADIER_API_CREDENTIALS
-}
+    INVALID_TRADIER_API_CREDENTIALS,
+
+    /**Thrown when the user's access credentials for Twitter API are invalid*/
+    INVALID_TWITTER_API_CREDENTIALS,
+
+    /**Thrown when the user's access credentials for News API are invalid*/
+    INVALID_NEWS_API_CREDENTIALS
+
+    }

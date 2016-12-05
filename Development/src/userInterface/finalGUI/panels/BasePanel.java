@@ -94,8 +94,8 @@ abstract class BasePanel extends JPanel{
      * to handle the underlying structure of how to organize the panel.
      * @param component that is to be added to the panel.
      */
-    void addComponent(Component component){
-        add(component, constraints);
+    void addComponent(final Component component){
+        SwingUtilities.invokeLater(() -> add(component, constraints));
     }
 
     /**
