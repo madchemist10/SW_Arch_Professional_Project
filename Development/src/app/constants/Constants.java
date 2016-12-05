@@ -107,4 +107,8 @@ public class Constants {
     public static final String ACCOUNT_BALANCE_LABEL_KEY = "ACCOUNT_BALANCE_LABEL_KEY";
     /**Key value for total profit lost*/
     public static final String TOTAL_PROFIT_LOSS_LABEL_KEY = "TOTAL_PROFIT_LOSS_LABEL_KEY";
+
+    /*Date*/
+    /**SimpleDateFormat string*/
+    public static final String SIMPLE_DATE_FORMAT_STRING = "MMMMM dd yyyy HH:mm:ss";
 }

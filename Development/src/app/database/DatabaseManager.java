@@ -166,14 +166,16 @@ public class DatabaseManager {
      * Update stock ownership data for a specific user
      * @param custID customer ID constraint on which table entry to update
      * @param shares new quantity of shares in the appropriate entry in the Stock_Ownership table
+     * @param ticker ticker constraint on which table entry to update
+     * @param cost new average cost per share
      */
-    public void updateStockOwnership(int custID, int shares){
+    public void updateStockOwnership(int custID, int shares, String ticker, double cost){
         connection.makeConnection();
         String statement = DBStatementBuilder.updateStatement(DBConstants.STOCK_OWNERSHIP_TABLE) +
                 DBStatementBuilder.setStatement(DBConstants.SHARES) +
-                " = " + shares +
+                " = " + shares + ", " + DBConstants.PURCHASE_PRICE + " = " + cost +
                 DBStatementBuilder.whereStatement(DBConstants.CUST_ID) +
-                " = " + custID;
+                " = " + custID + " AND " + DBConstants.TICKER + " = \"" + ticker + "\"";
         connection.updateTableEntry(statement);
     }
 
