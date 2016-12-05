@@ -170,24 +170,34 @@ public class Application {
         if(userData != null){
             currentUser = new User();
             populateUser(Integer.parseInt(userData[0]));
+            //spawn a timer to execute the query every second.
             return true;
         }
         return false;
     }
 
+    public void refreshProfitLoss(List<Stock> userStocks){
+        String profitLoss = calculateProfitLoss(userStocks);
+        currentUser.setUserProfitLoss(profitLoss);
+    }
     /**
      * Populates the user from a provided customerID
      * @param ID ID used for DB calls when getting a customer's data
      */
     public void populateUser(int ID){
+        currentUser = null;
+        currentUser = new User();
+        dbManager.insertStockOwnership("1, \"AAPL\", 30, 50, \"Apple\"");
+        dbManager.insertStockOwnership("1, \"MSFT\", 20, 40, \"Microsoft\"");
         ArrayList<String[]> userData = dbManager.getCredentials(ID);
         ArrayList<String[]> balance = dbManager.getCustomerBalance(ID);
         ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(ID);
         ArrayList<String[]> userStocks = dbManager.getStockOwnership(ID);
         currentUser.setPortfolio(userTransactions, userStocks);
         currentUser.setUserData(userData.get(0), balance.get(0));
-        currentUser.setPortfolio(userTransactions, userStocks);
+        refreshProfitLoss(getUserStocks());
     }
+
     /**
      * Get list of {@link Transaction} the belongs to the portfolio
      * of the logged in user.
@@ -240,4 +250,52 @@ public class Application {
         return currentUser.getUserData();
     }
 
+    /**
+     * Function used to calculate the user's total profit/loss across all owned stocks
+     * @param userStocks used to iterate through and determine stock prices for profitLoss calculation
+     * @return String of profitLoss variable on success, null on failure
+     */
+    public String calculateProfitLoss(List<Stock> userStocks){
+        double profitLoss = 0.0;
+        for (Stock stock : userStocks) {
+            String ticker = stock.getData().get(Constants.STOCK_NAME_LABEL_KEY);
+            String last = getStockPrice(ticker);
+            if (last != null){
+                double currPrice = Double.parseDouble(stock.getData().get(Constants.STOCKS_OWNED_LABEL_KEY)) * Double.parseDouble(last);
+                double origPrice = Double.parseDouble(stock.getData().get(Constants.STOCKS_OWNED_LABEL_KEY)) * Double.parseDouble(stock.getData().get(Constants.PURCHASED_VALUE_LABEL_KEY));
+                profitLoss += currPrice - origPrice;
+            }
+            else{
+                return null;
+            }
+        }
+        return Double.toString(profitLoss);
+    }
+
+    /**
+     *
+     */
+    private String getStockPrice(String ticker){
+        IAPIHandler tradierAPI = getAPIHandler(APIHandles.TRADIER);
+        String request = tradierAPI.buildAPIRequest(new String[]{ticker});
+        if(request == null){
+            return null;
+        }
+        Object returnVal;
+        try {
+            returnVal = tradierAPI.executeAPIRequest(request);
+            System.out.println(returnVal);
+        } catch (BaseException e) {
+            return null;
+        }
+        if (returnVal == null){
+            return null;
+        }
+        if (returnVal instanceof JsonNode){
+            JsonNode result = (JsonNode) returnVal;
+            String last = result.get(Constants.QUOTES).get("quote").get(Constants.LAST).toString();
+            return last;
+        }
+        return null;
+    }
 }

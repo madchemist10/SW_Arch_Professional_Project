@@ -17,7 +17,7 @@ public class Transaction {
      * @param data String array result returned from previous database call
      */
     public Transaction(String[] data){
-        int i = 0;
+        int i = 2;
         object.put(Constants.TRADE_TYPE_LABEL_KEY, data[i++]);
         object.put(Constants.TICKER_LABEL_KEY, data[i++]);
         object.put(Constants.SHARE_QTY_LABEL_KEY, data[i++]);

@@ -41,7 +41,6 @@ public class DBConstants {
                     "Shares INT NOT NULL," +
                     "Purchase_Price REAL NOT NULL," +
                     "Company TEXT NOT NULL," +
-                    "Exchange TEXT NOT NULL," +
                     "FOREIGN KEY(Cust_ID) REFERENCES Customer_Credentials(Cust_ID))";
 
     /**Database table names*/

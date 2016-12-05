@@ -106,5 +106,5 @@ public class Constants {
     /**Key value for account balance*/
     public static final String ACCOUNT_BALANCE_LABEL_KEY = "ACCOUNT_BALANCE_LABEL_KEY";
     /**Key value for total profit lost*/
-    public static final String TOTAL_PROFIT_LOST_LABEL_KEY = "";
+    public static final String TOTAL_PROFIT_LOSS_LABEL_KEY = "TOTAL_PROFIT_LOSS_LABEL_KEY";
 }
