@@ -8,6 +8,8 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -19,6 +21,7 @@ class NewsAPIHandler extends AAPIHandler{
     /**Local static reference to the AAPIHandler that
      * handles the request from the application.*/
     private static AAPIHandler instance = null;
+    private String body = null;
 
     /**
      * Retrieve an instance of the NewsAPIHandler so that
@@ -40,15 +43,19 @@ class NewsAPIHandler extends AAPIHandler{
     @Override
     public String buildAPIRequest(String[] inputs) {
 
-        String apiURL = "https://newsapi.org/v1/articles?source=bloomberg&sortBy=top&apiKey=";
+        String apiURL = "http://api.ft.com/content/search/v1?apiKey=";
 
-        //remove this line once the key is implemented
         String NEWS_API_ACCESS_TOKEN = app.getValueFromSettings(Constants.NEWS_API_ACCESS_TOKEN);
+        //String NEWS_API_ACCESS_TOKEN = "xgy5jqzu5n8u88qcdhcqzvmg";
+
+        body = "{\"queryString\": \"" + inputs[0] + "\", \"queryContext\": {\"curations\": [\"ARTICLES\"]}, \"resultContext\": {\"maxResults\": \"5\", \"aspects\": [\"title\"]}}";
+
 
         if(NEWS_API_ACCESS_TOKEN == null){
             return null;
         }
 
+        //return apiURL;
         return apiURL + NEWS_API_ACCESS_TOKEN;
     }
 
@@ -65,8 +72,15 @@ class NewsAPIHandler extends AAPIHandler{
         String returnValue = null;
 
         try {
+
             URL myURL = new URL(request);
-            URLConnection connection = myURL.openConnection();
+            HttpURLConnection connection = (HttpURLConnection) myURL.openConnection();
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+            writer.write(body);
+            writer.flush();
             InputStream inputStream = connection.getInputStream();
             String encoding = connection.getContentEncoding();
             encoding = encoding == null ? "UTF-8" : encoding;
@@ -89,6 +103,7 @@ class NewsAPIHandler extends AAPIHandler{
             e.printStackTrace();
         }
 
+        System.out.println(jsonNode);
         return jsonNode;
 
     }

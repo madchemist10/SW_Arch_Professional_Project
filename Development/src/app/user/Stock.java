@@ -17,12 +17,11 @@ public class Stock {
      * @param data String array result returned from previous database call
      */
     public Stock(String[] data){
-        int i = 0;
+        int i = 2;
         object.put(Constants.STOCK_NAME_LABEL_KEY, data[i++]);
         object.put(Constants.STOCKS_OWNED_LABEL_KEY, data[i++]);
         object.put(Constants.PURCHASED_VALUE_LABEL_KEY, data[i++]);
-        object.put(Constants.COMPANY_NAME_LABEL_KEY, data[i++]);
-        object.put(Constants.EXCHANGE_NAME_LABEL_KEY, data[i]);
+        object.put(Constants.COMPANY_NAME_LABEL_KEY, data[i]);
     }
 
     /**

@@ -157,7 +157,7 @@ public class DatabaseManager {
         connection.makeConnection();
         String values = DBStatementBuilder.valueStatement(stock);
         String columns = DBConstants.CUST_ID + ", " + DBConstants.TICKER + ", " + DBConstants.SHARES + ", " +
-                DBConstants.PURCHASE_PRICE + ", " + DBConstants.COMPANY + ", " + DBConstants.EXCHANGE;
+                DBConstants.PURCHASE_PRICE + ", " + DBConstants.COMPANY;
         String statement = DBStatementBuilder.insertStatement(DBConstants.STOCK_OWNERSHIP_TABLE, columns, values);
         connection.insertIntoTable(statement);
     }
