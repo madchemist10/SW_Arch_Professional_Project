@@ -41,7 +41,6 @@ public class DBConstants {
                     "Shares INT NOT NULL," +
                     "Purchase_Price REAL NOT NULL," +
                     "Company TEXT NOT NULL," +
-                    "Exchange TEXT NOT NULL," +
                     "FOREIGN KEY(Cust_ID) REFERENCES Customer_Credentials(Cust_ID))";
 
     /**Database table names*/
@@ -59,7 +58,6 @@ public class DBConstants {
     public static final String TRANS_COST = "Trans_Cost";
     public static final String NEW_BALANCE = "New_Balance";
     public static final String COMPANY = "Company";
-    public static final String EXCHANGE = "Exchange";
     public static final String TIMESTAMP = "Timestamp";
     public static final String EMAIL = "Email";
     public static final String PASSWORD = "Password";

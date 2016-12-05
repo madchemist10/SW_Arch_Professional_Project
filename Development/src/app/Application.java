@@ -4,6 +4,7 @@ import app.exception.BaseException;
 import app.constants.Constants;
 import app.database.DBConstants;
 import app.database.DatabaseManager;
+import app.exception.InsufficientFundsException;
 import app.user.Portfolio;
 import app.user.Stock;
 import app.user.Transaction;
@@ -13,6 +14,11 @@ import app.utilities.apiHandlers.APIHandler;
 import app.utilities.apiHandlers.APIHandles;
 import app.utilities.apiHandlers.IAPIHandler;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.sun.tools.internal.jxc.ap.Const;
+import com.sun.tools.javac.code.Attribute;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 import java.util.*;
 
@@ -33,6 +39,10 @@ public class Application {
 
     /**Current User that is logged in.*/
     private static User currentUser = null;
+
+
+    /**Simple Date Format for use when inserting transactions.*/
+    private static SimpleDateFormat format = new SimpleDateFormat(Constants.SIMPLE_DATE_FORMAT_STRING);
 
     /**
      * Default constructor to only allow a new
@@ -170,6 +180,7 @@ public class Application {
         if(userData != null){
             currentUser = new User();
             populateUser(Integer.parseInt(userData[0]));
+            populateUser(Integer.parseInt(currentUser.getUserData().get(Constants.USER_ID_KEY)));
             return true;
         }
         return false;
@@ -186,7 +197,6 @@ public class Application {
         ArrayList<String[]> userStocks = dbManager.getStockOwnership(ID);
         currentUser.setPortfolio(userTransactions, userStocks);
         currentUser.setUserData(userData.get(0), balance.get(0));
-        currentUser.setPortfolio(userTransactions, userStocks);
     }
     /**
      * Get list of {@link Transaction} the belongs to the portfolio
@@ -240,4 +250,89 @@ public class Application {
         return currentUser.getUserData();
     }
 
+
+    public Stock stockOwned(String ticker){
+        List<Stock> userStocks = currentUser.getPortfolio().getStocks();
+        for (Stock thisStock: userStocks){
+            String thisTicker = thisStock.getData().get(Constants.STOCK_NAME_LABEL_KEY);
+            if (thisTicker.equals(ticker)) {
+                return thisStock;
+            }
+        }
+        String[] dummyValues = new String[6];
+        dummyValues[3] = "-1";
+        Stock dummyStock = new Stock(dummyValues);
+        return dummyStock;
+    }
+
+    /**
+     * Buy or sell a stock given a map {trade('BUY' or 'SELL'), ticker, current value, quantity, company}
+     */
+    public void trade(Map<String, String> newStock) throws InsufficientFundsException {
+        /* check money
+         * insert transaction
+         * check (insert or update) stock ownership
+         * update customer balance
+         * populate user function
+         */
+        // get stock info
+        String newTicker = newStock.get(Constants.TICKER_LABEL_KEY);
+        double newPrice = Double.parseDouble(newStock.get(Constants.CURRENT_VALUE_LABEL_KEY));
+        int newShares = Integer.parseInt(newStock.get(Constants.SHARE_QTY_LABEL_KEY));
+        String newCompany = newStock.get(Constants.COMPANY_NAME_LABEL_KEY);
+        String tradeType = newStock.get(Constants.TRADE_TYPE_LABEL_KEY);
+        boolean buying = tradeType.equals("BUY");
+        double newTransPrice = newPrice * newShares;
+
+        // get user balance and check if user has that amount of money if buying
+        Map<String, String> user = currentUser.getUserData();
+        double currentBalance = Double.parseDouble(user.get(Constants.ACCOUNT_BALANCE_LABEL_KEY));
+        double newBalance = currentBalance + newTransPrice;
+        if (buying) {
+            newBalance = currentBalance - newTransPrice;
+            if (newBalance < 0){
+                throw new InsufficientFundsException();
+            }
+        }
+
+        Date now = new Date();
+        String datetimeStr = now.toString();
+        String transTime = format.format(now);
+        int userID = Integer.parseInt(user.get(Constants.USER_ID_KEY));
+        String transString = userID + ", " +
+                "\"" + tradeType + "\", " +
+                "\"" + newTicker + "\", " +
+                newShares + ", " +
+                newTransPrice + ", " +
+                "\"" + newCompany + "\", " +
+                newBalance + ", "+
+                "\"" + transTime + "\"";
+
+        dbManager.insertTransaction(transString);
+
+        // check if user already owns these stocks
+        Stock checkedStock = stockOwned(newTicker);
+        int oldShares = Integer.parseInt(checkedStock.getData().get(Constants.STOCKS_OWNED_LABEL_KEY));
+        if (oldShares != -1){
+            // owns or owned the stock or selling
+            int newQuantity = oldShares - newShares;
+            double oldPrice = Double.parseDouble(checkedStock.getData().get(Constants.PURCHASED_VALUE_LABEL_KEY));
+            double newCost = oldPrice;
+            if (buying) {
+                newQuantity = oldShares + newShares;
+                newCost = ((oldShares * oldPrice) + (newShares * newPrice)) / newQuantity;
+            }
+            dbManager.updateStockOwnership(userID, newQuantity, newTicker, newCost);
+        } else {
+            // never owned the stock but buying
+            String stockString = userID + ", " +
+                    "\"" + newTicker + "\", " +
+                    newShares + ", " +
+                    newPrice + ", " +
+                    "\"" + newCompany + "\"";
+            dbManager.insertStockOwnership(stockString);
+        }
+        dbManager.updateCustomerBalance(newBalance, userID);
+        populateUser(userID);
+    }
 }
