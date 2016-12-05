@@ -24,6 +24,8 @@ class TradierResultsPanel extends BasePanel{
 
     /**Ticker symbol for this {@link TradierResultsPanel}.*/
     private String tickerSymbol;
+    /**Company name for this results session.*/
+    private String companyName;
     /**Panel that will contain the results as they are generated.*/
     private final JPanel resultsPanel = new JPanel();
     /**Constraints for label placement within the results panel.*/
@@ -54,6 +56,16 @@ class TradierResultsPanel extends BasePanel{
         java.util.Timer timer = new Timer();
         //1000 = 1 sec; 0 to start with no delay.
         timer.scheduleAtFixedRate(new RefreshTimer(this),0,1000);
+    }
+
+    String getTickerSymbol(){
+        return tickerSymbol;
+    }
+    String getCurrentVal(){
+        return lastPriceDataLabel.getText();
+    }
+    String getCompanyName(){
+        return companyName;
     }
 
     /**
@@ -181,6 +193,8 @@ class TradierResultsPanel extends BasePanel{
         if(lastNode == null || dailyNetChangeNode == null || volumeNode == null){
             return;
         }
+
+//        companyName = singleQuote.get("").asText();
 
         /*Get the sub nodes' text values to display*/
         String lastPrice = lastNode.asText();
