@@ -55,6 +55,8 @@ public class Constants {
     public static final String CHANGE = "change";
     /**Json Node key for getting volume of the quote.*/
     public static final String VOLUME = "volume";
+    /**Json Node key for getting single quote.*/
+    public static final String QUOTE = "quote";
 
     /*News JsonNode Constants*/
     /**Json Node key for getting title of the quote.*/
@@ -111,4 +113,8 @@ public class Constants {
     /*Date*/
     /**SimpleDateFormat string*/
     public static final String SIMPLE_DATE_FORMAT_STRING = "MMMMM dd yyyy HH:mm:ss";
+
+
+    public static final String BUY = "buy";
+    public static final String SELL = "sell";
 }

@@ -194,6 +194,21 @@ public class DatabaseManager {
     }
 
     /**
+     * Retrieve stock data from a given owner.
+     * @param custID customer ID constraint on which table entry to return
+     * @param ticker ticker constraint on which table entry to update
+     * @return list of stock data. (Should be one string[])
+     */
+    public ArrayList<String[]> getStockFromOwner(int custID, String ticker){
+        connection.makeConnection();
+        String statement = DBStatementBuilder.selectStatement("*") +
+                DBStatementBuilder.fromStatement(DBConstants.STOCK_OWNERSHIP_TABLE) +
+                DBStatementBuilder.whereStatement(DBConstants.CUST_ID) +
+                " = " + custID + " AND "+ DBConstants.TICKER +" = " + ticker;
+        return connection.selectFromTable(statement);
+    }
+
+    /**
      * Insert a buy/sell transaction into the transaction table
      * @param transaction string of transaction column values for insertion into Transaction_History table
      */

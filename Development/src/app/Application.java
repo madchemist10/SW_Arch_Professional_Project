@@ -4,6 +4,8 @@ import app.exception.BaseException;
 import app.constants.Constants;
 import app.database.DBConstants;
 import app.database.DatabaseManager;
+import app.exception.NotEnoughStockException;
+import app.exception.StockNotOwnedException;
 import app.exception.InsufficientFundsException;
 import app.user.Portfolio;
 import app.user.Stock;
@@ -14,10 +16,7 @@ import app.utilities.apiHandlers.APIHandler;
 import app.utilities.apiHandlers.APIHandles;
 import app.utilities.apiHandlers.IAPIHandler;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.sun.tools.internal.jxc.ap.Const;
-import com.sun.tools.javac.code.Attribute;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 import java.util.*;
@@ -180,23 +179,35 @@ public class Application {
         if(userData != null){
             currentUser = new User();
             populateUser(Integer.parseInt(userData[0]));
-            //spawn a timer to execute the query every second.
             return true;
         }
         return false;
     }
 
-    public void refreshProfitLoss(List<Stock> userStocks){
-        String profitLoss = calculateProfitLoss(userStocks);
+    private void refreshProfitLoss(List<Stock> userStocks){
+        if(userStocks == null){
+            return;
+        }
+        double totalProfitLoss = 0.0;
+        for(Stock stock: userStocks){
+            String profitLoss = getStockProfitLoss(stock);
+            if(profitLoss != null){
+                totalProfitLoss += Double.parseDouble(profitLoss);
+            }
+        }
+        String profitLoss = Double.toString(totalProfitLoss);
         currentUser.setUserProfitLoss(profitLoss);
     }
     /**
      * Populates the user from a provided customerID
+     * We assume that the list returned from each dbManager call
+     * only contains one entry.
      * @param ID ID used for DB calls when getting a customer's data
      */
-    public void populateUser(int ID){
+    private void populateUser(int ID){
         currentUser = null;
         currentUser = new User();
+        //todo remove sample data
         dbManager.insertStockOwnership("1, \"AAPL\", 30, 50, \"Apple\"");
         dbManager.insertStockOwnership("1, \"MSFT\", 20, 40, \"Microsoft\"");
         ArrayList<String[]> userData = dbManager.getCredentials(ID);
@@ -261,136 +272,202 @@ public class Application {
     }
 
     /**
-     * Function used to calculate the user's total profit/loss across all owned stocks
-     * @param userStocks used to iterate through and determine stock prices for profitLoss calculation
-     * @return String of profitLoss variable on success, null on failure
+     * Retrieve the stock profit loss from a give stock.
+     * @param stock that is to have profit loss calculated.
+     * @return String representation of the loss for the given
+     *          stock.
      */
-    public String calculateProfitLoss(List<Stock> userStocks){
-        double profitLoss = 0.0;
-        for (Stock stock : userStocks) {
-            String ticker = stock.getData().get(Constants.STOCK_NAME_LABEL_KEY);
-            String last = getStockPrice(ticker);
-            if (last != null){
-                double currPrice = Double.parseDouble(stock.getData().get(Constants.STOCKS_OWNED_LABEL_KEY)) * Double.parseDouble(last);
-                double origPrice = Double.parseDouble(stock.getData().get(Constants.STOCKS_OWNED_LABEL_KEY)) * Double.parseDouble(stock.getData().get(Constants.PURCHASED_VALUE_LABEL_KEY));
-                profitLoss += currPrice - origPrice;
-            }
-            else{
-                return null;
-            }
+    private String getStockProfitLoss(Stock stock){
+        Map<String, String> stockData = stock.getData();
+        String ticker = stockData.get(Constants.STOCK_NAME_LABEL_KEY);
+        String purchasePrice = stockData.get(Constants.PURCHASED_VALUE_LABEL_KEY);
+        String qtyPurchased = stockData.get(Constants.STOCKS_OWNED_LABEL_KEY);
+
+        double stockPurchasePrice = Double.parseDouble(purchasePrice);
+        int stockQtyPurchased = Integer.parseInt(qtyPurchased);
+        String currentPrice = getStockCurrentPrice(ticker);
+        if(currentPrice == null){
+            return null;
         }
-        return Double.toString(profitLoss);
+        double stockCurrentPrice = Double.parseDouble(currentPrice);
+        /*To calculate a stock's profit loss, we are assuming that we want
+        * the profit loss to be positive for profit and negative for loss.
+        * To calculate this we subtract current value by purchased value and multiple
+        * by the number of stocks the user owns.*/
+        double stockProfitLoss = (stockQtyPurchased) * (stockCurrentPrice - stockPurchasePrice);
+        return Double.toString(stockProfitLoss);
     }
 
     /**
-     *
+     * Get the current price for the ticker symbol
+     * that is given.
+     * @param query ticker symbol to be queried for.
+     * @return String representation of the last value for the
+     *              stock's ticker symbol.
      */
-    private String getStockPrice(String ticker){
-        IAPIHandler tradierAPI = getAPIHandler(APIHandles.TRADIER);
-        String request = tradierAPI.buildAPIRequest(new String[]{ticker});
-        if(request == null){
+    private String getStockCurrentPrice(String query){
+        JsonNode node = executeTradierQuery(query);
+        if(node == null){
             return null;
         }
+
+        JsonNode quotesNode = node.get(Constants.QUOTES);
+        if( quotesNode == null) {
+            return null;
+        }
+        JsonNode singleQuotesNode = quotesNode.get(Constants.QUOTE);
+        if(singleQuotesNode == null) {
+            return null;
+        }
+
+        JsonNode last =  singleQuotesNode.get(Constants.LAST);
+        if(last == null){
+            return null;
+        }
+        return last.asText();
+    }
+
+    /**
+     * Execution of the tradier query.
+     * @param query that is from the user's input.
+     * @return JsonNode of the return value or null if error occurred.
+     */
+    private JsonNode executeTradierQuery(String query){
+        IAPIHandler tradierAPI = getAPIHandler(APIHandles.TRADIER);
+        String request = tradierAPI.buildAPIRequest(new String[]{query});
         Object returnVal;
+
         try {
             returnVal = tradierAPI.executeAPIRequest(request);
-            System.out.println(returnVal);
-        } catch (BaseException e) {
+        }catch(BaseException e){
             return null;
         }
-        if (returnVal == null){
+
+        if(returnVal == null){
             return null;
         }
-        if (returnVal instanceof JsonNode){
-            JsonNode result = (JsonNode) returnVal;
-            String last = result.get(Constants.QUOTES).get("quote").get(Constants.LAST).toString();
-            return last;
+
+        if(returnVal instanceof JsonNode){
+            return (JsonNode) returnVal;
         }
         return null;
     }
 
-    public Stock stockOwned(String ticker){
-        List<Stock> userStocks = currentUser.getPortfolio().getStocks();
-        for (Stock thisStock: userStocks){
-            String thisTicker = thisStock.getData().get(Constants.STOCK_NAME_LABEL_KEY);
-            if (thisTicker.equals(ticker)) {
-                return thisStock;
-            }
+    /**
+     * Called from the GUI panels that initiates a new trade.
+     * @param tradeData map of the trading data from the gui form.
+     * @throws BaseException when error occurs.
+     */
+    public void trading(Map<String, String> tradeData) throws BaseException {
+        //get all trading data from map
+        String ticker = tradeData.get(Constants.TICKER_LABEL_KEY);
+        String currentPrice = tradeData.get(Constants.CURRENT_VALUE_LABEL_KEY);
+        String shareQtyToPurchase = tradeData.get(Constants.SHARE_QTY_LABEL_KEY);
+        String companyName = tradeData.get(Constants.COMPANY_NAME_LABEL_KEY);
+        String tradeType = tradeData.get(Constants.TRADE_TYPE_LABEL_KEY);
+
+        //true if buy, false if sell
+        boolean buy = tradeType.equals(Constants.BUY);
+
+        //translate trading data to the number representatives
+        double tradeCurrentPrice = Double.parseDouble(currentPrice);
+        int tradeShareQty = Integer.parseInt(shareQtyToPurchase);
+        double transactionCost = tradeCurrentPrice * tradeShareQty;
+
+        //get user's balance
+        Map<String, String> userData = currentUser.getUserData();
+        String userBalance = userData.get(Constants.ACCOUNT_BALANCE_LABEL_KEY);
+        double userBal = Double.parseDouble(userBalance);
+
+        //get user id
+        String userID = userData.get(Constants.USER_ID_KEY);
+
+        int id = Integer.parseInt(userID);
+
+        //ensure funds are available for user to purchase stock.
+        if(userBal < transactionCost){
+            throw new InsufficientFundsException();
         }
-        String[] dummyValues = new String[6];
-        dummyValues[3] = "-1";
-        Stock dummyStock = new Stock(dummyValues);
-        return dummyStock;
+
+        //check if the user owns the stock before selling
+        Stock userStockObj = userOwnsStock(id, ticker);
+        Map<String, String> stockData = null;
+        if(userStockObj != null){
+            stockData = userStockObj.getData();
+        }
+        boolean stockOwned = userStockObj != null;
+
+        double newBalance = userBal;
+        //user is either buying or selling the traded stock
+        if(buy){
+            newBalance -= transactionCost;
+        }else{
+            if(!stockOwned){
+                throw new StockNotOwnedException();
+            }
+            newBalance += transactionCost;
+        }
+
+        //get date of transaction
+        Date now = new Date();
+        String transactionTime = format.format(now);
+
+
+        /*After the transaction has been inserted.
+        * If the user owns the stock
+        * we need to update the user's stock data. Otherwise, we can
+        * just insert a new stock ownership for the user.*/
+        String stockSQL;
+        //user owns stock
+        if(stockOwned){
+            String currentStockQtyOwned = stockData.get(Constants.STOCKS_OWNED_LABEL_KEY);
+            int newShareQty = Integer.parseInt(currentStockQtyOwned);
+            if(buy){
+                newShareQty += tradeShareQty;
+            } else{
+                newShareQty -= tradeShareQty;
+                //error, not enough stocks to sell.
+                if(newShareQty < 0){
+                    throw new NotEnoughStockException();
+                }
+            }
+            dbManager.updateStockOwnership(id, newShareQty, ticker, tradeCurrentPrice);
+        }
+        //user does not own stock
+        else{
+            stockSQL = userID + ",\"" + ticker + "\"," + shareQtyToPurchase + "," + tradeCurrentPrice + ",\"" + companyName + "\"";
+            dbManager.insertStockOwnership(stockSQL);
+        }
+
+        //build sql statement to update user data
+        //{userID},"{tradeType}","{ticker}",{shareQty},{transactionCost},"{companyName}",{newBal},"{transactionTime}"
+        String transactionSQL = userID + ", \"" +
+                tradeType + "\",\"" +
+                ticker + "\"," +
+                shareQtyToPurchase + "," +
+                transactionCost + ",\"" +
+                companyName + "\"," +
+                newBalance + ",\"" +
+                transactionTime + "\"";
+        dbManager.insertTransaction(transactionSQL);
+
+        dbManager.updateCustomerBalance(newBalance, id);
+        populateUser(id);
     }
 
     /**
-     * Buy or sell a stock given a map {trade('BUY' or 'SELL'), ticker, current value, quantity, company}
+     * Determine if the user owns a given stock.
+     * @param userID of the user to search
+     * @param ticker of the stock to search
+     * @return Stock that is from the database data.
      */
-    public void trade(Map<String, String> newStock) throws InsufficientFundsException {
-        /* check money
-         * insert transaction
-         * check (insert or update) stock ownership
-         * update customer balance
-         * populate user function
-         */
-        // get stock info
-        String newTicker = newStock.get(Constants.TICKER_LABEL_KEY);
-        double newPrice = Double.parseDouble(newStock.get(Constants.CURRENT_VALUE_LABEL_KEY));
-        int newShares = Integer.parseInt(newStock.get(Constants.SHARE_QTY_LABEL_KEY));
-        String newCompany = newStock.get(Constants.COMPANY_NAME_LABEL_KEY);
-        String tradeType = newStock.get(Constants.TRADE_TYPE_LABEL_KEY);
-        boolean buying = tradeType.equals("BUY");
-        double newTransPrice = newPrice * newShares;
-
-        // get user balance and check if user has that amount of money if buying
-        Map<String, String> user = currentUser.getUserData();
-        double currentBalance = Double.parseDouble(user.get(Constants.ACCOUNT_BALANCE_LABEL_KEY));
-        double newBalance = currentBalance + newTransPrice;
-        if (buying) {
-            newBalance = currentBalance - newTransPrice;
-            if (newBalance < 0){
-                throw new InsufficientFundsException();
-            }
+    private Stock userOwnsStock(int userID, String ticker){
+        ArrayList<String[]> ownedStock = dbManager.getStockFromOwner(userID, ticker);
+        if(ownedStock == null || ownedStock.size() == 0){
+            return null;
         }
-
-        Date now = new Date();
-        String datetimeStr = now.toString();
-        String transTime = format.format(now);
-        int userID = Integer.parseInt(user.get(Constants.USER_ID_KEY));
-        String transString = userID + ", " +
-                "\"" + tradeType + "\", " +
-                "\"" + newTicker + "\", " +
-                newShares + ", " +
-                newTransPrice + ", " +
-                "\"" + newCompany + "\", " +
-                newBalance + ", "+
-                "\"" + transTime + "\"";
-
-        dbManager.insertTransaction(transString);
-
-        // check if user already owns these stocks
-        Stock checkedStock = stockOwned(newTicker);
-        int oldShares = Integer.parseInt(checkedStock.getData().get(Constants.STOCKS_OWNED_LABEL_KEY));
-        if (oldShares != -1){
-            // owns or owned the stock or selling
-            int newQuantity = oldShares - newShares;
-            double oldPrice = Double.parseDouble(checkedStock.getData().get(Constants.PURCHASED_VALUE_LABEL_KEY));
-            double newCost = oldPrice;
-            if (buying) {
-                newQuantity = oldShares + newShares;
-                newCost = ((oldShares * oldPrice) + (newShares * newPrice)) / newQuantity;
-            }
-            dbManager.updateStockOwnership(userID, newQuantity, newTicker, newCost);
-        } else {
-            // never owned the stock but buying
-            String stockString = userID + ", " +
-                    "\"" + newTicker + "\", " +
-                    newShares + ", " +
-                    newPrice + ", " +
-                    "\"" + newCompany + "\"";
-            dbManager.insertStockOwnership(stockString);
-        }
-        dbManager.updateCustomerBalance(newBalance, userID);
-        populateUser(userID);
+        //assume there is only one entry in table that matches both
+        //user id AND stock name
+        return new Stock(ownedStock.get(0));
     }
 }
