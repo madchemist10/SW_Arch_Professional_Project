@@ -20,7 +20,6 @@ public class Research extends BasePanel {
     private final JPanel researchSubPanel = new JPanel();
     /**Create a new panel for TradierResultsPanel*/
     private TradierResultsPanel tradierResultsSubPanel = null;
-
     /**Create a new panel for TwitterResultsPanel*/
     private TwitterResultsPanel twitterResultsSubPanel = null;
     /**Create a new panel for NewsResultsPanel*/
@@ -40,18 +39,33 @@ public class Research extends BasePanel {
      */
     private void researchCallBack(){
         String userResearch = researchField.getText();
-        if(userResearch.equals("")){
+        if(userResearch.equals("")) {
             return;
         }
-        tradierResultsSubPanel = new TradierResultsPanel(userResearch);
-        twitterResultsSubPanel = new TwitterResultsPanel(userResearch);
-        newsResultsSubPanel = new NewsResultsPanel(userResearch);
-        researchSubPanel.add(tradierResultsSubPanel, subPanelConstraints);
-        subPanelConstraints.gridy++;
-        researchSubPanel.add(newsResultsSubPanel, subPanelConstraints);
-        subPanelConstraints.gridy++;
-        researchSubPanel.add(twitterResultsSubPanel, subPanelConstraints);
-
+        if(tradierResultsSubPanel == null) {
+            tradierResultsSubPanel = new TradierResultsPanel(userResearch);
+            addComponent(tradierResultsSubPanel);
+            constraints.gridy++;
+        }
+        else{
+            tradierResultsSubPanel.updateTickerSymbol(userResearch);
+        }
+        if(twitterResultsSubPanel == null){
+            twitterResultsSubPanel = new TwitterResultsPanel(userResearch);
+            addComponent(twitterResultsSubPanel);
+            constraints.gridy++;
+        }
+        else{
+            twitterResultsSubPanel.updateTickerSymbol(userResearch);
+        }
+        if(newsResultsSubPanel == null){
+            newsResultsSubPanel = new NewsResultsPanel(userResearch);
+            addComponent(newsResultsSubPanel);
+            constraints.gridy++;
+        }
+        else{
+            newsResultsSubPanel.updateTickerSymbol(userResearch);
+        }
     }
 
     private void closeWindow(JButton button){
@@ -71,20 +85,18 @@ public class Research extends BasePanel {
         constraints.gridy = 0;
         subPanelConstraints.gridx = 0;
         subPanelConstraints.gridy = 0;
-        add(new BasicFlowPanel(researchSubPanel));
+        addComponent(new BasicFlowPanel(researchSubPanel));
         addResearchPanel();
     }
-
-
-
-
-
 
     /**Adds all of the components to the researchSubPanel*/
     private void addResearchPanel(){
         addResearchTextField();
         addSearchButton();
+        constraints.gridy++;
+        constraints.gridx = 0;
     }
+
     /**Adds the research text field so the user can enter the ticker symbol*/
     private void addResearchTextField(){
         subPanelConstraints.fill = GridBagConstraints.HORIZONTAL;

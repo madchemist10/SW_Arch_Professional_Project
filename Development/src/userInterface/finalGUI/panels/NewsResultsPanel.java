@@ -39,6 +39,12 @@ class NewsResultsPanel extends BasePanel{
         queryExecution();
     }
 
+    void updateTickerSymbol(String query){
+        tickerSymbol = query;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        queryExecution();
+    }
     /**
      * {@inheritDoc}
      */
@@ -74,7 +80,7 @@ class NewsResultsPanel extends BasePanel{
      * This should be run on a new thread.
      */
     private void queryExecution(){
-        JsonNode returnNode = executeNewsQuery(null);
+        JsonNode returnNode = executeNewsQuery(tickerSymbol);
         if(returnNode == null){
             return;
         }

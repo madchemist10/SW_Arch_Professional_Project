@@ -12,7 +12,6 @@ import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.List;
-import java.util.Timer;
 
 /**
  * Twitter results panel that handles its own query executions.
@@ -26,7 +25,7 @@ class TwitterResultsPanel extends BasePanel{
     /**Panel that will contain the results as they are generated.*/
     private final JPanel resultsPanel = new JPanel();
     /**Constraints for label placement within the results panel.*/
-    private final GridBagConstraints constraints = new GridBagConstraints();
+    private final GridBagConstraints resultsConstraints = new GridBagConstraints();
     /**List of all listeners that are associated with this class.*/
     private final List<PropertyChangeListener> listeners = new LinkedList<>();
 
@@ -40,12 +39,15 @@ class TwitterResultsPanel extends BasePanel{
         tickerSymbol = query;
         buildPanel();
         queryExecution();
-        //spawn a timer to execute the query every second.
-        java.util.Timer timer = new Timer();
-        //1000 = 1 sec; 0 to start with no delay.
-        timer.scheduleAtFixedRate(new RefreshTimer(this),0,10000);
+//        //spawn a timer to execute the query every 10 seconds.
+//        java.util.Timer timer = new Timer();
+//        //1000 = 1 sec; 0 to start with no delay.
+//        timer.scheduleAtFixedRate(new RefreshTimer(this),0,10000);
     }
-
+    void updateTickerSymbol(String query){
+        tickerSymbol = query;
+        queryExecution();
+    }
 
     /**
      * Add a property change listener to this panel for when this
@@ -79,9 +81,9 @@ class TwitterResultsPanel extends BasePanel{
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        add(new BasicFlowPanel(resultsPanel));
-        resultsPanel.add(scrollPane);
-        initializePanel();
+        addComponent(scrollPane);
+        //resultsPanel.add(scrollPane);
+        //initializePanel();
     }
 
     /**
@@ -97,11 +99,12 @@ class TwitterResultsPanel extends BasePanel{
         BasicFlowPanel senderPanel = new BasicFlowPanel(senderLabel);
         BasicFlowPanel messagePanel = new BasicFlowPanel(messageLabel);
 
-        resultsPanel.add(senderPanel, constraints);
-        constraints.gridx++;
-        resultsPanel.add(messagePanel, constraints);
-        constraints.gridy++;
-
+        resultsPanel.add(senderPanel, resultsConstraints);
+        resultsConstraints.gridx++;
+        resultsPanel.add(messagePanel, resultsConstraints);
+        resultsConstraints.gridy++;
+        //reset resultsConstraints for later use
+        resultsConstraints.gridx = 0;
     }
 
     /**
@@ -130,9 +133,10 @@ class TwitterResultsPanel extends BasePanel{
             QueryResult queryResult = (QueryResult) returnVal;
             /*Construct a new results panel that is to popup and display
             * the results from the search query.*/
-            userInterface.finalGUI.panels.TwitterResultsPanel resultsPanel = new userInterface.finalGUI.panels.TwitterResultsPanel(query);
+            //userInterface.finalGUI.panels.TwitterResultsPanel resultsPanel = new userInterface.finalGUI.panels.TwitterResultsPanel(query);
             /*Populate the results panel with the given return values.*/
-            queryResult.getTweets().forEach(resultsPanel::addEntryToResults);
+            //queryResult.getTweets().forEach(addEntryToResults());
+            queryResult.getTweets().forEach(this::addEntryToResults);
             /*Show the results panel on the UI Thread.*/
             SwingUtilities.invokeLater(() -> resultsPanel.setVisible(true));
         }
@@ -147,12 +151,12 @@ class TwitterResultsPanel extends BasePanel{
         BasicFlowPanel textPanel = new BasicFlowPanel(text);
 
         /*Add the sender's tag.*/
-        constraints.gridx = 0;
-        resultsPanel.add(senderPanel, constraints);
+        resultsConstraints.gridx = 0;
+        resultsPanel.add(senderPanel, resultsConstraints);
         /*Add the text of the message.*/
-        constraints.gridx++;
-        resultsPanel.add(textPanel, constraints);
-        constraints.gridy++;
+        resultsConstraints.gridx++;
+        resultsPanel.add(textPanel, resultsConstraints);
+        resultsConstraints.gridy++;
     }
 
     /**
