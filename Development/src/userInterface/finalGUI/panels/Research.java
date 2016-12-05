@@ -44,7 +44,7 @@ public class Research extends BasePanel {
         }
         if(tradierResultsSubPanel == null) {
             tradierResultsSubPanel = new TradierResultsPanel(userResearch);
-            addComponent(tradierResultsSubPanel);
+            addComponent(new BasicFlowPanel(tradierResultsSubPanel));
             constraints.gridy++;
         }
         else{
@@ -52,7 +52,7 @@ public class Research extends BasePanel {
         }
         if(twitterResultsSubPanel == null){
             twitterResultsSubPanel = new TwitterResultsPanel(userResearch);
-            addComponent(twitterResultsSubPanel);
+            addComponent(new BasicFlowPanel(twitterResultsSubPanel));
             constraints.gridy++;
         }
         else{
@@ -60,19 +60,13 @@ public class Research extends BasePanel {
         }
         if(newsResultsSubPanel == null){
             newsResultsSubPanel = new NewsResultsPanel(userResearch);
-            addComponent(newsResultsSubPanel);
+            addComponent(new BasicFlowPanel(newsResultsSubPanel));
             constraints.gridy++;
         }
         else{
             newsResultsSubPanel.updateTickerSymbol(userResearch);
         }
-    }
-
-    private void closeWindow(JButton button){
-        Window window = SwingUtilities.getWindowAncestor(button);
-        if(window != null){
-            window.setVisible(false);
-        }
+        revalidate();
     }
 
     /**
@@ -83,6 +77,7 @@ public class Research extends BasePanel {
         researchSubPanel.setLayout(new GridBagLayout());
         constraints.gridx = 0;
         constraints.gridy = 0;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
         subPanelConstraints.gridx = 0;
         subPanelConstraints.gridy = 0;
         addComponent(new BasicFlowPanel(researchSubPanel));
@@ -121,7 +116,8 @@ public class Research extends BasePanel {
         subPanelConstraints.gridx++;
         subPanelConstraints.gridy = 0;
     }
-    /**Adds the search buttont to execute the call back function for the APIs*/
+
+    /**Adds the search button to execute the call back function for the APIs*/
     private void addSearchButton(){
         subPanelConstraints.gridx++;
         searchButton.addActionListener(new AbstractAction() {

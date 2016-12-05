@@ -5,6 +5,7 @@ import app.utilities.apiHandlers.APIHandles;
 import app.utilities.apiHandlers.IAPIHandler;
 import twitter4j.QueryResult;
 import twitter4j.Status;
+import userInterface.GUIConstants;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
@@ -36,14 +37,13 @@ class TwitterResultsPanel extends BasePanel{
      */
     TwitterResultsPanel(String query){
         super(TradeNetGUIConstants.TWITTER_PANEL_IDENTIFIER);
+
+        setSize(new Dimension(GUIConstants.DEFAULT_GUI_WIDTH, GUIConstants.DEFAULT_GUI_HEIGHT));
         tickerSymbol = query;
         buildPanel();
         queryExecution();
-//        //spawn a timer to execute the query every 10 seconds.
-//        java.util.Timer timer = new Timer();
-//        //1000 = 1 sec; 0 to start with no delay.
-//        timer.scheduleAtFixedRate(new RefreshTimer(this),0,10000);
     }
+
     void updateTickerSymbol(String query){
         tickerSymbol = query;
         queryExecution();
@@ -87,27 +87,6 @@ class TwitterResultsPanel extends BasePanel{
     }
 
     /**
-     * Set up the default frame of the results panel and add
-     * all the supporting labels.
-     */
-    private void initializePanel(){
-        /*Construct the Description Labels*/
-        JLabel senderLabel = new JLabel(TradeNetGUIConstants.SENDER_LABEL);
-        JLabel messageLabel = new JLabel(TradeNetGUIConstants.MESSAGE_LABEL);
-
-        /*Wrap the Description Labels in Basic Left Justified Panels*/
-        BasicFlowPanel senderPanel = new BasicFlowPanel(senderLabel);
-        BasicFlowPanel messagePanel = new BasicFlowPanel(messageLabel);
-
-        resultsPanel.add(senderPanel, resultsConstraints);
-        resultsConstraints.gridx++;
-        resultsPanel.add(messagePanel, resultsConstraints);
-        resultsConstraints.gridy++;
-        //reset resultsConstraints for later use
-        resultsConstraints.gridx = 0;
-    }
-
-    /**
      * Callback for when the query should be executed.
      * This should be run on a new thread.
      */
@@ -131,17 +110,11 @@ class TwitterResultsPanel extends BasePanel{
         }
         if(returnVal instanceof QueryResult){
             QueryResult queryResult = (QueryResult) returnVal;
-            /*Construct a new results panel that is to popup and display
-            * the results from the search query.*/
-            //userInterface.finalGUI.panels.TwitterResultsPanel resultsPanel = new userInterface.finalGUI.panels.TwitterResultsPanel(query);
             /*Populate the results panel with the given return values.*/
-            //queryResult.getTweets().forEach(addEntryToResults());
-            queryResult.getTweets().forEach(this::addEntryToResults);
-            /*Show the results panel on the UI Thread.*/
-            SwingUtilities.invokeLater(() -> resultsPanel.setVisible(true));
+            final TwitterResultsPanel self = this;
+            SwingUtilities.invokeLater(() -> queryResult.getTweets().forEach(self::addEntryToResults));
         }
     }
-
 
     private void addEntryToResults(Status tweet){
         JLabel sender = new JLabel(tweet.getUser().getName());
@@ -157,24 +130,5 @@ class TwitterResultsPanel extends BasePanel{
         resultsConstraints.gridx++;
         resultsPanel.add(textPanel, resultsConstraints);
         resultsConstraints.gridy++;
-    }
-
-    /**
-     * Timer to refresh the data stored in this panel.
-     */
-    private static class RefreshTimer extends TimerTask{
-
-        private final TwitterResultsPanel results;
-
-        RefreshTimer(TwitterResultsPanel results){
-            this.results = results;
-        }
-
-        @Override
-        public void run() {
-            /*Spawn background thread to keep from locking up the GUI.*/
-            Thread helperThread = new Thread(results::queryExecution);
-            helperThread.start();
-        }
     }
 }

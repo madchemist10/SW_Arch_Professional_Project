@@ -56,7 +56,6 @@ class NewsResultsPanel extends BasePanel{
         constraints.fill = GridBagConstraints.HORIZONTAL;
         add(new BasicFlowPanel(resultsPanel));
         addNewsTitles();
-
     }
 
     /**
@@ -84,8 +83,7 @@ class NewsResultsPanel extends BasePanel{
         if(returnNode == null){
             return;
         }
-        updateResultsPanel(returnNode);
-        SwingUtilities.invokeLater(() ->resultsPanel.setVisible(true));
+        SwingUtilities.invokeLater(() -> updateResultsPanel(returnNode));
     }
     /**
      * Execution of the news query is solo here so that
