@@ -97,7 +97,7 @@ public class GUIController extends JFrame implements PropertyChangeListener{
 
             /*User has decided to trade stock.*/
             case TRADE_STOCK:
-                BasePanel tradierStockData = research.getTradierStockData();
+                TradierResultsPanel tradierStockData = research.getTradierStockData();
                 TradePanel panel = new TradePanel(tradierStockData);
                 createDecisionPopup(panel);
                 break;

@@ -137,7 +137,7 @@ public class Research extends BasePanel {
     }
 
     /**function to allow Trade button to get stock data for purchase*/
-    BasePanel getTradierStockData(){
+    TradierResultsPanel getTradierStockData(){
         return tradierResultsSubPanel;
     }
 }
