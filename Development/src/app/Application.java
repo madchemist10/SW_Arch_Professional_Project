@@ -394,7 +394,7 @@ public class Application {
         int id = Integer.parseInt(userID);
 
         //ensure funds are available for user to purchase stock.
-        if(userBal < transactionCost){
+        if(buy && userBal < transactionCost){
             throw new InsufficientFundsException();
         }
 

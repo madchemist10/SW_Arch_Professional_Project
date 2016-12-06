@@ -59,6 +59,8 @@ enum AppChangeEvents {
 
     INSUFFICIENT_FUNDS,
 
-    STOCK_NOT_OWNED
+    STOCK_NOT_OWNED,
+
+    NOT_ENOUGH_STOCK
 
     }

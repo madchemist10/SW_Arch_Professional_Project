@@ -3,6 +3,7 @@ package userInterface.finalGUI.panels;
 import app.constants.Constants;
 import app.exception.BaseException;
 import app.exception.InsufficientFundsException;
+import app.exception.NotEnoughStockException;
 import app.exception.StockNotOwnedException;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
@@ -96,6 +97,9 @@ public class TradePanel extends BasePanel {
             }
             else if(e instanceof StockNotOwnedException) {
                 notifyListeners(new CustomChangeEvent(this, AppChangeEvents.STOCK_NOT_OWNED));
+            }
+            else if(e instanceof NotEnoughStockException) {
+                notifyListeners(new CustomChangeEvent(this, AppChangeEvents.NOT_ENOUGH_STOCK));
             }
         }
     }

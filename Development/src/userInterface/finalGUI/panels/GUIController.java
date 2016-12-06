@@ -149,6 +149,11 @@ public class GUIController extends JFrame implements PropertyChangeListener{
                 message = "You do not own this stock.";
                 createMessagePopup(message, "Stock not Owned.");
                 break;
+
+            case NOT_ENOUGH_STOCK:
+                message = "You do not own enough stock to sell.";
+                createMessagePopup(message, "Not Enough Stock.");
+                break;
         }
     }
 
