@@ -165,7 +165,7 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         DefaultTableModel model = new DefaultTableModel(data, columns){
             @Override
             public boolean isCellEditable(int row, int column){
-                return false;
+                return column == 5;
             }
         };
         table.setModel(model);

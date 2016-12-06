@@ -33,8 +33,14 @@ public class TradePanel extends BasePanel {
      */
     TradePanel(TradierResultsPanel tradierStockData){
         super(TradeNetGUIConstants.TRADE_PANEL_IDENTIFIER);
+        setLayout(new FlowLayout());
         tradierStockDataPanel = tradierStockData;
         buildPanel();
+    }
+
+    @Override
+    void addComponent(Component component){
+        super.add(component);
     }
 
     /**
@@ -42,23 +48,16 @@ public class TradePanel extends BasePanel {
      */
     @Override
     void buildPanel() {
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-
         /*Add tradier data panel*/
         addTradierPanel();
 
         /*Add shares text field*/
         addSharesTextField();
 
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-
         /*Add buy button*/
-        constraints.gridy++;
         addBuyButton();
 
         /*Add sell button*/
-        constraints.gridx = 1;
         addSellButton();
     }
 
@@ -170,9 +169,7 @@ public class TradePanel extends BasePanel {
         innerSharesPanel.add(sharesTextFlowPanel, sharesConstraints);
 
         //place the inner shares panel in this Trade Panel
-        constraints.gridwidth = 2;
         addComponent(innerSharesPanel);
-        constraints.gridwidth = 1;
     }
 
     /**
@@ -182,9 +179,6 @@ public class TradePanel extends BasePanel {
         if(tradierStockDataPanel == null){
             return;
         }
-        constraints.gridwidth = 2;
         addComponent(tradierStockDataPanel);
-        constraints.gridy++;
-        constraints.gridwidth = 1;
     }
 }
