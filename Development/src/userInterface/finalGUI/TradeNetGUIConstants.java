@@ -95,4 +95,7 @@ public class TradeNetGUIConstants {
     /**Text to be given to the {@link userInterface.finalGUI.panels.TwitterResultsPanel} sender label*/
     public static final String MESSAGE_LABEL = "Tweet: ";
 
+    public static final String USER_STOCK_PANEL_IDENTIFIER = "USER STOCK";
+    public static final String USER_TRANSACTIONS_PANEL_IDENTIFIER = "USER TRANSACTIONS";
+
 }

@@ -303,7 +303,8 @@ public class Application {
         * To calculate this we subtract current value by purchased value and multiple
         * by the number of stocks the user owns.*/
         double stockProfitLoss = (stockQtyPurchased) * (stockCurrentPrice - stockPurchasePrice);
-        return Double.toString(stockProfitLoss);
+
+        return Double.toString(Utilities.formatDouble(stockProfitLoss));
     }
 
     /**
@@ -415,6 +416,8 @@ public class Application {
             }
             newBalance += transactionCost;
         }
+
+        newBalance = Utilities.formatDouble(newBalance);
 
         //get date of transaction
         Date now = new Date();

@@ -26,6 +26,8 @@ public class GUIController extends JFrame implements PropertyChangeListener{
     private final Research research = new Research();
 
     private AccountManagement accountManagement;
+    private final JPanel stockDataPanel = new JPanel();
+    private final JPanel transactionDataPanel = new JPanel();
 
     /**
      * Generate a new Controller.
@@ -124,14 +126,14 @@ public class GUIController extends JFrame implements PropertyChangeListener{
                 StockPanel stockPanel = (StockPanel) event.getSource();
                 Object[][] stockSubPanelArray = stockPanel.getStockData();
                 ArrayList<StockEntryPanel> stockEntryList = stockPanel.getStockEntryPanels();
-                addStockDataToTable("USER STOCK",stockSubPanelArray, Constants.STOCK_COLUMNS, stockEntryList);
+                addStockDataToTable(TradeNetGUIConstants.USER_STOCK_PANEL_IDENTIFIER,stockSubPanelArray, Constants.STOCK_COLUMNS, stockEntryList);
                 break;
 
             /*Add User Transaction data to tab*/
             case ADD_TRANSACTION_DATA:
                 TransactionPanel transactionPanel = (TransactionPanel) event.getSource();
                 Object[][] transactionSubPanelArray = transactionPanel.getTransactionData();
-                addTransactionDataToTable("USER TRANSACTIONS",transactionSubPanelArray, Constants.TRANSACTION_COLUMNS);
+                addTransactionDataToTable(TradeNetGUIConstants.USER_TRANSACTIONS_PANEL_IDENTIFIER,transactionSubPanelArray, Constants.TRANSACTION_COLUMNS);
                 break;
 
             case INSUFFICIENT_FUNDS:
@@ -148,14 +150,24 @@ public class GUIController extends JFrame implements PropertyChangeListener{
 
     private void addTransactionDataToTable(String panelName, Object[][] data, Object[] columns) {
         JTable table = new JTable();
-        DefaultTableModel model = new DefaultTableModel(data, columns);
+        DefaultTableModel model = new DefaultTableModel(data, columns){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
         table.setModel(model);
         addTableFromData(panelName, table);
     }
 
     private void addStockDataToTable(String panelName, Object[][] data, Object[] columns, ArrayList<StockEntryPanel> stockEntryList){
         JTable table = new JTable();
-        DefaultTableModel model = new DefaultTableModel(data, columns);
+        DefaultTableModel model = new DefaultTableModel(data, columns){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
         table.setModel(model);
         Action action = new TradeButtonAction(stockEntryList);
         ButtonColumn buttonColumn = new ButtonColumn(table, action, 5);
@@ -168,7 +180,20 @@ public class GUIController extends JFrame implements PropertyChangeListener{
     }
 
     private void safelyAddPanelToTabbedPane(String panelName, Component component){
-        tabbedPane.add(component, panelName);
+        switch(panelName){
+            case TradeNetGUIConstants.USER_STOCK_PANEL_IDENTIFIER:
+                stockDataPanel.removeAll();
+                stockDataPanel.add(component);
+                stockDataPanel.revalidate();
+                stockDataPanel.repaint();
+                break;
+            case TradeNetGUIConstants.USER_TRANSACTIONS_PANEL_IDENTIFIER:
+                transactionDataPanel.removeAll();
+                transactionDataPanel.add(component);
+                transactionDataPanel.revalidate();
+                transactionDataPanel.repaint();
+                break;
+        }
         tabbedPane.repaint();
     }
 
@@ -190,6 +215,9 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         
         /*Add research panel*/
         tabbedPane.add(research, research.getPanelIdentifier());
+
+        tabbedPane.add(stockDataPanel, TradeNetGUIConstants.USER_STOCK_PANEL_IDENTIFIER);
+        tabbedPane.add(transactionDataPanel, TradeNetGUIConstants.USER_TRANSACTIONS_PANEL_IDENTIFIER);
     }
 
     /**
