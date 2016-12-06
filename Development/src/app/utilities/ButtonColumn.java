@@ -44,7 +44,6 @@ public class ButtonColumn extends AbstractCellEditor
      */
     public ButtonColumn(JTable table, Action action, int column)
     {
-        System.out.println(action);
         this.table = table;
         this.action = action;
 
@@ -60,7 +59,6 @@ public class ButtonColumn extends AbstractCellEditor
         columnModel.getColumn(column).setCellEditor( this );
         table.addMouseListener( this );
     }
-
 
     /**
      *  Get foreground color of the button when the cell has focus
