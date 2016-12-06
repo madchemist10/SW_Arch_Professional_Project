@@ -46,7 +46,6 @@ class MailBoxLayerAPIHandler extends AAPIHandler{
 
         //remove this line once the key is implemented
         String MAILBOX_API_ACCESS_TOKEN = app.getValueFromSettings(Constants.MAILBOX_API_ACCESS_TOKEN);
-
         if(MAILBOX_API_ACCESS_TOKEN == null){
             return null;
         }

@@ -11,7 +11,6 @@ import java.util.List;
 
 /**
  * This frame is a popup for when the user has decided to search
- * for a specific ticker symbol. Display the results from the
  * ticker symbol call.
  */
 class NewsResultsPanel extends JFrame{

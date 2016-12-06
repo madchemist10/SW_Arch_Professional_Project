@@ -27,6 +27,8 @@ public class Research extends BasePanel implements PropertyChangeListener{
     private final JPanel researchSubPanel = new JPanel();
     /**Create a new panel for TradierResultsPanel*/
     private TradierResultsPanel tradierResultsSubPanel = null;
+    /**Reference to tradier results frame*/
+    private TradierResultsFrame tradierResultsFrame = null;
     /**Reference to the new results panel.*/
     private final NewsResultsPanel newsResultsPanel = new NewsResultsPanel();
     /**Button to trade more of this stock.*/
@@ -56,17 +58,10 @@ public class Research extends BasePanel implements PropertyChangeListener{
         if(userResearch.equals("")) {
             return;
         }
-        if(tradierResultsSubPanel == null) {
-            constraints.gridy++;
-            addTradeButton();
-            constraints.gridy++;
-            tradierResultsSubPanel = new TradierResultsPanel(userResearch);
-            addComponent(new BasicFlowPanel(tradierResultsSubPanel));
-        }
-        else{
-            //update the current tradier results panel
-            tradierResultsSubPanel.updateTickerSymbol(userResearch);
-        }
+        tradierResultsSubPanel = new TradierResultsPanel(userResearch);
+        tradierResultsFrame = new TradierResultsFrame(tradierResultsSubPanel);
+        tradierResultsFrame.addPropertyListener(this);
+        tradierResultsFrame.setVisible(true);
 
         SwingUtilities.invokeLater(() -> {
             JsonNode node = executeNewsQuery(userResearch);
@@ -90,22 +85,12 @@ public class Research extends BasePanel implements PropertyChangeListener{
         if(event == null){
             return;
         }
-        NewsResultsPanel newsResultsPanel = null;
-        if(event.getSource() instanceof TradierResultsPanel){
-            newsResultsPanel = (NewsResultsPanel) event.getSource();
-        }
-        /*If the results panel is null, we cannot continue.*/
-        if(newsResultsPanel == null){
-            return;
-        }
 
         AppChangeEvents eventName = event.getEventName();
 
         switch (eventName){
-            case NEWS_REFRESH:
-                JsonNode returnNode = executeNewsQuery(researchField.getText());
-                final NewsResultsPanel panel = newsResultsPanel;
-                SwingUtilities.invokeLater(() -> panel.updateResultsPanel(returnNode));
+            case TRADE_STOCK:
+                notifyListeners(event);
                 break;
         }
     }
