@@ -58,8 +58,8 @@ class TradierAPIHandler extends AAPIHandler{
      */
     @Override
     public Object executeAPIRequest(String request) throws BaseException {
-        String tradierAPIToken = app.getValueFromSettings(Constants.TRADIER_API_ACCESS_TOKEN);
-        //String tradierAPIToken = "DkosD1KKwNn8ifLJdyigHjfA2fhy";
+        //String tradierAPIToken = app.getValueFromSettings(Constants.TRADIER_API_ACCESS_TOKEN);
+        String tradierAPIToken = "DkosD1KKwNn8ifLJdyigHjfA2fhy";
         if(tradierAPIToken == null){
             return null;
         }

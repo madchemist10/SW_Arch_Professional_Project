@@ -1,4 +1,5 @@
 package userInterface.finalGUI.panels;
+import app.utilities.*;
 
 import app.constants.Constants;
 import userInterface.finalGUI.TradeNetGUIConstants;
@@ -6,8 +7,11 @@ import userInterface.finalGUI.TradeNetGUIConstants;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+
 
 /**
  * Controller for generating the views for the panels as well as
@@ -110,27 +114,44 @@ public class GUIController extends JFrame implements PropertyChangeListener{
             case ADD_STOCK_DATA:
                 StockPanel stockPanel = (StockPanel) event.getSource();
                 Object[][] stockSubPanelArray = stockPanel.getStockData();
-                addTableFromData("USER STOCK",stockSubPanelArray, Constants.STOCK_COLUMNS);
+                ArrayList<StockEntryPanel> stockEntryList = stockPanel.getStockEntryPanels();
+                addStockDataToTable("USER STOCK",stockSubPanelArray, Constants.STOCK_COLUMNS, stockEntryList);
                 break;
 
             /*Add User Transaction data to tab*/
             case ADD_TRANSACTION_DATA:
                 TransactionPanel transactionPanel = (TransactionPanel) event.getSource();
                 Object[][] transactionSubPanelArray = transactionPanel.getTransactionData();
-                addTableFromData("USER TRANSACTIONS",transactionSubPanelArray, Constants.TRANSACTION_COLUMNS);
+                addTransactionDataToTable("USER TRANSACTIONS",transactionSubPanelArray, Constants.TRANSACTION_COLUMNS);
                 break;
         }
     }
 
-    private void addTableFromData(String panelName, Object[][] data, Object[] columns){
+    private void addTransactionDataToTable(String panelName, Object[][] data, Object[] columns) {
         JTable table = new JTable();
         DefaultTableModel model = new DefaultTableModel(data, columns);
         table.setModel(model);
+        addTableFromData(panelName, data, columns, table);
+    }
+
+    private void addStockDataToTable(String panelName, Object[][] data, Object[] columns, ArrayList<StockEntryPanel> stockEntryList){
+        JTable table = new JTable();
+        DefaultTableModel model = new DefaultTableModel(data, columns);
+        table.setModel(model);
+        Action action = new TradeButtonAction(stockEntryList);
+        ButtonColumn buttonColumn = new ButtonColumn(table, action, 5);
+        addTableFromData(panelName, data, columns, table);
+    }
+
+    private void addTableFromData(String panelName, Object[][] data, Object[] columns, JTable table){
         JScrollPane scrollPane = new JScrollPane(table);
         tabbedPane.add(scrollPane, panelName);
         tabbedPane.repaint();
     }
 
+    private void tradeCallBack(){
+        propertyChange(new CustomChangeEvent(this, AppChangeEvents.TRADE_STOCK));
+    }
     /**
      * Helper method to add all the application
      * panels to this gui controller.
