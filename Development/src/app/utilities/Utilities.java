@@ -75,4 +75,9 @@ public class Utilities {
         }
         return settingsMap;
     }
+
+    public static double formatDouble(double val){
+        String returnVal = String.format("%.2f",val);
+        return Double.parseDouble(returnVal);
+    }
 }

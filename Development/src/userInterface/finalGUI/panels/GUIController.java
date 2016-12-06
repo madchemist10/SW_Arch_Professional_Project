@@ -1,10 +1,16 @@
 package userInterface.finalGUI.panels;
+import app.utilities.*;
 
+import app.constants.Constants;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+
 
 /**
  * Controller for generating the views for the panels as well as
@@ -19,6 +25,10 @@ public class GUIController extends JFrame implements PropertyChangeListener{
     /**Reference to the research panel.*/
     private final Research research = new Research();
 
+    private AccountManagement accountManagement;
+    private final JPanel stockDataPanel = new JPanel();
+    private final JPanel transactionDataPanel = new JPanel();
+
     /**
      * Generate a new Controller.
      * Should only be called one from the {@link userInterface.finalGUI.TradeNetGUI}.
@@ -30,6 +40,7 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         buildFrame();
+        research.addPropertyListener(this);
     }
 
     /**
@@ -91,19 +102,104 @@ public class GUIController extends JFrame implements PropertyChangeListener{
 
             /*User has failed to create a new account.*/
             case ACCOUNT_CREATION_FAILED:
-                message = "Username and password combination are already used.";
+                message = "Account could not be created.";
                 createMessagePopup(message, TradeNetGUIConstants.ACCOUNT_CREATED_FAILED_TITLE);
                 break;
 
             /*User has decided to trade stock.*/
             case TRADE_STOCK:
-                BasePanel tradierStockData = research.getTradierStockData();
+                //allow the query to be passed in as the new value for the event
+                Object query = event.getNewValue();
+                String search = null;
+                if(query != null && query instanceof String){
+                    search = (String) query;
+                }
+                TradierResultsPanel tradierStockData = research.getTradierStockData(search);
                 TradePanel panel = new TradePanel(tradierStockData);
+                panel.addPropertyListener(this);
                 createDecisionPopup(panel);
+                accountManagement.update();
+                break;
+
+            /*Add User Stock data to tab*/
+            case ADD_STOCK_DATA:
+                StockPanel stockPanel = (StockPanel) event.getSource();
+                Object[][] stockSubPanelArray = stockPanel.getStockData();
+                ArrayList<StockEntryPanel> stockEntryList = stockPanel.getStockEntryPanels();
+                addStockDataToTable(TradeNetGUIConstants.USER_STOCK_PANEL_IDENTIFIER,stockSubPanelArray, Constants.STOCK_COLUMNS, stockEntryList);
+                break;
+
+            /*Add User Transaction data to tab*/
+            case ADD_TRANSACTION_DATA:
+                TransactionPanel transactionPanel = (TransactionPanel) event.getSource();
+                Object[][] transactionSubPanelArray = transactionPanel.getTransactionData();
+                addTransactionDataToTable(TradeNetGUIConstants.USER_TRANSACTIONS_PANEL_IDENTIFIER,transactionSubPanelArray, Constants.TRANSACTION_COLUMNS);
+                break;
+
+            case INSUFFICIENT_FUNDS:
+                message = "Funds for transaction are insufficient.";
+                createMessagePopup(message, "Insufficient Funds.");
+                break;
+
+            case STOCK_NOT_OWNED:
+                message = "You do not own this stock.";
+                createMessagePopup(message, "Stock not Owned.");
                 break;
         }
     }
 
+    private void addTransactionDataToTable(String panelName, Object[][] data, Object[] columns) {
+        JTable table = new JTable();
+        DefaultTableModel model = new DefaultTableModel(data, columns){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        table.setModel(model);
+        addTableFromData(panelName, table);
+    }
+
+    private void addStockDataToTable(String panelName, Object[][] data, Object[] columns, ArrayList<StockEntryPanel> stockEntryList){
+        JTable table = new JTable();
+        DefaultTableModel model = new DefaultTableModel(data, columns){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        table.setModel(model);
+        Action action = new TradeButtonAction(stockEntryList);
+        ButtonColumn buttonColumn = new ButtonColumn(table, action, 5);
+        addTableFromData(panelName, table);
+    }
+
+    private void addTableFromData(String panelName, JTable table){
+        JScrollPane scrollPane = new JScrollPane(table);
+        safelyAddPanelToTabbedPane(panelName, scrollPane);
+    }
+
+    private void safelyAddPanelToTabbedPane(String panelName, Component component){
+        switch(panelName){
+            case TradeNetGUIConstants.USER_STOCK_PANEL_IDENTIFIER:
+                stockDataPanel.removeAll();
+                stockDataPanel.add(component);
+                stockDataPanel.revalidate();
+                stockDataPanel.repaint();
+                break;
+            case TradeNetGUIConstants.USER_TRANSACTIONS_PANEL_IDENTIFIER:
+                transactionDataPanel.removeAll();
+                transactionDataPanel.add(component);
+                transactionDataPanel.revalidate();
+                transactionDataPanel.repaint();
+                break;
+        }
+        tabbedPane.repaint();
+    }
+
+    private void tradeCallBack(){
+        propertyChange(new CustomChangeEvent(this, AppChangeEvents.TRADE_STOCK));
+    }
     /**
      * Helper method to add all the application
      * panels to this gui controller.
@@ -112,13 +208,16 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         tabbedPane.remove(loginPanel);
 
         /*Add account management panel*/
-        AccountManagement accountManagement = new AccountManagement();
+        accountManagement = new AccountManagement();
         accountManagement.addPropertyListener(this);
+        accountManagement.update();
         tabbedPane.add(accountManagement, accountManagement.getPanelIdentifier());
         
         /*Add research panel*/
-        research.addPropertyListener(this);
         tabbedPane.add(research, research.getPanelIdentifier());
+
+        tabbedPane.add(stockDataPanel, TradeNetGUIConstants.USER_STOCK_PANEL_IDENTIFIER);
+        tabbedPane.add(transactionDataPanel, TradeNetGUIConstants.USER_TRANSACTIONS_PANEL_IDENTIFIER);
     }
 
     /**

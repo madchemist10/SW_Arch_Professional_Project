@@ -51,7 +51,12 @@ public class User {
     public void setUserData(String[] userData, String[] balance){
         int i = 0;
         this.userData.put(Constants.USER_ID_KEY, userData[i++]);
-        this.userData.put(Constants.USERNAME_LABEL_LABEL_KEY, userData[i++]);
+        this.userData.put(Constants.USERNAME_LABEL_LABEL_KEY, userData[i]);
         this.userData.put(Constants.ACCOUNT_BALANCE_LABEL_KEY, balance[0]);
+    }
+
+
+    public void setUserProfitLoss(String profitLoss){
+        this.userData.put(Constants.TOTAL_PROFIT_LOSS_LABEL_KEY, profitLoss);
     }
 }

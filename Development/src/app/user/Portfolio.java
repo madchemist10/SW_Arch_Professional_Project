@@ -3,14 +3,13 @@ package app.user;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  */
 public class Portfolio {
-    /*List of transaction objects stored in the user's portfolio*/
+    /**List of transaction objects stored in the user's portfolio*/
     private final List<Transaction> transactions;
 
-    /*List of Stock objects stored in the user's portfolio*/
+    /**List of Stock objects stored in the user's portfolio*/
     private final List<Stock> stocks;
 
     /**
@@ -35,6 +34,7 @@ public class Portfolio {
      * @param userTransactions Array of Strings returned by previous DB call
      */
     public void setTransactions(ArrayList<String[]> userTransactions){
+        transactions.clear();
         for (String[] item: userTransactions){
             transactions.add(new Transaction(item));
         }
@@ -55,6 +55,7 @@ public class Portfolio {
      * @param userStocks Array of Strings returned by previous DB call
      */
     public void setStocks(ArrayList<String[]> userStocks){
+        stocks.clear();
         for (String[] item : userStocks){
             stocks.add(new Stock(item));
         }

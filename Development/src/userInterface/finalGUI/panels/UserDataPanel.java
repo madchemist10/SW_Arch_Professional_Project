@@ -101,7 +101,7 @@ public class UserDataPanel extends BasePanel{
     void updateLabels(Map<String, String> userData){
         /*Assign each entry to the specified labels*/
         String username = userData.get(Constants.USERNAME_LABEL_LABEL_KEY);
-        String totalProfitLost = userData.get(Constants.TOTAL_PROFIT_LOST_LABEL_KEY);
+        String totalProfitLost = userData.get(Constants.TOTAL_PROFIT_LOSS_LABEL_KEY);
         String accountBalance = userData.get(Constants.ACCOUNT_BALANCE_LABEL_KEY);
         if(username == null || totalProfitLost == null || accountBalance == null){
             return;

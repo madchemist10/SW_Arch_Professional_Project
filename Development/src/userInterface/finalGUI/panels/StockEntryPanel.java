@@ -4,6 +4,7 @@ import app.constants.Constants;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Map;
 
@@ -26,14 +27,31 @@ class StockEntryPanel extends BasePanel {
     /**Label to display the profit lost.*/
     private final JLabel profitLostLabel = new JLabel();
     /**Button to trade more of this stock.*/
-    private final JButton tradeButton = new JButton(TradeNetGUIConstants.TRADE_BUTTON_TEXT);
+    private JButton tradeButton = null;
+
+    private final Object[] entries = new Object[6];
 
     /**
      * Create a new stock entry panel.
      */
     StockEntryPanel(){
-        super();
+        setLayout(new FlowLayout(FlowLayout.LEFT));
+        buildTradeButton();
         buildPanel();
+    }
+
+    private void buildTradeButton(){
+        tradeButton = new JButton(TradeNetGUIConstants.TRADE_BUTTON_TEXT){
+
+            @Override
+            public String toString(){
+                return tradeButton.getText();
+            }
+        };
+    }
+
+    Object[] getEntries(){
+        return entries;
     }
 
     /**
@@ -82,28 +100,21 @@ class StockEntryPanel extends BasePanel {
     @Override
     void buildPanel() {
         /*Add stock name label*/
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        addComponent(new BasicFlowPanel(stockNameLabel));
+        add(stockNameLabel);
 
         /*Add current value label*/
-        constraints.gridx++;
-        addComponent(new BasicFlowPanel(currentValueLabel));
+        add(currentValueLabel);
 
         /*Add purchased value label*/
-        constraints.gridx++;
-        addComponent(new BasicFlowPanel(purchasedValueLabel));
+        add(purchasedValueLabel);
 
         /*Add stocks owned label*/
-        constraints.gridx++;
-        addComponent(new BasicFlowPanel(stocksOwnedLabel));
+        add(stocksOwnedLabel);
 
         /*Add profit lost label*/
-        constraints.gridx++;
-        addComponent(new BasicFlowPanel(profitLostLabel));
+        add(profitLostLabel);
 
         /*Add trade button*/
-        constraints.gridx++;
         addTradeButton();
     }
 
@@ -113,8 +124,8 @@ class StockEntryPanel extends BasePanel {
      * Notify the listener of this entry that the user
      * wishes to trade for this stock.
      */
-    private void tradeCallBack(){
-        notifyListeners(new CustomChangeEvent(this, AppChangeEvents.TRADE_STOCK));
+    void tradeCallBack(){
+        notifyListeners(new CustomChangeEvent(this, AppChangeEvents.TRADE_STOCK, getStock()));
     }
 
     /**
@@ -127,15 +138,22 @@ class StockEntryPanel extends BasePanel {
         String currentValue = stockData.get(Constants.CURRENT_VALUE_LABEL_KEY);
         String purchasedValue = stockData.get(Constants.PURCHASED_VALUE_LABEL_KEY);
         String stocksOwned = stockData.get(Constants.STOCKS_OWNED_LABEL_KEY);
-        String profitLost = stockData.get(Constants.PROFIT_LOST_LABEL_KEY);
+        String profitLost = stockData.get(Constants.PROFIT_LOSS_LABEL_KEY);
         if(stockName == null || currentValue == null || purchasedValue == null || stocksOwned == null || profitLost == null){
             return;
         }
+        entries[0] = stockName;
+        entries[1] = currentValue;
+        entries[2] = purchasedValue;
+        entries[3] = stocksOwned;
+        entries[4] = profitLost;
+
         stockNameLabel.setText(stockName);
         currentValueLabel.setText(currentValue);
         purchasedValueLabel.setText(purchasedValue);
         stocksOwnedLabel.setText(stocksOwned);
         profitLostLabel.setText(profitLost);
+        revalidate();
     }
 
     /**
@@ -150,6 +168,7 @@ class StockEntryPanel extends BasePanel {
                 tradeButtonThread.start();
             }
         });
-        addComponent(tradeButton);
+        entries[5] = tradeButton;
+        add(tradeButton);
     }
 }

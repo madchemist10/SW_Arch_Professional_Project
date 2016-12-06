@@ -1,10 +1,16 @@
 package userInterface.finalGUI.panels;
 
+import app.constants.Constants;
+import app.exception.BaseException;
+import app.exception.InsufficientFundsException;
+import app.exception.StockNotOwnedException;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This panel represents the user wanting to make a new trade.
@@ -20,12 +26,12 @@ public class TradePanel extends BasePanel {
     private final JTextField sharesTextField = new JTextField(20);
     /**Reference to the current research stock panel. This is used to present
      * the user the current researched stock while in this trade panel.*/
-    private final BasePanel tradierStockDataPanel;
+    private final TradierResultsPanel tradierStockDataPanel;
 
     /**
      * Create a new {@link TradePanel}.
      */
-    TradePanel(BasePanel tradierStockData){
+    TradePanel(TradierResultsPanel tradierStockData){
         super(TradeNetGUIConstants.TRADE_PANEL_IDENTIFIER);
         tradierStockDataPanel = tradierStockData;
         buildPanel();
@@ -61,6 +67,7 @@ public class TradePanel extends BasePanel {
      * Close current window when button is pressed.
      */
     private void buyCallBack(){
+        trade(Constants.BUY);
         closeWindow(buyButton);
     }
 
@@ -69,7 +76,31 @@ public class TradePanel extends BasePanel {
      * Close current window when button is pressed.
      */
     private void sellCallBack(){
+        trade(Constants.SELL);
         closeWindow(sellButton);
+    }
+
+    private void trade(String type){
+        String ticker = tradierStockDataPanel.getTickerSymbol();
+        String currentVal = tradierStockDataPanel.getCurrentVal();
+        String shareQty = sharesTextField.getText();
+        String companyName = tradierStockDataPanel.getCompanyName();
+        Map<String, String> tradeData = new HashMap<>();
+        tradeData.put(Constants.TICKER_LABEL_KEY,ticker);
+        tradeData.put(Constants.CURRENT_VALUE_LABEL_KEY,currentVal);
+        tradeData.put(Constants.SHARE_QTY_LABEL_KEY,shareQty);
+        tradeData.put(Constants.COMPANY_NAME_LABEL_KEY,companyName);
+        tradeData.put(Constants.TRADE_TYPE_LABEL_KEY,type);
+        try {
+            app.trading(tradeData);
+        } catch (BaseException e) {
+            if(e instanceof InsufficientFundsException) {
+                notifyListeners(new CustomChangeEvent(this, AppChangeEvents.INSUFFICIENT_FUNDS));
+            }
+            else if(e instanceof StockNotOwnedException) {
+                notifyListeners(new CustomChangeEvent(this, AppChangeEvents.STOCK_NOT_OWNED));
+            }
+        }
     }
 
     /**

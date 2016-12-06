@@ -30,6 +30,8 @@ public class TradeNetGUIConstants {
     public static final String TOTAL_PROFIT_LABEL = "Total Profit Lost:";
     /**Label for Account Balance to tell the user what will be stored in the next label.*/
     public static final String ACCOUNT_BALANCE_LABEL = "Account Balance:";
+    /**Label for Research to tell the user what will be stored in the next field*/
+    public static final String RESEARCH_LABEL = "Research Ticker Symbol:";
 
     /*Text for buttons*/
     /**Text to be given to the {@link userInterface.finalGUI.panels.LoginPanel#loginButton}.*/
@@ -42,6 +44,8 @@ public class TradeNetGUIConstants {
     public static final String BUY_BUTTON_TEXT = "Buy";
     /**Text to be given to the {@link userInterface.finalGUI.panels.TradePanel}*/
     public static final String SELL_BUTTON_TEXT = "Sell";
+    /**Text to be given to the {@link userInterface.finalGUI.panels.Research}*/
+    public static final String SEARCH_BUTTON_TEXT = "Search";
 
     /*Panel Identifiers*/
     /**Name of the {@link userInterface.finalGUI.panels.LoginPanel}*/
@@ -56,6 +60,10 @@ public class TradeNetGUIConstants {
     public static final String TRADIER_PANEL_IDENTIFIER = "Tradier";
     /**Name of the {@link userInterface.finalGUI.panels.UserDataPanel}*/
     public static final String USER_PANEL_IDENTIFIER = "User";
+    /**Name of the {@link userInterface.finalGUI.panels.TwitterResultsPanel}*/
+    public static final String TWITTER_PANEL_IDENTIFIER = "Twitter";
+    /**Name of the {@link userInterface.finalGUI.panels.NewsResultsPanel}*/
+    public static final String NEWS_PANEL_IDENTIFIER = "News";
 
     /*Warning Dialog Titles*/
     /**Title of the Warning Popup for {@link userInterface.finalGUI.panels.AppChangeEvents#EMAIL_INVALID}*/
@@ -80,4 +88,14 @@ public class TradeNetGUIConstants {
     public static final String DAILY_NET_CHANGE_LABEL = "Daily Net Change: ";
     /**Text to be given to the {@link userInterface.panels.TradierPanel} volume label.*/
     public static final String VOLUME_LABEL = "Volume: ";
+
+    /*Twitter Labels*/
+    /**Text to be given to the {@link userInterface.finalGUI.panels.TwitterResultsPanel} sender label*/
+    public static final String SENDER_LABEL = "Sender: ";
+    /**Text to be given to the {@link userInterface.finalGUI.panels.TwitterResultsPanel} sender label*/
+    public static final String MESSAGE_LABEL = "Tweet: ";
+
+    public static final String USER_STOCK_PANEL_IDENTIFIER = "USER STOCK";
+    public static final String USER_TRANSACTIONS_PANEL_IDENTIFIER = "USER TRANSACTIONS";
+
 }

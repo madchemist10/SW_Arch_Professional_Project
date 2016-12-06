@@ -17,12 +17,11 @@ public class Stock {
      * @param data String array result returned from previous database call
      */
     public Stock(String[] data){
-        int i = 0;
+        int i = 2;
         object.put(Constants.STOCK_NAME_LABEL_KEY, data[i++]);
         object.put(Constants.STOCKS_OWNED_LABEL_KEY, data[i++]);
         object.put(Constants.PURCHASED_VALUE_LABEL_KEY, data[i++]);
-        object.put(Constants.COMPANY_NAME_LABEL_KEY, data[i++]);
-        object.put(Constants.EXCHANGE_NAME_LABEL_KEY, data[i]);
+        object.put(Constants.COMPANY_NAME_LABEL_KEY, data[i]);
     }
 
     /**
@@ -32,5 +31,21 @@ public class Stock {
     public Map<String,String> getData(){
 
         return object;
+    }
+
+    /**
+     * Updates a the profit/loss for this stock
+     * @param profitLoss the value to change this stock's profit/loss to
+     */
+    public void updateStockPL(String profitLoss){
+        object.put(Constants.PROFIT_LOSS_LABEL_KEY, profitLoss);
+    }
+
+    /**
+     * Updates the current price for this stock
+     * @param currPrice the value to change this stock's current price to
+     */
+    public void updateCurrPrice(String currPrice){
+        object.put(Constants.CURRENT_VALUE_LABEL_KEY, currPrice);
     }
 }

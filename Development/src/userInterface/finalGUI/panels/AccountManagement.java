@@ -33,12 +33,12 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
 
     /**Internal stock information panel. Display a list of
      * stock data from the user's {@link app.user.Portfolio}*/
-    private final JPanel internalStockPanel = new JPanel();
+    private final StockPanel internalStockPanel = new StockPanel();
     /**Constraints for {@link #internalStockPanel} layout.*/
     private final GridBagConstraints internalStockConstraints = new GridBagConstraints();
     /**Internal transaction information panel. Display a list
      * of previous transaction data from the user's {@link app.user.Portfolio}*/
-    private final JPanel internalTransactionPanel = new JPanel();
+    private final TransactionPanel internalTransactionPanel = new TransactionPanel();
     /**Constraints for {@link #internalTransactionPanel} layout.*/
     private final GridBagConstraints internalTransactionConstraints = new GridBagConstraints();
     /**Internal account data panel.*/
@@ -49,10 +49,13 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
     private final UserDataPanel userDataPanel = new UserDataPanel();
 
     /**
+     * Requires the user to be logged in before this constructor
+     * can be successfully called.
      * Create a new {@link AccountManagement} panel.
      */
     AccountManagement(){
         super(TradeNetGUIConstants.ACCOUNT_MANAGEMENT_PANEL_IDENTIFIER);
+        setLayout(new FlowLayout(FlowLayout.LEFT));
         buildPanel();
         addStockEntries(app.getUserStocks());
         addTransactionEntries(app.getUserTransactions());
@@ -110,12 +113,15 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
         addAccountManagementData();
 
         /*Add internal transaction panel.*/
-        constraints.gridy++;
         addInternalTransactionPanel();
 
         /*Add internal stock panel.*/
-        constraints.gridy++;
         addInternalStockPanel();
+    }
+
+    @Override
+    public void addComponent(Component comp) {
+        super.add(comp);
     }
 
     /**
@@ -134,18 +140,14 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
      * Add the internal transactions panel in a scroll panel.
      */
     private void addInternalTransactionPanel(){
-        JScrollPane scrollPane = new JScrollPane(internalTransactionPanel);
         internalTransactionPanel.setLayout(new GridBagLayout());
-        addComponent(scrollPane);
     }
 
     /**
      * Add the internal stock panel in a scroll panel.
      */
     private void addInternalStockPanel(){
-        JScrollPane scrollPane = new JScrollPane(internalStockPanel);
         internalStockPanel.setLayout(new GridBagLayout());
-        addComponent(scrollPane);
     }
 
     /**
@@ -277,5 +279,10 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
             }
         });
         internalAccountDataPanel.add(button,internalAccountConstraints);
+    }
+
+    void update(){
+        notifyListeners(new CustomChangeEvent(internalStockPanel,AppChangeEvents.ADD_STOCK_DATA));
+        notifyListeners(new CustomChangeEvent(internalTransactionPanel, AppChangeEvents.ADD_TRANSACTION_DATA));
     }
 }

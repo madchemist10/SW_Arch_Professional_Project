@@ -3,6 +3,7 @@ package userInterface.finalGUI.panels;
 import app.constants.Constants;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Map;
 
 /**
@@ -24,12 +25,18 @@ class TransactionEntryPanel extends BasePanel {
     /**Label to display the new balance after the transaction.*/
     private final JLabel newBalanceLabel = new JLabel();
 
+    private final Object[] entries = new Object[6];
+
     /**
      * Create a new stock entry panel.
      */
     TransactionEntryPanel(){
-        super();
+        setLayout(new FlowLayout());
         buildPanel();
+    }
+
+    Object[] getEntries(){
+        return entries;
     }
 
     /**
@@ -38,29 +45,22 @@ class TransactionEntryPanel extends BasePanel {
     @Override
     void buildPanel() {
         /*Add timestamp label*/
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        addComponent(timestampLabel);
+        add(timestampLabel);
 
         /*Add trade type label*/
-        constraints.gridx++;
-        addComponent(tradeTypeLabel);
+        add(tradeTypeLabel);
 
         /*Add traded item label*/
-        constraints.gridx++;
-        addComponent(tradeItemLabel);
+        add(tradeItemLabel);
 
         /*Add share qty label*/
-        constraints.gridx++;
-        addComponent(shareQtyLabel);
+        add(shareQtyLabel);
 
         /*Add transaction cost label*/
-        constraints.gridx++;
-        addComponent(transactionCostLabel);
+        add(transactionCostLabel);
 
         /*Add new balance label*/
-        constraints.gridx++;
-        addComponent(newBalanceLabel);
+        add(newBalanceLabel);
     }
 
     /**
@@ -83,6 +83,13 @@ class TransactionEntryPanel extends BasePanel {
                 newBalance == null){
             return;
         }
+        entries[0] = timestamp;
+        entries[1] = tradeType;
+        entries[2] = tradeItem;
+        entries[3] = shareQty;
+        entries[4] = transactionCost;
+        entries[5] = newBalance;
+
         timestampLabel.setText(timestamp);
         tradeTypeLabel.setText(tradeType);
         tradeItemLabel.setText(tradeItem);

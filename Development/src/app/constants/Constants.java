@@ -1,5 +1,7 @@
 package app.constants;
 
+import app.database.DBConstants;
+
 /**
  * Constants that are used throughout the application.
  */
@@ -55,6 +57,8 @@ public class Constants {
     public static final String CHANGE = "change";
     /**Json Node key for getting volume of the quote.*/
     public static final String VOLUME = "volume";
+    /**Json Node key for getting single quote.*/
+    public static final String QUOTE = "quote";
 
     /*News JsonNode Constants*/
     /**Json Node key for getting title of the quote.*/
@@ -75,12 +79,10 @@ public class Constants {
     public static final String PURCHASED_VALUE_LABEL_KEY = "PURCHASED_VALUE_LABEL_KEY";
     /**Key value for Company name*/
     public static final String COMPANY_NAME_LABEL_KEY = "COMPANY_NAME_LABEL_KEY";
-    /**Key value for Exchange name*/
-    public static final String EXCHANGE_NAME_LABEL_KEY = "EXCHANGE_NAME_LABEL_KEY";
     /**Key value for Current value*/
     public static final String CURRENT_VALUE_LABEL_KEY = "CURRENT_VALUE_LABEL_KEY";
     /**Key value for Profit lost*/
-    public static final String PROFIT_LOST_LABEL_KEY = "PROFIT_LOST_LABEL_KEY";
+    public static final String PROFIT_LOSS_LABEL_KEY = "PROFIT_LOSS_LABEL_KEY";
 
     /*Transaction History Entry Panel label keys for pulling from transaction data map.*/
     /**Key value for trade type*/
@@ -106,5 +108,32 @@ public class Constants {
     /**Key value for account balance*/
     public static final String ACCOUNT_BALANCE_LABEL_KEY = "ACCOUNT_BALANCE_LABEL_KEY";
     /**Key value for total profit lost*/
-    public static final String TOTAL_PROFIT_LOST_LABEL_KEY = "";
+    public static final String TOTAL_PROFIT_LOSS_LABEL_KEY = "TOTAL_PROFIT_LOSS_LABEL_KEY";
+
+    /*Date*/
+    /**SimpleDateFormat string*/
+    public static final String SIMPLE_DATE_FORMAT_STRING = "MMMMM dd yyyy HH:mm:ss";
+
+    /**Key word to notate a buy transaction.*/
+    public static final String BUY = "buy";
+    /**Key word to notate a sell transaction.*/
+    public static final String SELL = "sell";
+
+    public static final Object[] STOCK_COLUMNS = new Object[]{
+            DBConstants.TICKER,
+            DBConstants.CURRENT_PRICE,
+            DBConstants.PURCH_PRICE,
+            DBConstants.SHARES,
+            DBConstants.PROFIT_LOSS,
+            "TRADE"
+    };
+
+    public static final Object[] TRANSACTION_COLUMNS = new Object[]{
+            DBConstants.TIMESTAMP,
+            DBConstants.TYPE,
+            DBConstants.TICKER,
+            DBConstants.SHARES,
+            DBConstants.TOTAL_TRANS,
+            DBConstants.NEW_BAL,
+    };
 }

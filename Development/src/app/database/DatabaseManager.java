@@ -157,7 +157,7 @@ public class DatabaseManager {
         connection.makeConnection();
         String values = DBStatementBuilder.valueStatement(stock);
         String columns = DBConstants.CUST_ID + ", " + DBConstants.TICKER + ", " + DBConstants.SHARES + ", " +
-                DBConstants.PURCHASE_PRICE + ", " + DBConstants.COMPANY + ", " + DBConstants.EXCHANGE;
+                DBConstants.PURCHASE_PRICE + ", " + DBConstants.COMPANY;
         String statement = DBStatementBuilder.insertStatement(DBConstants.STOCK_OWNERSHIP_TABLE, columns, values);
         connection.insertIntoTable(statement);
     }
@@ -166,14 +166,16 @@ public class DatabaseManager {
      * Update stock ownership data for a specific user
      * @param custID customer ID constraint on which table entry to update
      * @param shares new quantity of shares in the appropriate entry in the Stock_Ownership table
+     * @param ticker ticker constraint on which table entry to update
+     * @param cost new average cost per share
      */
-    public void updateStockOwnership(int custID, int shares){
+    public void updateStockOwnership(int custID, int shares, String ticker, double cost){
         connection.makeConnection();
         String statement = DBStatementBuilder.updateStatement(DBConstants.STOCK_OWNERSHIP_TABLE) +
                 DBStatementBuilder.setStatement(DBConstants.SHARES) +
-                " = " + shares +
+                " = " + shares + ", " + DBConstants.PURCHASE_PRICE + " = " + cost +
                 DBStatementBuilder.whereStatement(DBConstants.CUST_ID) +
-                " = " + custID;
+                " = " + custID + " AND " + DBConstants.TICKER + " = \"" + ticker + "\"";
         connection.updateTableEntry(statement);
     }
 
@@ -188,6 +190,21 @@ public class DatabaseManager {
                 DBStatementBuilder.fromStatement(DBConstants.STOCK_OWNERSHIP_TABLE) +
                 DBStatementBuilder.whereStatement(DBConstants.CUST_ID) +
                 " = " + custID;
+        return connection.selectFromTable(statement);
+    }
+
+    /**
+     * Retrieve stock data from a given owner.
+     * @param custID customer ID constraint on which table entry to return
+     * @param ticker ticker constraint on which table entry to update
+     * @return list of stock data. (Should be one string[])
+     */
+    public ArrayList<String[]> getStockFromOwner(int custID, String ticker){
+        connection.makeConnection();
+        String statement = DBStatementBuilder.selectStatement("*") +
+                DBStatementBuilder.fromStatement(DBConstants.STOCK_OWNERSHIP_TABLE) +
+                DBStatementBuilder.whereStatement(DBConstants.CUST_ID) +
+                " = " + custID + " AND "+ DBConstants.TICKER +" = \"" + ticker + "\"";
         return connection.selectFromTable(statement);
     }
 

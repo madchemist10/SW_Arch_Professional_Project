@@ -1,6 +1,5 @@
 package userInterface.finalGUI.panels;
 
-
 /**
  * This is the list of all events that can occur
  * from the gui panels. Each of these need to be handled
@@ -40,5 +39,26 @@ enum AppChangeEvents {
     TRADIER_HTTP_ERROR,
 
     /**Thrown when the user's access credentials for Tradier API are invalid.*/
-    INVALID_TRADIER_API_CREDENTIALS
-}
+    INVALID_TRADIER_API_CREDENTIALS,
+
+    /**Thrown when the user's access credentials for Twitter API are invalid*/
+    INVALID_TWITTER_API_CREDENTIALS,
+
+    /**Thrown when the user's access credentials for News API are invalid*/
+    INVALID_NEWS_API_CREDENTIALS,
+
+    /**Thrown when the refresh button is pressed for a given
+     * {@link NewsResultsPanel}.*/
+    NEWS_REFRESH,
+
+    /**Thrown when the stock data panel should be added to the tabbed pane.*/
+    ADD_STOCK_DATA,
+
+    /**Thrown when the transaction data panel should be added to the tabbed pane.*/
+    ADD_TRANSACTION_DATA,
+
+    INSUFFICIENT_FUNDS,
+
+    STOCK_NOT_OWNED
+
+    }
