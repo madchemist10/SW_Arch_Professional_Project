@@ -1,9 +1,11 @@
 package userInterface.finalGUI.panels;
 
+import app.constants.Constants;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -108,7 +110,7 @@ public class GUIController extends JFrame implements PropertyChangeListener{
             case ADD_STOCK_DATA:
                 StockPanel stockPanel = (StockPanel) event.getSource();
                 Object[][] stockSubPanelArray = stockPanel.getStockData();
-                addTableFromData("USER STOCK",stockSubPanelArray,new Object[5]);
+                addTableFromData("USER STOCK",stockSubPanelArray, Constants.STOCK_COLUMNS);
                 break;
 
             /*Add User Transaction data to tab*/
@@ -123,7 +125,9 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         JTable table = new JTable();
         DefaultTableModel model = new DefaultTableModel(data, columns);
         table.setModel(model);
-        tabbedPane.add(table, panelName);
+        JScrollPane scrollPane = new JScrollPane(table);
+        tabbedPane.add(scrollPane, panelName);
+        tabbedPane.repaint();
     }
 
     /**

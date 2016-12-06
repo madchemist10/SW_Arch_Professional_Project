@@ -125,6 +125,7 @@ public class Constants {
             DBConstants.PURCH_PRICE,
             DBConstants.SHARES,
             DBConstants.PROFIT_LOSS,
+            "TRADE"
     };
 
     public static final Object[] TRANSACTION_COLUMNS = new Object[]{

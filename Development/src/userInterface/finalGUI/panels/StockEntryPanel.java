@@ -29,7 +29,7 @@ class StockEntryPanel extends BasePanel {
     /**Button to trade more of this stock.*/
     private final JButton tradeButton = new JButton(TradeNetGUIConstants.TRADE_BUTTON_TEXT);
 
-    private final Object[] entries = new Object[5];
+    private final Object[] entries = new Object[6];
 
     /**
      * Create a new stock entry panel.
