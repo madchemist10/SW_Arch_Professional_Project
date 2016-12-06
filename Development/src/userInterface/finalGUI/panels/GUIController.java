@@ -30,6 +30,7 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         buildFrame();
+        research.addPropertyListener(this);
     }
 
     /**

@@ -1,6 +1,5 @@
 package userInterface.finalGUI.panels;
 
-
 /**
  * This is the list of all events that can occur
  * from the gui panels. Each of these need to be handled
@@ -46,6 +45,10 @@ enum AppChangeEvents {
     INVALID_TWITTER_API_CREDENTIALS,
 
     /**Thrown when the user's access credentials for News API are invalid*/
-    INVALID_NEWS_API_CREDENTIALS
+    INVALID_NEWS_API_CREDENTIALS,
+
+    /**Thrown when the refresh button is pressed for a given
+     * {@link NewsResultsPanel}.*/
+    NEWS_REFRESH
 
     }

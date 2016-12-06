@@ -73,8 +73,8 @@ class TradierResultsPanel extends BasePanel{
      * user input.
      * @param query to reset this tradier panel ticker symbol.
      */
-    void updateTickerSymbol(String query){
-        tickerDataLabel.setText(query);
+    void updateTickerSymbol(final String query){
+        SwingUtilities.invokeLater(() -> tickerDataLabel.setText(query));
         tickerSymbol = query;
     }
 
