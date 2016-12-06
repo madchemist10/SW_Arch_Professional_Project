@@ -37,7 +37,14 @@ public class Research extends BasePanel implements PropertyChangeListener{
      */
     Research(){
         super(TradeNetGUIConstants.RESEARCH_PANEL_IDENTIFIER);
+        setLayout(new FlowLayout(FlowLayout.LEFT));
         buildPanel();
+    }
+
+
+    @Override
+    public void addComponent(Component comp) {
+        super.add(comp);
     }
 
     /**

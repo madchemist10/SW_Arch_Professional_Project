@@ -6,8 +6,6 @@ import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -177,7 +175,6 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         tabbedPane.add(accountManagement, accountManagement.getPanelIdentifier());
         
         /*Add research panel*/
-        research.addPropertyListener(this);
         tabbedPane.add(research, research.getPanelIdentifier());
     }
 

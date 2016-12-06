@@ -204,7 +204,7 @@ public class DatabaseManager {
         String statement = DBStatementBuilder.selectStatement("*") +
                 DBStatementBuilder.fromStatement(DBConstants.STOCK_OWNERSHIP_TABLE) +
                 DBStatementBuilder.whereStatement(DBConstants.CUST_ID) +
-                " = " + custID + " AND "+ DBConstants.TICKER +" = " + ticker;
+                " = " + custID + " AND "+ DBConstants.TICKER +" = \"" + ticker + "\"";
         return connection.selectFromTable(statement);
     }
 

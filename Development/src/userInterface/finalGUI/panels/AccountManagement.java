@@ -53,6 +53,7 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
      */
     AccountManagement(){
         super(TradeNetGUIConstants.ACCOUNT_MANAGEMENT_PANEL_IDENTIFIER);
+        setLayout(new FlowLayout(FlowLayout.LEFT));
         buildPanel();
         addStockEntries(app.getUserStocks());
         addTransactionEntries(app.getUserTransactions());
@@ -114,6 +115,11 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
 
         /*Add internal stock panel.*/
         addInternalStockPanel();
+    }
+
+    @Override
+    public void addComponent(Component comp) {
+        super.add(comp);
     }
 
     /**

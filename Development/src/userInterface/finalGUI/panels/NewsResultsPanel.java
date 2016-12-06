@@ -79,6 +79,9 @@ class NewsResultsPanel extends JFrame{
      * This method can be used to refresh data as well.
      */
     void updateResultsPanel(JsonNode node){
+        if(node == null){
+            return;
+        }
         JsonNode results = node.get("results").get(0).get("results");
         if(results == null){
             return;
