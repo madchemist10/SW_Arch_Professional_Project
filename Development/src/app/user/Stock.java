@@ -33,10 +33,18 @@ public class Stock {
         return object;
     }
 
+    /**
+     * Updates a the profit/loss for this stock
+     * @param profitLoss the value to change this stock's profit/loss to
+     */
     public void updateStockPL(String profitLoss){
         object.put(Constants.PROFIT_LOSS_LABEL_KEY, profitLoss);
     }
 
+    /**
+     * Updates the current price for this stock
+     * @param currPrice the value to change this stock's current price to
+     */
     public void updateCurrPrice(String currPrice){
         object.put(Constants.CURRENT_VALUE_LABEL_KEY, currPrice);
     }
