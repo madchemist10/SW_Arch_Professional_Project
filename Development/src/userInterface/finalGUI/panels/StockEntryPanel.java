@@ -113,7 +113,7 @@ class StockEntryPanel extends BasePanel {
      * Notify the listener of this entry that the user
      * wishes to trade for this stock.
      */
-    private void tradeCallBack(){
+    void tradeCallBack(){
         notifyListeners(new CustomChangeEvent(this, AppChangeEvents.TRADE_STOCK));
     }
 
