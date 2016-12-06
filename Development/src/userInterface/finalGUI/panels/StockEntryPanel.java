@@ -127,7 +127,7 @@ class StockEntryPanel extends BasePanel {
         String currentValue = stockData.get(Constants.CURRENT_VALUE_LABEL_KEY);
         String purchasedValue = stockData.get(Constants.PURCHASED_VALUE_LABEL_KEY);
         String stocksOwned = stockData.get(Constants.STOCKS_OWNED_LABEL_KEY);
-        String profitLost = stockData.get(Constants.PROFIT_LOST_LABEL_KEY);
+        String profitLost = stockData.get(Constants.PROFIT_LOSS_LABEL_KEY);
         if(stockName == null || currentValue == null || purchasedValue == null || stocksOwned == null || profitLost == null){
             return;
         }

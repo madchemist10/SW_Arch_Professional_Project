@@ -77,12 +77,10 @@ public class Constants {
     public static final String PURCHASED_VALUE_LABEL_KEY = "PURCHASED_VALUE_LABEL_KEY";
     /**Key value for Company name*/
     public static final String COMPANY_NAME_LABEL_KEY = "COMPANY_NAME_LABEL_KEY";
-    /**Key value for Exchange name*/
-    public static final String EXCHANGE_NAME_LABEL_KEY = "EXCHANGE_NAME_LABEL_KEY";
     /**Key value for Current value*/
     public static final String CURRENT_VALUE_LABEL_KEY = "CURRENT_VALUE_LABEL_KEY";
     /**Key value for Profit lost*/
-    public static final String PROFIT_LOST_LABEL_KEY = "PROFIT_LOST_LABEL_KEY";
+    public static final String PROFIT_LOSS_LABEL_KEY = "PROFIT_LOSS_LABEL_KEY";
 
     /*Transaction History Entry Panel label keys for pulling from transaction data map.*/
     /**Key value for trade type*/
@@ -114,7 +112,8 @@ public class Constants {
     /**SimpleDateFormat string*/
     public static final String SIMPLE_DATE_FORMAT_STRING = "MMMMM dd yyyy HH:mm:ss";
 
-
+    /**Key word to notate a buy transaction.*/
     public static final String BUY = "buy";
+    /**Key word to notate a sell transaction.*/
     public static final String SELL = "sell";
 }

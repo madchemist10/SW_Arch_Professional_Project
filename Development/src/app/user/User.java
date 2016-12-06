@@ -56,6 +56,6 @@ public class User {
     }
 
     public void setUserProfitLoss(String profitLoss){
-        this.userData.put(Constants.PROFIT_LOST_LABEL_KEY, profitLoss);
+        this.userData.put(Constants.TOTAL_PROFIT_LOSS_LABEL_KEY, profitLoss);
     }
 }

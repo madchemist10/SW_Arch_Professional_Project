@@ -198,6 +198,7 @@ public class Application {
         String profitLoss = Double.toString(totalProfitLoss);
         currentUser.setUserProfitLoss(profitLoss);
     }
+
     /**
      * Populates the user from a provided customerID
      * We assume that the list returned from each dbManager call
@@ -207,9 +208,6 @@ public class Application {
     private void populateUser(int ID){
         currentUser = null;
         currentUser = new User();
-        //todo remove sample data
-        dbManager.insertStockOwnership("1, \"AAPL\", 30, 50, \"Apple\"");
-        dbManager.insertStockOwnership("1, \"MSFT\", 20, 40, \"Microsoft\"");
         ArrayList<String[]> userData = dbManager.getCredentials(ID);
         ArrayList<String[]> balance = dbManager.getCustomerBalance(ID);
         ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(ID);

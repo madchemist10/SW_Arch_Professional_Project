@@ -3,14 +3,13 @@ package app.user;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  */
 public class Portfolio {
-    /*List of transaction objects stored in the user's portfolio*/
+    /**List of transaction objects stored in the user's portfolio*/
     private final List<Transaction> transactions;
 
-    /*List of Stock objects stored in the user's portfolio*/
+    /**List of Stock objects stored in the user's portfolio*/
     private final List<Stock> stocks;
 
     /**

@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * This NewsAPIHandler is used to interact with the newsapi.org API
@@ -46,10 +45,8 @@ class NewsAPIHandler extends AAPIHandler{
         String apiURL = "http://api.ft.com/content/search/v1?apiKey=";
 
         String NEWS_API_ACCESS_TOKEN = app.getValueFromSettings(Constants.NEWS_API_ACCESS_TOKEN);
-        //String NEWS_API_ACCESS_TOKEN = "xgy5jqzu5n8u88qcdhcqzvmg";
 
         body = "{\"queryString\": \"" + inputs[0] + "\", \"queryContext\": {\"curations\": [\"ARTICLES\"]}, \"resultContext\": {\"maxResults\": \"5\", \"aspects\": [\"title\"]}}";
-
 
         if(NEWS_API_ACCESS_TOKEN == null){
             return null;
@@ -103,10 +100,6 @@ class NewsAPIHandler extends AAPIHandler{
             e.printStackTrace();
         }
 
-        System.out.println(jsonNode);
         return jsonNode;
-
     }
-
-
 }
