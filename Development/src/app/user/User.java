@@ -55,6 +55,7 @@ public class User {
         this.userData.put(Constants.ACCOUNT_BALANCE_LABEL_KEY, balance[0]);
     }
 
+
     public void setUserProfitLoss(String profitLoss){
         this.userData.put(Constants.TOTAL_PROFIT_LOSS_LABEL_KEY, profitLoss);
     }

@@ -192,6 +192,7 @@ public class Application {
         for(Stock stock: userStocks){
             String profitLoss = getStockProfitLoss(stock);
             if(profitLoss != null){
+                stock.updateStockPL(profitLoss);
                 totalProfitLoss += Double.parseDouble(profitLoss);
             }
         }
@@ -206,8 +207,6 @@ public class Application {
      * @param ID ID used for DB calls when getting a customer's data
      */
     private void populateUser(int ID){
-        currentUser = null;
-        currentUser = new User();
         ArrayList<String[]> userData = dbManager.getCredentials(ID);
         ArrayList<String[]> balance = dbManager.getCustomerBalance(ID);
         ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(ID);
@@ -287,6 +286,7 @@ public class Application {
         if(currentPrice == null){
             return null;
         }
+        stock.updateCurrPrice(currentPrice);
         double stockCurrentPrice = Double.parseDouble(currentPrice);
         /*To calculate a stock's profit loss, we are assuming that we want
         * the profit loss to be positive for profit and negative for loss.

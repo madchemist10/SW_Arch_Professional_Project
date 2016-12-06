@@ -32,4 +32,12 @@ public class Stock {
 
         return object;
     }
+
+    public void updateStockPL(String profitLoss){
+        object.put(Constants.PROFIT_LOSS_LABEL_KEY, profitLoss);
+    }
+
+    public void updateCurrPrice(String currPrice){
+        object.put(Constants.CURRENT_VALUE_LABEL_KEY, currPrice);
+    }
 }
