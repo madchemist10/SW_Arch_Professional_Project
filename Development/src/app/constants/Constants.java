@@ -1,5 +1,7 @@
 package app.constants;
 
+import app.database.DBConstants;
+
 /**
  * Constants that are used throughout the application.
  */
@@ -116,4 +118,21 @@ public class Constants {
     public static final String BUY = "buy";
     /**Key word to notate a sell transaction.*/
     public static final String SELL = "sell";
+
+    public static final Object[] STOCK_COLUMNS = new Object[]{
+            DBConstants.TICKER,
+            DBConstants.CURRENT_PRICE,
+            DBConstants.PURCH_PRICE,
+            DBConstants.SHARES,
+            DBConstants.PROFIT_LOSS,
+    };
+
+    public static final Object[] TRANSACTION_COLUMNS = new Object[]{
+            DBConstants.TIMESTAMP,
+            DBConstants.TYPE,
+            DBConstants.TICKER,
+            DBConstants.SHARES,
+            DBConstants.TOTAL_TRANS,
+            DBConstants.NEW_BAL,
+    };
 }

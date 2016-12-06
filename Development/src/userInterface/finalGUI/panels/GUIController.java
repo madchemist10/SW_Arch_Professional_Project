@@ -108,6 +108,12 @@ public class GUIController extends JFrame implements PropertyChangeListener{
                 JPanel stockEntryPanel = (JPanel) event.getSource();
                 tabbedPane.add(stockEntryPanel, "USER STOCKS");
                 break;
+
+            /*Add User Transaction data to tab*/
+            case ADD_TRANSACTION_DATA:
+                JPanel transactionEntryPanel = (JPanel) event.getSource();
+                tabbedPane.add(transactionEntryPanel, "USER TRANSACTIONS");
+                break;
         }
     }
 
