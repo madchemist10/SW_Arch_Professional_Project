@@ -115,8 +115,9 @@ public class GUIController extends JFrame implements PropertyChangeListener{
 
             /*Add User Transaction data to tab*/
             case ADD_TRANSACTION_DATA:
-                JPanel transactionEntryPanel = (JPanel) event.getSource();
-                tabbedPane.add(transactionEntryPanel, "USER TRANSACTIONS");
+                TransactionPanel transactionPanel = (TransactionPanel) event.getSource();
+                Object[][] transactionSubPanelArray = transactionPanel.getTransactionData();
+                addTableFromData("USER TRANSACTIONS",transactionSubPanelArray, Constants.TRANSACTION_COLUMNS);
                 break;
         }
     }

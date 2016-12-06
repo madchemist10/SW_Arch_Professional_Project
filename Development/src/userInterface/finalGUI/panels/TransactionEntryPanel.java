@@ -25,12 +25,18 @@ class TransactionEntryPanel extends BasePanel {
     /**Label to display the new balance after the transaction.*/
     private final JLabel newBalanceLabel = new JLabel();
 
+    private final Object[] entries = new Object[6];
+
     /**
      * Create a new stock entry panel.
      */
     TransactionEntryPanel(){
         setLayout(new FlowLayout());
         buildPanel();
+    }
+
+    Object[] getEntries(){
+        return entries;
     }
 
     /**
@@ -77,6 +83,13 @@ class TransactionEntryPanel extends BasePanel {
                 newBalance == null){
             return;
         }
+        entries[0] = timestamp;
+        entries[1] = tradeType;
+        entries[2] = tradeItem;
+        entries[3] = shareQty;
+        entries[4] = transactionCost;
+        entries[5] = newBalance;
+
         timestampLabel.setText(timestamp);
         tradeTypeLabel.setText(tradeType);
         tradeItemLabel.setText(tradeItem);

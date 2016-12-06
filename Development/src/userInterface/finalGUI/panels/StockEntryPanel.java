@@ -157,6 +157,7 @@ class StockEntryPanel extends BasePanel {
                 tradeButtonThread.start();
             }
         });
+        entries[5] = tradeButton;
         add(tradeButton);
     }
 }

@@ -38,7 +38,7 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
     private final GridBagConstraints internalStockConstraints = new GridBagConstraints();
     /**Internal transaction information panel. Display a list
      * of previous transaction data from the user's {@link app.user.Portfolio}*/
-    private final JPanel internalTransactionPanel = new JPanel();
+    private final TransactionPanel internalTransactionPanel = new TransactionPanel();
     /**Constraints for {@link #internalTransactionPanel} layout.*/
     private final GridBagConstraints internalTransactionConstraints = new GridBagConstraints();
     /**Internal account data panel.*/
