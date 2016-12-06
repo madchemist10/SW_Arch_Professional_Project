@@ -62,4 +62,12 @@ public class DBConstants {
     public static final String EMAIL = "Email";
     public static final String PASSWORD = "Password";
     public static final String PURCHASE_PRICE = "Purchase_Price";
+
+    /**Formatted Stock and transaction table headers*/
+    public static final String CURRENT_PRICE = "Current Price";
+    public static final String PURCH_PRICE = "Purchase Price";
+    public static final String TOTAL_TRANS = "Total Cost";
+    public static final String NEW_BAL = "New Balance";
+    public static final String PROFIT_LOSS = "Profit/Loss";
+
 }
