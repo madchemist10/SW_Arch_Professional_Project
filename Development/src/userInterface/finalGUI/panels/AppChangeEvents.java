@@ -55,6 +55,10 @@ enum AppChangeEvents {
     ADD_STOCK_DATA,
 
     /**Thrown when the transaction data panel should be added to the tabbed pane.*/
-    ADD_TRANSACTION_DATA
+    ADD_TRANSACTION_DATA,
+
+    INSUFFICIENT_FUNDS,
+
+    STOCK_NOT_OWNED
 
     }

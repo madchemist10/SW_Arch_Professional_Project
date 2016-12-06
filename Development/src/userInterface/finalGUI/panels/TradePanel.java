@@ -2,6 +2,8 @@ package userInterface.finalGUI.panels;
 
 import app.constants.Constants;
 import app.exception.BaseException;
+import app.exception.InsufficientFundsException;
+import app.exception.StockNotOwnedException;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
@@ -92,7 +94,12 @@ public class TradePanel extends BasePanel {
         try {
             app.trading(tradeData);
         } catch (BaseException e) {
-            e.printStackTrace();
+            if(e instanceof InsufficientFundsException) {
+                notifyListeners(new CustomChangeEvent(this, AppChangeEvents.INSUFFICIENT_FUNDS));
+            }
+            else if(e instanceof StockNotOwnedException) {
+                notifyListeners(new CustomChangeEvent(this, AppChangeEvents.STOCK_NOT_OWNED));
+            }
         }
     }
 

@@ -103,6 +103,7 @@ public class GUIController extends JFrame implements PropertyChangeListener{
             case TRADE_STOCK:
                 TradierResultsPanel tradierStockData = research.getTradierStockData();
                 TradePanel panel = new TradePanel(tradierStockData);
+                panel.addPropertyListener(this);
                 createDecisionPopup(panel);
                 break;
 
@@ -119,6 +120,15 @@ public class GUIController extends JFrame implements PropertyChangeListener{
                 Object[][] transactionSubPanelArray = transactionPanel.getTransactionData();
                 addTableFromData("USER TRANSACTIONS",transactionSubPanelArray, Constants.TRANSACTION_COLUMNS);
                 break;
+
+            case INSUFFICIENT_FUNDS:
+                message = "";
+                createMessagePopup(message, "Insufficient Funds.");
+                break;
+
+            case STOCK_NOT_OWNED:
+                message = "";
+                createMessagePopup(message, "You do not own this stock.");
         }
     }
 

@@ -29,6 +29,8 @@ public class Research extends BasePanel implements PropertyChangeListener{
     private TradierResultsPanel tradierResultsSubPanel = null;
     /**Reference to the new results panel.*/
     private final NewsResultsPanel newsResultsPanel = new NewsResultsPanel();
+    /**Button to trade more of this stock.*/
+    private final JButton tradeButton = new JButton(TradeNetGUIConstants.TRADE_BUTTON_TEXT);
 
     /**
      * Create a new Research panel.
@@ -48,9 +50,11 @@ public class Research extends BasePanel implements PropertyChangeListener{
             return;
         }
         if(tradierResultsSubPanel == null) {
+            constraints.gridy++;
+            addTradeButton();
+            constraints.gridy++;
             tradierResultsSubPanel = new TradierResultsPanel(userResearch);
             addComponent(new BasicFlowPanel(tradierResultsSubPanel));
-            constraints.gridy++;
         }
         else{
             //update the current tradier results panel
@@ -228,5 +232,24 @@ public class Research extends BasePanel implements PropertyChangeListener{
             /*Show the results panel on the UI Thread.*/
             SwingUtilities.invokeLater(() -> resultsPanel.setVisible(true));
         }
+    }
+
+    /**
+     * Add the trade button to this panel.
+     */
+    private void addTradeButton(){
+        tradeButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                /*Spawn background thread to keep from locking up the GUI.*/
+                Thread tradeButtonThread = new Thread(()-> tradeCallBack());
+                tradeButtonThread.start();
+            }
+        });
+        addComponent(tradeButton);
+    }
+
+    private void tradeCallBack(){
+        notifyListeners(new CustomChangeEvent(this, AppChangeEvents.TRADE_STOCK, tradierResultsSubPanel));
     }
 }
