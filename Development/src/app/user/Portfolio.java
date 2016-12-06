@@ -34,6 +34,7 @@ public class Portfolio {
      * @param userTransactions Array of Strings returned by previous DB call
      */
     public void setTransactions(ArrayList<String[]> userTransactions){
+        transactions.clear();
         for (String[] item: userTransactions){
             transactions.add(new Transaction(item));
         }
@@ -54,6 +55,7 @@ public class Portfolio {
      * @param userStocks Array of Strings returned by previous DB call
      */
     public void setStocks(ArrayList<String[]> userStocks){
+        stocks.clear();
         for (String[] item : userStocks){
             stocks.add(new Stock(item));
         }
