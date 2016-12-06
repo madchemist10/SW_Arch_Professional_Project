@@ -3,6 +3,7 @@ package userInterface.finalGUI.panels;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -105,10 +106,18 @@ public class GUIController extends JFrame implements PropertyChangeListener{
 
             /*Add User Stock data to tab*/
             case ADD_STOCK_DATA:
-                JPanel stockEntryPanel = (JPanel) event.getSource();
-                tabbedPane.add(stockEntryPanel, "USER STOCKS");
+                StockPanel stockPanel = (StockPanel) event.getSource();
+                Object[][] stockSubPanelArray = stockPanel.getStockData();
+                addTableFromData("USER STOCK",stockSubPanelArray,new Object[5]);
                 break;
         }
+    }
+
+    private void addTableFromData(String panelName, Object[][] data, Object[] columns){
+        JTable table = new JTable();
+        DefaultTableModel model = new DefaultTableModel(data, columns);
+        table.setModel(model);
+        tabbedPane.add(table, panelName);
     }
 
     /**

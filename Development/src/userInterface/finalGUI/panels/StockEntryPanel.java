@@ -29,12 +29,18 @@ class StockEntryPanel extends BasePanel {
     /**Button to trade more of this stock.*/
     private final JButton tradeButton = new JButton(TradeNetGUIConstants.TRADE_BUTTON_TEXT);
 
+    private final Object[] entries = new Object[5];
+
     /**
      * Create a new stock entry panel.
      */
     StockEntryPanel(){
         setLayout(new FlowLayout(FlowLayout.LEFT));
         buildPanel();
+    }
+
+    Object[] getEntries(){
+        return entries;
     }
 
     /**
@@ -125,6 +131,12 @@ class StockEntryPanel extends BasePanel {
         if(stockName == null || currentValue == null || purchasedValue == null || stocksOwned == null || profitLost == null){
             return;
         }
+        entries[0] = stockName;
+        entries[1] = currentValue;
+        entries[2] = purchasedValue;
+        entries[3] = stocksOwned;
+        entries[4] = profitLost;
+
         stockNameLabel.setText(stockName);
         currentValueLabel.setText(currentValue);
         purchasedValueLabel.setText(purchasedValue);

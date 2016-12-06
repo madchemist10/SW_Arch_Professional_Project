@@ -33,7 +33,7 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
 
     /**Internal stock information panel. Display a list of
      * stock data from the user's {@link app.user.Portfolio}*/
-    private final JPanel internalStockPanel = new JPanel();
+    private final StockPanel internalStockPanel = new StockPanel();
     /**Constraints for {@link #internalStockPanel} layout.*/
     private final GridBagConstraints internalStockConstraints = new GridBagConstraints();
     /**Internal transaction information panel. Display a list
