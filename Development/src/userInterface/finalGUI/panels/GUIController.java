@@ -6,6 +6,7 @@ import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class GUIController extends JFrame implements PropertyChangeListener{
     private final LoginPanel loginPanel = new LoginPanel();
     /**Reference to the research panel.*/
     private final Research research = new Research();
+
+    private AccountManagement accountManagement;
 
     /**
      * Generate a new Controller.
@@ -103,10 +106,17 @@ public class GUIController extends JFrame implements PropertyChangeListener{
 
             /*User has decided to trade stock.*/
             case TRADE_STOCK:
-                TradierResultsPanel tradierStockData = research.getTradierStockData();
+                //allow the query to be passed in as the new value for the event
+                Object query = event.getNewValue();
+                String search = null;
+                if(query != null && query instanceof String){
+                    search = (String) query;
+                }
+                TradierResultsPanel tradierStockData = research.getTradierStockData(search);
                 TradePanel panel = new TradePanel(tradierStockData);
                 panel.addPropertyListener(this);
                 createDecisionPopup(panel);
+                accountManagement.update();
                 break;
 
             /*Add User Stock data to tab*/
@@ -140,7 +150,7 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         JTable table = new JTable();
         DefaultTableModel model = new DefaultTableModel(data, columns);
         table.setModel(model);
-        addTableFromData(panelName, data, columns, table);
+        addTableFromData(panelName, table);
     }
 
     private void addStockDataToTable(String panelName, Object[][] data, Object[] columns, ArrayList<StockEntryPanel> stockEntryList){
@@ -149,12 +159,16 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         table.setModel(model);
         Action action = new TradeButtonAction(stockEntryList);
         ButtonColumn buttonColumn = new ButtonColumn(table, action, 5);
-        addTableFromData(panelName, data, columns, table);
+        addTableFromData(panelName, table);
     }
 
-    private void addTableFromData(String panelName, Object[][] data, Object[] columns, JTable table){
+    private void addTableFromData(String panelName, JTable table){
         JScrollPane scrollPane = new JScrollPane(table);
-        tabbedPane.add(scrollPane, panelName);
+        safelyAddPanelToTabbedPane(panelName, scrollPane);
+    }
+
+    private void safelyAddPanelToTabbedPane(String panelName, Component component){
+        tabbedPane.add(component, panelName);
         tabbedPane.repaint();
     }
 
@@ -169,7 +183,7 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         tabbedPane.remove(loginPanel);
 
         /*Add account management panel*/
-        AccountManagement accountManagement = new AccountManagement();
+        accountManagement = new AccountManagement();
         accountManagement.addPropertyListener(this);
         accountManagement.update();
         tabbedPane.add(accountManagement, accountManagement.getPanelIdentifier());

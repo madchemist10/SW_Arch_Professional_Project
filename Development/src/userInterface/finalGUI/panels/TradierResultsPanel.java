@@ -194,7 +194,7 @@ class TradierResultsPanel extends BasePanel{
             return;
         }
 
-//        companyName = singleQuote.get("").asText();
+        companyName = singleQuote.get("description").asText();
 
         /*Get the sub nodes' text values to display*/
         String lastPrice = lastNode.asText();

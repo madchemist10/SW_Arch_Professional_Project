@@ -49,6 +49,8 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
     private final UserDataPanel userDataPanel = new UserDataPanel();
 
     /**
+     * Requires the user to be logged in before this constructor
+     * can be successfully called.
      * Create a new {@link AccountManagement} panel.
      */
     AccountManagement(){
@@ -278,8 +280,6 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
         });
         internalAccountDataPanel.add(button,internalAccountConstraints);
     }
-
-
 
     void update(){
         notifyListeners(new CustomChangeEvent(internalStockPanel,AppChangeEvents.ADD_STOCK_DATA));

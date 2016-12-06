@@ -5,9 +5,8 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 /**
- * Created by hdanielle on 12/5/16.
  */
-public class TradeButtonAction extends AbstractAction {
+class TradeButtonAction extends AbstractAction {
 
     private final ArrayList<StockEntryPanel> stockEntryList;
 

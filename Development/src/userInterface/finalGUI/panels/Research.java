@@ -178,8 +178,11 @@ public class Research extends BasePanel implements PropertyChangeListener{
     }
 
     /**function to allow Trade button to get stock data for purchase*/
-    TradierResultsPanel getTradierStockData(){
-        return tradierResultsSubPanel;
+    TradierResultsPanel getTradierStockData(String query){
+        if(query == null){
+            return tradierResultsSubPanel;
+        }
+        return new TradierResultsPanel(query);
     }
 
     /**

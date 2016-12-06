@@ -27,7 +27,7 @@ class StockEntryPanel extends BasePanel {
     /**Label to display the profit lost.*/
     private final JLabel profitLostLabel = new JLabel();
     /**Button to trade more of this stock.*/
-    private final JButton tradeButton = new JButton(TradeNetGUIConstants.TRADE_BUTTON_TEXT);
+    private JButton tradeButton = null;
 
     private final Object[] entries = new Object[6];
 
@@ -36,7 +36,18 @@ class StockEntryPanel extends BasePanel {
      */
     StockEntryPanel(){
         setLayout(new FlowLayout(FlowLayout.LEFT));
+        buildTradeButton();
         buildPanel();
+    }
+
+    private void buildTradeButton(){
+        tradeButton = new JButton(TradeNetGUIConstants.TRADE_BUTTON_TEXT){
+
+            @Override
+            public String toString(){
+                return tradeButton.getText();
+            }
+        };
     }
 
     Object[] getEntries(){
@@ -114,7 +125,7 @@ class StockEntryPanel extends BasePanel {
      * wishes to trade for this stock.
      */
     void tradeCallBack(){
-        notifyListeners(new CustomChangeEvent(this, AppChangeEvents.TRADE_STOCK));
+        notifyListeners(new CustomChangeEvent(this, AppChangeEvents.TRADE_STOCK, getStock()));
     }
 
     /**
