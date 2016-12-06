@@ -160,7 +160,9 @@ public class Application {
     public void addCashToUser(String cash){
         Map<String, String> user = currentUser.getUserData();
         double new_balance = Double.parseDouble(user.get(Constants.ACCOUNT_BALANCE_LABEL_KEY)) + Double.parseDouble(cash);
-        dbManager.updateCustomerBalance(new_balance, Integer.parseInt(user.get(Constants.USER_ID_KEY)));
+        int ID = Integer.parseInt(user.get(Constants.USER_ID_KEY));
+        dbManager.updateCustomerBalance(new_balance, ID);
+        updateUserData(ID);
     }
 
     /**
@@ -207,13 +209,21 @@ public class Application {
      * @param ID ID used for DB calls when getting a customer's data
      */
     private void populateUser(int ID){
-        ArrayList<String[]> userData = dbManager.getCredentials(ID);
-        ArrayList<String[]> balance = dbManager.getCustomerBalance(ID);
+        updateUserData(ID);
         ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(ID);
         ArrayList<String[]> userStocks = dbManager.getStockOwnership(ID);
         currentUser.setPortfolio(userTransactions, userStocks);
-        currentUser.setUserData(userData.get(0), balance.get(0));
         refreshProfitLoss(getUserStocks());
+    }
+
+    /**
+     * Helper method to update a user's data.
+     * @param ID user id for db calls.
+     */
+    private void updateUserData(int ID){
+        ArrayList<String[]> userData = dbManager.getCredentials(ID);
+        ArrayList<String[]> balance = dbManager.getCustomerBalance(ID);
+        currentUser.setUserData(userData.get(0), balance.get(0));
     }
 
     /**
