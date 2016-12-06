@@ -29,7 +29,6 @@ public class Stock {
      * @return map of this stocks data.
      */
     public Map<String,String> getData(){
-
         return object;
     }
 

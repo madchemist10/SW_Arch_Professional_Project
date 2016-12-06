@@ -118,6 +118,10 @@ class StockEntryPanel extends BasePanel {
         addTradeButton();
     }
 
+    void removeTradeButton(){
+        this.remove(tradeButton);
+    }
+
     /**
      * Callback for when the trade button is pressed.
      * This should be run on a new thread.

@@ -1,7 +1,5 @@
 package userInterface.finalGUI.panels;
 
-import app.user.Stock;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;

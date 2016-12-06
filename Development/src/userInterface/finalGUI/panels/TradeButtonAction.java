@@ -17,13 +17,10 @@ class TradeButtonAction extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         /*Spawn background thread to keep from locking up the GUI.*/
-        Thread tradeButtonThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String line = e.getActionCommand();
-                int row = Integer.parseInt(line);
-                stockEntryList.get(row).tradeCallBack();
-            }
+        Thread tradeButtonThread = new Thread(() -> {
+            String line = e.getActionCommand();
+            int row = Integer.parseInt(line);
+            stockEntryList.get(row).tradeCallBack();
         });
         tradeButtonThread.start();
     }

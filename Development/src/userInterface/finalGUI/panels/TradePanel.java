@@ -33,14 +33,12 @@ public class TradePanel extends BasePanel {
      */
     TradePanel(TradierResultsPanel tradierStockData){
         super(TradeNetGUIConstants.TRADE_PANEL_IDENTIFIER);
-        setLayout(new FlowLayout());
         tradierStockDataPanel = tradierStockData;
         buildPanel();
     }
 
-    @Override
-    void addComponent(Component component){
-        super.add(component);
+    private void addSelfComponent(Component component){
+        super.add(component, constraints);
     }
 
     /**
@@ -48,17 +46,17 @@ public class TradePanel extends BasePanel {
      */
     @Override
     void buildPanel() {
+        constraints.gridx = 0;
+        constraints.gridy = 0;
         /*Add tradier data panel*/
         addTradierPanel();
 
+        constraints.gridy++;
         /*Add shares text field*/
         addSharesTextField();
 
-        /*Add buy button*/
-        addBuyButton();
-
-        /*Add sell button*/
-        addSellButton();
+        constraints.gridy++;
+        addButtons();
     }
 
     /**
@@ -113,6 +111,12 @@ public class TradePanel extends BasePanel {
         }
     }
 
+    void addStockEntryPanel(StockEntryPanel stockEntryPanel){
+        constraints.gridy++;
+        stockEntryPanel.removeTradeButton();
+        addSelfComponent(stockEntryPanel);
+    }
+
     /**
      * Add Buy button to this panel.
      */
@@ -125,7 +129,6 @@ public class TradePanel extends BasePanel {
                 buyButtonThread.start();
             }
         });
-        addComponent(new BasicFlowPanel(buyButton));
     }
 
     /**
@@ -140,7 +143,6 @@ public class TradePanel extends BasePanel {
                 sellButtonThread.start();
             }
         });
-        addComponent(new BasicFlowPanel(sellButton));
     }
 
     /**
@@ -169,7 +171,21 @@ public class TradePanel extends BasePanel {
         innerSharesPanel.add(sharesTextFlowPanel, sharesConstraints);
 
         //place the inner shares panel in this Trade Panel
-        addComponent(innerSharesPanel);
+        addSelfComponent(innerSharesPanel);
+    }
+
+    private void addButtons(){
+        JPanel innerButtonPanel = new JPanel();
+        innerButtonPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
+        gbc.gridx = 0;
+        addBuyButton();
+        innerButtonPanel.add(buyButton, gbc);
+        gbc.gridx++;
+        addSellButton();
+        innerButtonPanel.add(sellButton, gbc);
+        addSelfComponent(innerButtonPanel);
     }
 
     /**
@@ -179,6 +195,6 @@ public class TradePanel extends BasePanel {
         if(tradierStockDataPanel == null){
             return;
         }
-        addComponent(tradierStockDataPanel);
+        addSelfComponent(tradierStockDataPanel);
     }
 }

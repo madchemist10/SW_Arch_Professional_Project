@@ -117,6 +117,10 @@ public class GUIController extends JFrame implements PropertyChangeListener{
                 TradierResultsPanel tradierStockData = research.getTradierStockData(search);
                 TradePanel panel = new TradePanel(tradierStockData);
                 panel.addPropertyListener(this);
+                Object source = event.getSource();
+                if(source instanceof StockEntryPanel){
+                    panel.addStockEntryPanel((StockEntryPanel) source);
+                }
                 createDecisionPopup(panel);
                 accountManagement.update();
                 break;
@@ -170,7 +174,7 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         };
         table.setModel(model);
         Action action = new TradeButtonAction(stockEntryList);
-        ButtonColumn buttonColumn = new ButtonColumn(table, action, 5);
+        new ButtonColumn(table, action, 5); //accounts for button callbacks
         addTableFromData(panelName, table);
     }
 
@@ -197,9 +201,6 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         tabbedPane.repaint();
     }
 
-    private void tradeCallBack(){
-        propertyChange(new CustomChangeEvent(this, AppChangeEvents.TRADE_STOCK));
-    }
     /**
      * Helper method to add all the application
      * panels to this gui controller.
