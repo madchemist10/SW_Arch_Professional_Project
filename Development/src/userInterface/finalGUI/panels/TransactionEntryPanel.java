@@ -3,6 +3,7 @@ package userInterface.finalGUI.panels;
 import app.constants.Constants;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Map;
 
 /**
@@ -28,7 +29,7 @@ class TransactionEntryPanel extends BasePanel {
      * Create a new stock entry panel.
      */
     TransactionEntryPanel(){
-        super();
+        setLayout(new FlowLayout());
         buildPanel();
     }
 
@@ -38,29 +39,22 @@ class TransactionEntryPanel extends BasePanel {
     @Override
     void buildPanel() {
         /*Add timestamp label*/
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        addComponent(timestampLabel);
+        add(timestampLabel);
 
         /*Add trade type label*/
-        constraints.gridx++;
-        addComponent(tradeTypeLabel);
+        add(tradeTypeLabel);
 
         /*Add traded item label*/
-        constraints.gridx++;
-        addComponent(tradeItemLabel);
+        add(tradeItemLabel);
 
         /*Add share qty label*/
-        constraints.gridx++;
-        addComponent(shareQtyLabel);
+        add(shareQtyLabel);
 
         /*Add transaction cost label*/
-        constraints.gridx++;
-        addComponent(transactionCostLabel);
+        add(transactionCostLabel);
 
         /*Add new balance label*/
-        constraints.gridx++;
-        addComponent(newBalanceLabel);
+        add(newBalanceLabel);
     }
 
     /**

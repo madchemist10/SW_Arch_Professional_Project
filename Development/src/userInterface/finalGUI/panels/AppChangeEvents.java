@@ -49,6 +49,12 @@ enum AppChangeEvents {
 
     /**Thrown when the refresh button is pressed for a given
      * {@link NewsResultsPanel}.*/
-    NEWS_REFRESH
+    NEWS_REFRESH,
+
+    /**Thrown when the stock data panel should be added to the tabbed pane.*/
+    ADD_STOCK_DATA,
+
+    /**Thrown when the transaction data panel should be added to the tabbed pane.*/
+    ADD_TRANSACTION_DATA
 
     }

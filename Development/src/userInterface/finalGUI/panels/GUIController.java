@@ -102,6 +102,12 @@ public class GUIController extends JFrame implements PropertyChangeListener{
                 TradePanel panel = new TradePanel(tradierStockData);
                 createDecisionPopup(panel);
                 break;
+
+            /*Add User Stock data to tab*/
+            case ADD_STOCK_DATA:
+                JPanel stockEntryPanel = (JPanel) event.getSource();
+                tabbedPane.add(stockEntryPanel, "USER STOCKS");
+                break;
         }
     }
 
@@ -115,6 +121,7 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         /*Add account management panel*/
         AccountManagement accountManagement = new AccountManagement();
         accountManagement.addPropertyListener(this);
+        accountManagement.update();
         tabbedPane.add(accountManagement, accountManagement.getPanelIdentifier());
         
         /*Add research panel*/
