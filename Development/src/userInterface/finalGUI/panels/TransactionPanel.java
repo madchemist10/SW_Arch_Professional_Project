@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
+ *
  */
 class TransactionPanel extends JPanel {
     private final ArrayList<Component> transactionData = new ArrayList<>();
