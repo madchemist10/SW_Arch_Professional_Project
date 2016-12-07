@@ -57,8 +57,12 @@ enum AppChangeEvents {
     /**Thrown when the transaction data panel should be added to the tabbed pane.*/
     ADD_TRANSACTION_DATA,
 
+    /**Thrown when the user does not have sufficient funds to purchase a stock.*/
     INSUFFICIENT_FUNDS,
 
-    STOCK_NOT_OWNED
+    /**Thrown when the user does not own the stock that was attempted to be sold*/
+    STOCK_NOT_OWNED,
+
+    NOT_ENOUGH_STOCK
 
     }

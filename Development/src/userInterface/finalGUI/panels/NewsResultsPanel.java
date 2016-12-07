@@ -2,7 +2,7 @@ package userInterface.finalGUI.panels;
 
 import app.constants.Constants;
 import com.fasterxml.jackson.databind.JsonNode;
-import userInterface.GUIConstants;
+import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,6 @@ import java.util.List;
 
 /**
  * This frame is a popup for when the user has decided to search
- * for a specific ticker symbol. Display the results from the
  * ticker symbol call.
  */
 class NewsResultsPanel extends JFrame{
@@ -29,8 +28,8 @@ class NewsResultsPanel extends JFrame{
      * Create a new News Results panel.
      */
     NewsResultsPanel(){
-        setTitle(GUIConstants.NEWS_RESULTS_PANEL_TITLE);
-        setSize(new Dimension(GUIConstants.DEFAULT_GUI_WIDTH, GUIConstants.DEFAULT_GUI_HEIGHT));
+        setTitle(TradeNetGUIConstants.NEWS_PANEL_IDENTIFIER);
+        setSize(new Dimension(TradeNetGUIConstants.DEFAULT_ACCOUNT_MANAGE_WIDTH, TradeNetGUIConstants.DEFAULT_ACCOUNT_MANAGE_HEIGHT));
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         buildFrame();

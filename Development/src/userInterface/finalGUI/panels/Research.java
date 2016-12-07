@@ -29,8 +29,6 @@ public class Research extends BasePanel implements PropertyChangeListener{
     private TradierResultsPanel tradierResultsSubPanel = null;
     /**Reference to the new results panel.*/
     private final NewsResultsPanel newsResultsPanel = new NewsResultsPanel();
-    /**Button to trade more of this stock.*/
-    private final JButton tradeButton = new JButton(TradeNetGUIConstants.TRADE_BUTTON_TEXT);
 
     /**
      * Create a new Research panel.
@@ -56,17 +54,11 @@ public class Research extends BasePanel implements PropertyChangeListener{
         if(userResearch.equals("")) {
             return;
         }
-        if(tradierResultsSubPanel == null) {
-            constraints.gridy++;
-            addTradeButton();
-            constraints.gridy++;
-            tradierResultsSubPanel = new TradierResultsPanel(userResearch);
-            addComponent(new BasicFlowPanel(tradierResultsSubPanel));
-        }
-        else{
-            //update the current tradier results panel
-            tradierResultsSubPanel.updateTickerSymbol(userResearch);
-        }
+        tradierResultsSubPanel = new TradierResultsPanel(userResearch);
+        /*Reference to tradier results frame*/
+        TradierResultsFrame tradierResultsFrame = new TradierResultsFrame(tradierResultsSubPanel);
+        tradierResultsFrame.addPropertyListener(this);
+        tradierResultsFrame.setVisible(true);
 
         SwingUtilities.invokeLater(() -> {
             JsonNode node = executeNewsQuery(userResearch);
@@ -90,22 +82,12 @@ public class Research extends BasePanel implements PropertyChangeListener{
         if(event == null){
             return;
         }
-        NewsResultsPanel newsResultsPanel = null;
-        if(event.getSource() instanceof TradierResultsPanel){
-            newsResultsPanel = (NewsResultsPanel) event.getSource();
-        }
-        /*If the results panel is null, we cannot continue.*/
-        if(newsResultsPanel == null){
-            return;
-        }
 
         AppChangeEvents eventName = event.getEventName();
 
         switch (eventName){
-            case NEWS_REFRESH:
-                JsonNode returnNode = executeNewsQuery(researchField.getText());
-                final NewsResultsPanel panel = newsResultsPanel;
-                SwingUtilities.invokeLater(() -> panel.updateResultsPanel(returnNode));
+            case TRADE_STOCK:
+                notifyListeners(event);
                 break;
         }
     }
@@ -218,6 +200,10 @@ public class Research extends BasePanel implements PropertyChangeListener{
         return null;
     }
 
+    /**
+     * Executes a call to the twitter API
+     * @param query the query used to populate the twitter API call
+     */
     private void executeTwitterQuery(String query){
         IAPIHandler twitterAPI = app.getAPIHandler(APIHandles.TWITTER);
         String request = twitterAPI.buildAPIRequest(new String[]{query});
@@ -242,24 +228,5 @@ public class Research extends BasePanel implements PropertyChangeListener{
             /*Show the results panel on the UI Thread.*/
             SwingUtilities.invokeLater(() -> resultsPanel.setVisible(true));
         }
-    }
-
-    /**
-     * Add the trade button to this panel.
-     */
-    private void addTradeButton(){
-        tradeButton.addActionListener(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                /*Spawn background thread to keep from locking up the GUI.*/
-                Thread tradeButtonThread = new Thread(()-> tradeCallBack());
-                tradeButtonThread.start();
-            }
-        });
-        addComponent(tradeButton);
-    }
-
-    private void tradeCallBack(){
-        notifyListeners(new CustomChangeEvent(this, AppChangeEvents.TRADE_STOCK, tradierResultsSubPanel));
     }
 }

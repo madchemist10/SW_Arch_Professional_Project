@@ -19,7 +19,7 @@ public class Transaction {
     public Transaction(String[] data){
         int i = 2;
         object.put(Constants.TRADE_TYPE_LABEL_KEY, data[i++]);
-        object.put(Constants.TICKER_LABEL_KEY, data[i++]);
+        object.put(Constants.TRADE_ITEM_LABEL_KEY, data[i++]);
         object.put(Constants.SHARE_QTY_LABEL_KEY, data[i++]);
         object.put(Constants.TRANSACTION_COST_LABEL_KEY, data[i++]);
         object.put(Constants.COMPANY_NAME_LABEL_KEY, data[i++]);

@@ -120,6 +120,10 @@ public class UserDataPanel extends BasePanel{
 
         private final UserDataPanel dataPanel;
 
+        /**
+         * Refreshes the user's data
+         * @param dataPanel the panel to refresh
+         */
         UpdateUserDataTimerTask(UserDataPanel dataPanel){
             this.dataPanel = dataPanel;
         }

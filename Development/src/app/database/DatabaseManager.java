@@ -14,9 +14,6 @@ public class DatabaseManager {
     /**Singleton instance of the database manager.*/
     private static DatabaseManager instance = null;
 
-    /**Singleton instance of the authentication.*/
-    private static Authentication authentication = null;
-
     /**Singleton instance of database connection. */
     private static DatabaseConn connection = null;
 
@@ -25,11 +22,9 @@ public class DatabaseManager {
 
     /**
      * Create a new {@link DatabaseManager}.
-     * Retrieve the instance of the {@link Authentication} module.
      */
     private DatabaseManager(String dbName){
         this.dbName = dbName;
-        authentication = Authentication.getInstance();
     }
 
     /**
@@ -150,7 +145,7 @@ public class DatabaseManager {
     }
 
     /**
-     * Insertle a stock that the user owns into the Stock_Ownership tab
+     * Insert a stock that the user owns into the Stock_Ownership tab
      * @param stock string of stock column values for insertion into the Stock_Ownership table
      */
     public void insertStockOwnership(String stock){

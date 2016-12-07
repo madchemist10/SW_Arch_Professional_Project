@@ -210,10 +210,14 @@ public class Application {
      */
     private void populateUser(int ID){
         updateUserData(ID);
+        updatePortfolio(ID);
+        refreshProfitLoss(getUserStocks());
+    }
+
+    private void updatePortfolio(int ID){
         ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(ID);
         ArrayList<String[]> userStocks = dbManager.getStockOwnership(ID);
         currentUser.setPortfolio(userTransactions, userStocks);
-        refreshProfitLoss(getUserStocks());
     }
 
     /**
@@ -394,7 +398,7 @@ public class Application {
         int id = Integer.parseInt(userID);
 
         //ensure funds are available for user to purchase stock.
-        if(userBal < transactionCost){
+        if(buy && userBal < transactionCost){
             throw new InsufficientFundsException();
         }
 
@@ -433,6 +437,7 @@ public class Application {
         if(stockOwned){
             String currentStockQtyOwned = stockData.get(Constants.STOCKS_OWNED_LABEL_KEY);
             int newShareQty = Integer.parseInt(currentStockQtyOwned);
+            int dbStocks = newShareQty;
             if(buy){
                 newShareQty += tradeShareQty;
             } else{
@@ -442,6 +447,13 @@ public class Application {
                     throw new NotEnoughStockException();
                 }
             }
+            String priceFromDB = stockData.get(Constants.PURCHASED_VALUE_LABEL_KEY);
+            double dbAvgPrice = Double.parseDouble(priceFromDB);
+            /*Proper average price calculations
+            * This accounts for the currently existing stocks in the db.
+            * [(#DB stock)*(avg $ of DB) + (#new stock)*($new price)]/[(#DB stock) * (#new stock)]*/
+            tradeCurrentPrice = ((dbStocks)*(dbAvgPrice)+(tradeShareQty)*(tradeCurrentPrice))/(dbStocks+tradeShareQty);
+
             dbManager.updateStockOwnership(id, newShareQty, ticker, tradeCurrentPrice);
         }
         //user does not own stock

@@ -40,6 +40,9 @@ class StockEntryPanel extends BasePanel {
         buildPanel();
     }
 
+    /**
+     * Builds the trade button
+     */
     private void buildTradeButton(){
         tradeButton = new JButton(TradeNetGUIConstants.TRADE_BUTTON_TEXT){
 
@@ -60,38 +63,6 @@ class StockEntryPanel extends BasePanel {
      */
     String getStock(){
         return stockNameLabel.getText();
-    }
-
-    /**
-     * Get the current value for this panel.
-     * @return the name from the {@link #currentValueLabel}.
-     */
-    String getCurrentValue(){
-        return currentValueLabel.getText();
-    }
-
-    /**
-     * Get the purchased value for this panel.
-     * @return the name from the {@link #purchasedValueLabel}.
-     */
-    String getPurchasedValue(){
-        return purchasedValueLabel.getText();
-    }
-
-    /**
-     * Get the stock owned for this panel.
-     * @return the name from the {@link #stocksOwnedLabel}.
-     */
-    String getStocksOwned(){
-        return stocksOwnedLabel.getText();
-    }
-
-    /**
-     * Get the profit lost for this panel.
-     * @return the name from the {@link #profitLostLabel}.
-     */
-    String getProfitLost(){
-        return profitLostLabel.getText();
     }
 
     /**
@@ -116,6 +87,13 @@ class StockEntryPanel extends BasePanel {
 
         /*Add trade button*/
         addTradeButton();
+    }
+
+    /**
+     * Removes the trade button from the panel
+     */
+    void removeTradeButton(){
+        this.remove(tradeButton);
     }
 
     /**

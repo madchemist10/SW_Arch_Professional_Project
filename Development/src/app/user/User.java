@@ -48,6 +48,11 @@ public class User {
         return userData;
     }
 
+    /**
+     * Sets the users account data
+     * @param userData string of the user's ID and email
+     * @param balance user's current account balance
+     */
     public void setUserData(String[] userData, String[] balance){
         int i = 0;
         this.userData.put(Constants.USER_ID_KEY, userData[i++]);
@@ -55,7 +60,10 @@ public class User {
         this.userData.put(Constants.ACCOUNT_BALANCE_LABEL_KEY, balance[0]);
     }
 
-
+    /**
+     * Sets the user's total profit/loss amount
+     * @param profitLoss the amount to set as the user's profit loss
+     */
     public void setUserProfitLoss(String profitLoss){
         this.userData.put(Constants.TOTAL_PROFIT_LOSS_LABEL_KEY, profitLoss);
     }

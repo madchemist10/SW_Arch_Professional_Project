@@ -117,6 +117,10 @@ public class GUIController extends JFrame implements PropertyChangeListener{
                 TradierResultsPanel tradierStockData = research.getTradierStockData(search);
                 TradePanel panel = new TradePanel(tradierStockData);
                 panel.addPropertyListener(this);
+                Object source = event.getSource();
+                if(source instanceof StockEntryPanel){
+                    panel.addStockEntryPanel((StockEntryPanel) source);
+                }
                 createDecisionPopup(panel);
                 accountManagement.update();
                 break;
@@ -145,9 +149,20 @@ public class GUIController extends JFrame implements PropertyChangeListener{
                 message = "You do not own this stock.";
                 createMessagePopup(message, "Stock not Owned.");
                 break;
+
+            case NOT_ENOUGH_STOCK:
+                message = "You do not own enough stock to sell.";
+                createMessagePopup(message, "Not Enough Stock.");
+                break;
         }
     }
 
+    /**
+     * Adds transactions to a created table
+     * @param panelName panel name that specifies what type of data panel it is (stock or transaction)
+     * @param data object array of data to populate the table with
+     * @param columns column names to exist within the table
+     */
     private void addTransactionDataToTable(String panelName, Object[][] data, Object[] columns) {
         JTable table = new JTable();
         DefaultTableModel model = new DefaultTableModel(data, columns){
@@ -160,25 +175,42 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         addTableFromData(panelName, table);
     }
 
+    /**
+     * Adds stock data to a created table
+     * @param panelName the panel name that specifies what type of data panel it is (stock or transaction)
+     * @param data Object array of data to populate the table with
+     * @param columns the column names for the created table
+     * @param stockEntryList ArrayList list of stocks to exist within the table
+     */
     private void addStockDataToTable(String panelName, Object[][] data, Object[] columns, ArrayList<StockEntryPanel> stockEntryList){
         JTable table = new JTable();
         DefaultTableModel model = new DefaultTableModel(data, columns){
             @Override
             public boolean isCellEditable(int row, int column){
-                return false;
+                return column == 5;
             }
         };
         table.setModel(model);
         Action action = new TradeButtonAction(stockEntryList);
-        ButtonColumn buttonColumn = new ButtonColumn(table, action, 5);
+        new ButtonColumn(table, action, 5); //accounts for button callbacks
         addTableFromData(panelName, table);
     }
 
+    /**
+     * Populates a scrollPane with a table, then passes panel information into that scrollPane
+     * @param panelName the panel to be added (either stock or transaction)
+     * @param table the passed in table to populate
+     */
     private void addTableFromData(String panelName, JTable table){
         JScrollPane scrollPane = new JScrollPane(table);
         safelyAddPanelToTabbedPane(panelName, scrollPane);
     }
 
+    /**
+     * Adds a stock or user panel to appropriate location within a pane
+     * @param panelName specifies whether it is a stock or user
+     * @param component the component to be added to the pane
+     */
     private void safelyAddPanelToTabbedPane(String panelName, Component component){
         switch(panelName){
             case TradeNetGUIConstants.USER_STOCK_PANEL_IDENTIFIER:
@@ -197,9 +229,6 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         tabbedPane.repaint();
     }
 
-    private void tradeCallBack(){
-        propertyChange(new CustomChangeEvent(this, AppChangeEvents.TRADE_STOCK));
-    }
     /**
      * Helper method to add all the application
      * panels to this gui controller.

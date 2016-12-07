@@ -3,6 +3,7 @@ package userInterface.finalGUI.panels;
 import app.constants.Constants;
 import app.exception.BaseException;
 import app.exception.InsufficientFundsException;
+import app.exception.NotEnoughStockException;
 import app.exception.StockNotOwnedException;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
@@ -38,28 +39,29 @@ public class TradePanel extends BasePanel {
     }
 
     /**
+     * Adds a component to the TradePanel
+     * @param component the component to be added
+     */
+    private void addSelfComponent(Component component){
+        super.add(component, constraints);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     void buildPanel() {
         constraints.gridx = 0;
         constraints.gridy = 0;
-
         /*Add tradier data panel*/
         addTradierPanel();
 
+        constraints.gridy++;
         /*Add shares text field*/
         addSharesTextField();
 
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-
-        /*Add buy button*/
         constraints.gridy++;
-        addBuyButton();
-
-        /*Add sell button*/
-        constraints.gridx = 1;
-        addSellButton();
+        addButtons();
     }
 
     /**
@@ -80,6 +82,10 @@ public class TradePanel extends BasePanel {
         closeWindow(sellButton);
     }
 
+    /**
+     * Implements buying and/or selling a stock
+     * @param type specifies whether it is buy/sell
+     */
     private void trade(String type){
         String ticker = tradierStockDataPanel.getTickerSymbol();
         String currentVal = tradierStockDataPanel.getCurrentVal();
@@ -100,6 +106,9 @@ public class TradePanel extends BasePanel {
             else if(e instanceof StockNotOwnedException) {
                 notifyListeners(new CustomChangeEvent(this, AppChangeEvents.STOCK_NOT_OWNED));
             }
+            else if(e instanceof NotEnoughStockException) {
+                notifyListeners(new CustomChangeEvent(this, AppChangeEvents.NOT_ENOUGH_STOCK));
+            }
         }
     }
 
@@ -115,6 +124,16 @@ public class TradePanel extends BasePanel {
     }
 
     /**
+     * Adds a stock entry to the stock panel
+     * @param stockEntryPanel The entry to be added
+     */
+    void addStockEntryPanel(StockEntryPanel stockEntryPanel){
+        constraints.gridy++;
+        stockEntryPanel.removeTradeButton();
+        addSelfComponent(stockEntryPanel);
+    }
+
+    /**
      * Add Buy button to this panel.
      */
     private void addBuyButton(){
@@ -126,7 +145,6 @@ public class TradePanel extends BasePanel {
                 buyButtonThread.start();
             }
         });
-        addComponent(new BasicFlowPanel(buyButton));
     }
 
     /**
@@ -141,7 +159,6 @@ public class TradePanel extends BasePanel {
                 sellButtonThread.start();
             }
         });
-        addComponent(new BasicFlowPanel(sellButton));
     }
 
     /**
@@ -170,9 +187,24 @@ public class TradePanel extends BasePanel {
         innerSharesPanel.add(sharesTextFlowPanel, sharesConstraints);
 
         //place the inner shares panel in this Trade Panel
-        constraints.gridwidth = 2;
-        addComponent(innerSharesPanel);
-        constraints.gridwidth = 1;
+        addSelfComponent(innerSharesPanel);
+    }
+
+    /**
+     * Adds buttons to the trade panel
+     */
+    private void addButtons(){
+        JPanel innerButtonPanel = new JPanel();
+        innerButtonPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
+        gbc.gridx = 0;
+        addBuyButton();
+        innerButtonPanel.add(buyButton, gbc);
+        gbc.gridx++;
+        addSellButton();
+        innerButtonPanel.add(sellButton, gbc);
+        addSelfComponent(innerButtonPanel);
     }
 
     /**
@@ -182,9 +214,6 @@ public class TradePanel extends BasePanel {
         if(tradierStockDataPanel == null){
             return;
         }
-        constraints.gridwidth = 2;
-        addComponent(tradierStockDataPanel);
-        constraints.gridy++;
-        constraints.gridwidth = 1;
+        addSelfComponent(tradierStockDataPanel);
     }
 }
