@@ -457,6 +457,8 @@ public class Application {
             * [(#DB stock)*(avg $ of DB) + (#new stock)*($new price)]/[(#DB stock) * (#new stock)]*/
             tradeCurrentPrice = ((dbStocks)*(dbAvgPrice)+(tradeShareQty)*(tradeCurrentPrice))/(dbStocks+tradeShareQty);
 
+            tradeCurrentPrice = Utilities.formatDouble(tradeCurrentPrice);
+
             dbManager.updateStockOwnership(id, newShareQty, ticker, tradeCurrentPrice);
         }
         //user does not own stock
