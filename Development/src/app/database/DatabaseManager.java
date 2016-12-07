@@ -150,7 +150,7 @@ public class DatabaseManager {
     }
 
     /**
-     * Insertle a stock that the user owns into the Stock_Ownership tab
+     * Insert a stock that the user owns into the Stock_Ownership tab
      * @param stock string of stock column values for insertion into the Stock_Ownership table
      */
     public void insertStockOwnership(String stock){

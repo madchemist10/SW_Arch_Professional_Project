@@ -433,6 +433,7 @@ public class Application {
         if(stockOwned){
             String currentStockQtyOwned = stockData.get(Constants.STOCKS_OWNED_LABEL_KEY);
             int newShareQty = Integer.parseInt(currentStockQtyOwned);
+            int dbStocks = newShareQty;
             if(buy){
                 newShareQty += tradeShareQty;
             } else{
@@ -442,6 +443,13 @@ public class Application {
                     throw new NotEnoughStockException();
                 }
             }
+            String priceFromDB = stockData.get(Constants.PURCHASED_VALUE_LABEL_KEY);
+            double dbAvgPrice = Double.parseDouble(priceFromDB);
+            /*Proper average price calculations
+            * This accounts for the currently existing stocks in the db.
+            * [(#DB stock)*(avg $ of DB) + (#new stock)*($new price)]/[(#DB stock) * (#new stock)]*/
+            tradeCurrentPrice = ((dbStocks)*(dbAvgPrice)+(tradeShareQty)*(tradeCurrentPrice))/(dbStocks+tradeShareQty);
+
             dbManager.updateStockOwnership(id, newShareQty, ticker, tradeCurrentPrice);
         }
         //user does not own stock
