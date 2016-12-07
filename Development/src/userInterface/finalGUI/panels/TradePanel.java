@@ -37,6 +37,10 @@ public class TradePanel extends BasePanel {
         buildPanel();
     }
 
+    /**
+     * Adds a component to the TradePanel
+     * @param component the component to be added
+     */
     private void addSelfComponent(Component component){
         super.add(component, constraints);
     }
@@ -77,6 +81,10 @@ public class TradePanel extends BasePanel {
         closeWindow(sellButton);
     }
 
+    /**
+     * Implements buying and/or selling a stock
+     * @param type specifies whether it is buy/sell
+     */
     private void trade(String type){
         String ticker = tradierStockDataPanel.getTickerSymbol();
         String currentVal = tradierStockDataPanel.getCurrentVal();
@@ -111,6 +119,10 @@ public class TradePanel extends BasePanel {
         }
     }
 
+    /**
+     * Adds a stock entry to the stock panel
+     * @param stockEntryPanel The entry to be added
+     */
     void addStockEntryPanel(StockEntryPanel stockEntryPanel){
         constraints.gridy++;
         stockEntryPanel.removeTradeButton();
@@ -174,6 +186,9 @@ public class TradePanel extends BasePanel {
         addSelfComponent(innerSharesPanel);
     }
 
+    /**
+     * Adds buttons to the trade panel
+     */
     private void addButtons(){
         JPanel innerButtonPanel = new JPanel();
         innerButtonPanel.setLayout(new GridBagLayout());

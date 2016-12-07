@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Portfolio class that stores the user's transactions and stocks
  */
 public class Portfolio {
     /**List of transaction objects stored in the user's portfolio*/

@@ -119,6 +119,7 @@ public class Constants {
     /**Key word to notate a sell transaction.*/
     public static final String SELL = "sell";
 
+    /**Object array for stock columns used in GUI*/
     public static final Object[] STOCK_COLUMNS = new Object[]{
             DBConstants.TICKER,
             DBConstants.CURRENT_PRICE,
@@ -128,6 +129,7 @@ public class Constants {
             "TRADE"
     };
 
+    /**Object array for transaction columns used in GUI*/
     public static final Object[] TRANSACTION_COLUMNS = new Object[]{
             DBConstants.TIMESTAMP,
             DBConstants.TYPE,

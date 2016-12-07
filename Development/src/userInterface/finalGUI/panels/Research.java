@@ -27,12 +27,8 @@ public class Research extends BasePanel implements PropertyChangeListener{
     private final JPanel researchSubPanel = new JPanel();
     /**Create a new panel for TradierResultsPanel*/
     private TradierResultsPanel tradierResultsSubPanel = null;
-    /**Reference to tradier results frame*/
-    private TradierResultsFrame tradierResultsFrame = null;
     /**Reference to the new results panel.*/
     private final NewsResultsPanel newsResultsPanel = new NewsResultsPanel();
-    /**Button to trade more of this stock.*/
-    private final JButton tradeButton = new JButton(TradeNetGUIConstants.TRADE_BUTTON_TEXT);
 
     /**
      * Create a new Research panel.
@@ -59,7 +55,8 @@ public class Research extends BasePanel implements PropertyChangeListener{
             return;
         }
         tradierResultsSubPanel = new TradierResultsPanel(userResearch);
-        tradierResultsFrame = new TradierResultsFrame(tradierResultsSubPanel);
+        /*Reference to tradier results frame*/
+        TradierResultsFrame tradierResultsFrame = new TradierResultsFrame(tradierResultsSubPanel);
         tradierResultsFrame.addPropertyListener(this);
         tradierResultsFrame.setVisible(true);
 
@@ -203,6 +200,10 @@ public class Research extends BasePanel implements PropertyChangeListener{
         return null;
     }
 
+    /**
+     * Executes a call to the twitter API
+     * @param query the query used to populate the twitter API call
+     */
     private void executeTwitterQuery(String query){
         IAPIHandler twitterAPI = app.getAPIHandler(APIHandles.TWITTER);
         String request = twitterAPI.buildAPIRequest(new String[]{query});
@@ -227,24 +228,5 @@ public class Research extends BasePanel implements PropertyChangeListener{
             /*Show the results panel on the UI Thread.*/
             SwingUtilities.invokeLater(() -> resultsPanel.setVisible(true));
         }
-    }
-
-    /**
-     * Add the trade button to this panel.
-     */
-    private void addTradeButton(){
-        tradeButton.addActionListener(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                /*Spawn background thread to keep from locking up the GUI.*/
-                Thread tradeButtonThread = new Thread(()-> tradeCallBack());
-                tradeButtonThread.start();
-            }
-        });
-        addComponent(tradeButton);
-    }
-
-    private void tradeCallBack(){
-        notifyListeners(new CustomChangeEvent(this, AppChangeEvents.TRADE_STOCK, tradierResultsSubPanel));
     }
 }

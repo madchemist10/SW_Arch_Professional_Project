@@ -9,7 +9,9 @@ import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.List;
 
-
+/**
+ * Implements a frame UI for the tradier results
+ */
 class TradierResultsFrame extends JFrame {
     /**List of all listeners that are associated with this class.*/
     private final List<PropertyChangeListener> listeners = new LinkedList<>();
@@ -18,6 +20,10 @@ class TradierResultsFrame extends JFrame {
     /**Reference to the passed in TradePanel*/
     private TradierResultsPanel tradierResultsPanel;
 
+    /**
+     * Constructor for constructing the JFrame
+     * @param tradierResultsPanel the results panel to embed within the ResultsFrame
+     */
     TradierResultsFrame(TradierResultsPanel tradierResultsPanel){
         this.tradierResultsPanel = tradierResultsPanel;
         setTitle(TradeNetGUIConstants.TRADIER_PANEL_IDENTIFIER);
@@ -28,7 +34,7 @@ class TradierResultsFrame extends JFrame {
     }
 
     /**
-     *
+     * Builds the JFrame
      */
     private void buildFrame(){
         setLayout(new FlowLayout());
@@ -52,7 +58,7 @@ class TradierResultsFrame extends JFrame {
     }
 
     /**
-     *
+     * Notifies listerners of when a trade is attempted
      */
     private void tradeCallBack(){
         notifyListeners(new CustomChangeEvent(this, AppChangeEvents.TRADE_STOCK, tradierResultsPanel));
