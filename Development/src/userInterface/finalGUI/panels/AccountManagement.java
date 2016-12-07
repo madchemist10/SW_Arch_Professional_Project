@@ -227,6 +227,7 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
      * Called whenever user information would be changed.
      */
     private void updateUserData(){
+
         addUserData(app.getUserData());
     }
 
@@ -236,6 +237,7 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
      */
     private void addCashToAccount(String cashAmount){
         app.addCashToUser(cashAmount);
+        addTransactionEntries(app.getUserTransactions());
     }
 
     /**

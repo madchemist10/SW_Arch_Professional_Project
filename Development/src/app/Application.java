@@ -158,10 +158,13 @@ public class Application {
      * @param cash to be added to the user's account.
      */
     public void addCashToUser(String cash){
+        Date now = new Date();
+        String transactionTime = format.format(now);
         Map<String, String> user = currentUser.getUserData();
         double new_balance = Double.parseDouble(user.get(Constants.ACCOUNT_BALANCE_LABEL_KEY)) + Double.parseDouble(cash);
         int ID = Integer.parseInt(user.get(Constants.USER_ID_KEY));
         dbManager.updateCustomerBalance(new_balance, ID);
+        dbManager.insertTransaction(ID + ", \"DEPOSIT\", \"--\", 0, " + cash + ", \"--\", "+ new_balance + ", \"" + transactionTime + "\"");
         updateUserData(ID);
     }
 

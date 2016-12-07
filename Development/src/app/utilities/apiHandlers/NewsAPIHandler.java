@@ -43,9 +43,7 @@ class NewsAPIHandler extends AAPIHandler{
     public String buildAPIRequest(String[] inputs) {
 
         String apiURL = "http://api.ft.com/content/search/v1?apiKey=";
-
         String NEWS_API_ACCESS_TOKEN = app.getValueFromSettings(Constants.NEWS_API_ACCESS_TOKEN);
-
         body = "{\"queryString\": \"" + inputs[0] + "\", \"queryContext\": {\"curations\": [\"ARTICLES\"]}, \"resultContext\": {\"maxResults\": \"5\", \"aspects\": [\"title\"]}}";
 
         if(NEWS_API_ACCESS_TOKEN == null){
