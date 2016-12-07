@@ -210,10 +210,14 @@ public class Application {
      */
     private void populateUser(int ID){
         updateUserData(ID);
+        updatePortfolio(ID);
+        refreshProfitLoss(getUserStocks());
+    }
+
+    private void updatePortfolio(int ID){
         ArrayList<String[]> userTransactions = dbManager.getTransactionHistory(ID);
         ArrayList<String[]> userStocks = dbManager.getStockOwnership(ID);
         currentUser.setPortfolio(userTransactions, userStocks);
-        refreshProfitLoss(getUserStocks());
     }
 
     /**
