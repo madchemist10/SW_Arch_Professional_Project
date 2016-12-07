@@ -61,7 +61,7 @@ enum AppChangeEvents {
     INSUFFICIENT_FUNDS,
 
     /**Thrown when the user does not own the stock that was attempted to be sold*/
-    STOCK_NOT_OWNED
+    STOCK_NOT_OWNED,
 
     NOT_ENOUGH_STOCK
 
