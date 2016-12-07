@@ -29,7 +29,7 @@ class NewsResultsPanel extends JFrame{
      */
     NewsResultsPanel(){
         setTitle(TradeNetGUIConstants.NEWS_PANEL_IDENTIFIER);
-        setSize(new Dimension(TradeNetGUIConstants.DEFAULT_GUI_WIDTH, TradeNetGUIConstants.DEFAULT_GUI_HEIGHT));
+        setSize(new Dimension(TradeNetGUIConstants.DEFAULT_ACCOUNT_MANAGE_WIDTH, TradeNetGUIConstants.DEFAULT_ACCOUNT_MANAGE_HEIGHT));
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         buildFrame();
