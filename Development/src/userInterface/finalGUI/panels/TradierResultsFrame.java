@@ -1,6 +1,5 @@
 package userInterface.finalGUI.panels;
 
-import userInterface.GUIConstants;
 import userInterface.finalGUI.TradeNetGUIConstants;
 
 import javax.swing.*;
@@ -21,8 +20,8 @@ class TradierResultsFrame extends JFrame {
 
     TradierResultsFrame(TradierResultsPanel tradierResultsPanel){
         this.tradierResultsPanel = tradierResultsPanel;
-        setTitle(GUIConstants.TRADIER_RESULTS_PANEL_TITLE);
-        setSize(new Dimension(GUIConstants.DEFAULT_GUI_WIDTH, GUIConstants.DEFAULT_GUI_HEIGHT));
+        setTitle(TradeNetGUIConstants.TRADIER_PANEL_IDENTIFIER);
+        setSize(new Dimension(TradeNetGUIConstants.DEFAULT_GUI_WIDTH, TradeNetGUIConstants.DEFAULT_GUI_HEIGHT));
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         buildFrame();
