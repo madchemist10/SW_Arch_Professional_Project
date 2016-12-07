@@ -281,6 +281,9 @@ class AccountManagement extends BasePanel implements PropertyChangeListener {
         internalAccountDataPanel.add(button,internalAccountConstraints);
     }
 
+    /**
+     * Listeners for when stock/transaction data needs to be updated
+     */
     void update(){
         notifyListeners(new CustomChangeEvent(internalStockPanel,AppChangeEvents.ADD_STOCK_DATA));
         notifyListeners(new CustomChangeEvent(internalTransactionPanel, AppChangeEvents.ADD_TRANSACTION_DATA));

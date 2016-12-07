@@ -157,6 +157,12 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         }
     }
 
+    /**
+     * Adds transactions to a created table
+     * @param panelName panel name that specifies what type of data panel it is (stock or transaction)
+     * @param data object array of data to populate the table with
+     * @param columns column names to exist within the table
+     */
     private void addTransactionDataToTable(String panelName, Object[][] data, Object[] columns) {
         JTable table = new JTable();
         DefaultTableModel model = new DefaultTableModel(data, columns){
@@ -169,6 +175,13 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         addTableFromData(panelName, table);
     }
 
+    /**
+     * Adds stock data to a created table
+     * @param panelName the panel name that specifies what type of data panel it is (stock or transaction)
+     * @param data Object array of data to populate the table with
+     * @param columns the column names for the created table
+     * @param stockEntryList ArrayList list of stocks to exist within the table
+     */
     private void addStockDataToTable(String panelName, Object[][] data, Object[] columns, ArrayList<StockEntryPanel> stockEntryList){
         JTable table = new JTable();
         DefaultTableModel model = new DefaultTableModel(data, columns){
@@ -183,11 +196,21 @@ public class GUIController extends JFrame implements PropertyChangeListener{
         addTableFromData(panelName, table);
     }
 
+    /**
+     * Populates a scrollPane with a table, then passes panel information into that scrollPane
+     * @param panelName the panel to be added (either stock or transaction)
+     * @param table the passed in table to populate
+     */
     private void addTableFromData(String panelName, JTable table){
         JScrollPane scrollPane = new JScrollPane(table);
         safelyAddPanelToTabbedPane(panelName, scrollPane);
     }
 
+    /**
+     * Adds a stock or user panel to appropriate location within a pane
+     * @param panelName specifies whether it is a stock or user
+     * @param component the component to be added to the pane
+     */
     private void safelyAddPanelToTabbedPane(String panelName, Component component){
         switch(panelName){
             case TradeNetGUIConstants.USER_STOCK_PANEL_IDENTIFIER:
